@@ -12,4 +12,5 @@ public class HelloWorldEndpoint {
     public String message() {
         return "Hello";
     }
+
 }
