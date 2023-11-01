@@ -1,5 +1,6 @@
 package com.minhaz.orders101.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.minhaz.orders101.enums.OrderStatus;
 import com.minhaz.orders101.enums.PaymentStatus;
 import jakarta.persistence.*;
@@ -15,6 +16,7 @@ import lombok.extern.jackson.Jacksonized;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 @Builder
 @RequiredArgsConstructor
@@ -50,7 +52,7 @@ public class Order {
     private Address deliveryAddress;
     
     @Past
-    private LocalDateTime createdDate;
+    private Date createdDate;
 
 
 
