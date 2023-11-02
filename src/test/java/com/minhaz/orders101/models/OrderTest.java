@@ -12,15 +12,11 @@ import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 
 class OrderTest {
@@ -32,7 +28,7 @@ class OrderTest {
         List<ProductItem> items = new ArrayList<>();
         items.add(productItem);
         Address address = Address.builder().addressLine1("Test Street").postCode("T3ST").country("England").build();
-        Date date = new Date();
+        LocalDate date = LocalDate.now().minusDays(1);
         orderUnderTest = Order.builder().id("myTestID").basket(items).deliveryAddress(address).totalPrice(new BigDecimal("125.12")).customerId("3").paymentStatus(PaymentStatus.AUTHORISED).orderStatus(OrderStatus.COMPLETED).createdDate(date).build();
     }
 
@@ -52,8 +48,8 @@ class OrderTest {
         assertEquals("3", orderUnderTest.getCustomerId());
         assertEquals(PaymentStatus.AUTHORISED, orderUnderTest.getPaymentStatus());
         assertEquals(OrderStatus.COMPLETED, orderUnderTest.getOrderStatus());
-        Date testDate = Date.from(LocalDate.now().minusMonths(3).atStartOfDay(ZoneId.systemDefault()).toInstant());
-        assertTrue(orderUnderTest.getCreatedDate().after(testDate), "This test has failed as order date falls before the (current date - 3 month ) range");
+        LocalDate testDate = LocalDate.now().minusMonths(3);
+        assertTrue(orderUnderTest.getCreatedDate().isAfter(testDate), "This test has failed as order date falls before the (current date - 3 month ) range");
 
     }
     @Test
@@ -77,8 +73,7 @@ class OrderTest {
     
     @Test
     void testDateValidation() {
-        orderUnderTest.setCreatedDate(Date.from(LocalDate.now().plusDays(1).atStartOfDay()
-            .toInstant(ZoneOffset.UTC)));
+        orderUnderTest.setCreatedDate(LocalDate.now().plusDays(1));
         var results = validate(orderUnderTest);
 
         assertThat(results.size()).isOne();
