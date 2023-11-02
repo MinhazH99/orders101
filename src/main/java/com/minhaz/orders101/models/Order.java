@@ -1,33 +1,34 @@
 package com.minhaz.orders101.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.minhaz.orders101.enums.OrderStatus;
 import com.minhaz.orders101.enums.PaymentStatus;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.jackson.Jacksonized;
+import org.springframework.validation.annotation.Validated;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Data
-@Jacksonized
-@Entity
+//@Jacksonized
+@Entity(name = "ORDERS")
+@Validated
 public class Order {
 
     @Id
-    @NotNull(message = "Primary key can not be null")
+    @NotNull(message = "Primary key cannot be null")
     private String id;
 
     @OneToMany(mappedBy = "order")
@@ -46,13 +47,12 @@ public class Order {
     @NotNull
     private OrderStatus orderStatus;
 
-
     @OneToOne
     @NotNull
     private Address deliveryAddress;
     
     @Past
-    private Date createdDate;
+    private LocalDate createdDate;
 
 
 

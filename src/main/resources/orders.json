@@ -16,7 +16,7 @@
   },
   "id": "1",
   "orderStatus": "COMPLETED",
-  "paymentStatus": "AUTHROISED",
+  "paymentStatus": "AUTHORISED",
   "totalPrice": 125.12
 
 },
@@ -37,7 +37,7 @@
     },
     "id": "2",
     "orderStatus": "COMPLETED",
-    "paymentStatus": "AUTHROISED",
+    "paymentStatus": "AUTHORISED",
     "totalPrice": 300.12
 
   },
@@ -58,7 +58,7 @@
     },
     "id": "3",
     "orderStatus": "COMPLETED",
-    "paymentStatus": "AUTHROISED",
+    "paymentStatus": "AUTHORISED",
     "totalPrice": 120.00
 
   }
