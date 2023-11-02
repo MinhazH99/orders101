@@ -22,7 +22,6 @@ import org.springframework.validation.annotation.Validated;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Data
-//@Jacksonized
 @Entity(name = "ORDERS")
 @Validated
 public class Order {
