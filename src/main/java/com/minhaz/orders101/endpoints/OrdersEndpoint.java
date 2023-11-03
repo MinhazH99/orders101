@@ -93,6 +93,7 @@ public class OrdersEndpoint {
     @DELETE
     public Response deleteOrder(Order myOrder){
         LOGGER.info("Delete method called on order {}", myOrder);
+        System.out.println("Testing precommit");
         dao.deleteById(myOrder.getId());
         return Response.ok().build();
     }
