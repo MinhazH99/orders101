@@ -1,7 +1,6 @@
 package com.minhaz.orders101.endpoints;
 
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.minhaz.orders101.enums.OrderStatus;
@@ -18,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,8 +27,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 @Path("/orders")
@@ -48,7 +44,7 @@ public class OrdersEndpoint {
         items.add(productItem);
         Address address = Address.builder().addressLine1("Test Street").postCode("T3ST").country("England").build();
         Date date = new Date();
-        Order myOrder = Order.builder().id("myTestID").basket(items).deliveryAddress(address).totalPrice(new BigDecimal("125.12")).customerId("3").paymentStatus(PaymentStatus.AUTHROISED).orderStatus(OrderStatus.COMPLETED).createdDate(date).build();
+        Order myOrder = Order.builder().id("myTestID").basket(items).deliveryAddress(address).totalPrice(new BigDecimal("125.12")).customerId("3").paymentStatus(PaymentStatus.AUTHORISED).orderStatus(OrderStatus.COMPLETED).createdDate(date).build();
         return myOrder;
 
     }
