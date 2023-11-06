@@ -38,89 +38,91 @@ import org.springframework.stereotype.Component;
 @Component
 @Path("/orders")
 public class OrdersEndpoint {
-    @Autowired
-    private OrderDao dao;
-    @Autowired
-    private ResourceLoader resourceLoader;
-    private static Logger LOGGER = LoggerFactory.getLogger(OrdersEndpoint.class);
-    private ObjectMapper objectMapper = new ObjectMapper();
+  @Autowired
+  private OrderDao dao;
+  @Autowired
+  private ResourceLoader resourceLoader;
+  private static Logger LOGGER = LoggerFactory.getLogger(OrdersEndpoint.class);
+  private ObjectMapper objectMapper = new ObjectMapper();
 
-    private Order myOrder() {
-        ProductItem productItem = ProductItem.builder().productId("3").quantity(5).build();
-        List<ProductItem> items = new ArrayList<>();
-        items.add(productItem);
-        Address address = Address.builder().addressLine1("Test Street").postCode("T3ST").country("England").build();
-        LocalDate date = LocalDate.now();
-        System.out.println("Testing pre-commit hook");
-        return Order.builder().id("myTestID").basket(items).deliveryAddress(address).totalPrice(new BigDecimal("125.12")).customerId("3").paymentStatus(PaymentStatus.AUTHORISED).orderStatus(OrderStatus.COMPLETED).createdDate(date).build();
+  private Order myOrder() {
+    ProductItem productItem = ProductItem.builder().productId("3").quantity(5).build();
+    List<ProductItem> items = new ArrayList<>();
+    items.add(productItem);
+    Address address = Address.builder().addressLine1("Test Street").postCode("T3ST").country("England").build();
+    LocalDate date = LocalDate.now();
+    System.out.println("Testing pre-commit hook");
+    return Order.builder().id("myTestID").basket(items).deliveryAddress(address).totalPrice(new BigDecimal("125.12"))
+        .customerId("3").paymentStatus(PaymentStatus.AUTHORISED).orderStatus(OrderStatus.COMPLETED).createdDate(date)
+        .build();
+  }
+
+  @POST
+  public Response saveOrder(Order myOrder) {
+    LOGGER.info("Post method called with order details{}", myOrder());
+    return Response.ok().build();
+  }
+
+  @GET
+  @Produces({"application/json"})
+  public Response getOrders() {
+    Resource resource = resourceLoader.getResource("classpath:orders.json");
+    // InputStream dbAsStream = resource.getInputStream();
+    // String InputString = new String(dbAsStream.readAllBytes(), StandardCharsets.UTF_8);
+    // objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    // objectMapper.registerModule(new JavaTimeModule());
+    // List<Order> ordersList = objectMapper.readValue(InputString,new TypeReference<List<Order>>(){});
+    // LOGGER.info("Get method called with list of all orders {}",ordersList);
+    List<Order> orders = dao.findAll();
+    if (orders.isEmpty()) {
+      return Response.status(Status.NOT_FOUND).build();
+    } else {
+      return Response.ok().entity(orders).build();
     }
 
-    @POST
-    public Response saveOrder(Order myOrder) {
-        LOGGER.info("Post method called with order details{}",myOrder());
-        return Response.ok().build();
-    }
+  }
 
-    @GET
-    @Produces({"application/json"})
-    public Response getOrders() {
-        Resource resource = resourceLoader.getResource("classpath:orders.json");
-        //            InputStream dbAsStream = resource.getInputStream();
-//            String InputString = new String(dbAsStream.readAllBytes(), StandardCharsets.UTF_8);
-//            objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-//            objectMapper.registerModule(new JavaTimeModule());
-//            List<Order> ordersList = objectMapper.readValue(InputString,new TypeReference<List<Order>>(){});
-//            LOGGER.info("Get method called with list of all orders {}",ordersList);
-        List<Order> orders = dao.findAll();
-        if (orders.isEmpty()) {
-            return Response.status(Status.NOT_FOUND).build();
-        } else {
-            return Response.ok().entity(orders).build();
-        }
-
+  @PATCH
+  public Response updateDate(Order myOrder) {
+    // TODO Do something with the order
+    Optional<Order> foundOrder = dao.findById(myOrder.getId());
+    if (foundOrder.isPresent()) {
+      Order order = foundOrder.get();
+      LOGGER.info("Found the order with total price {}", order.getTotalPrice());
+      order.setOrderStatus(OrderStatus.COMPLETED);
     }
+    return Response.ok().build();
+  }
 
-    @PATCH
-    public Response updateDate(Order myOrder){
-        // TODO Do something with the order
-        Optional<Order> foundOrder = dao.findById(myOrder.getId());
-        if (foundOrder.isPresent()) {
-            Order order = foundOrder.get();
-            LOGGER.info("Found the order with total price {}",order.getTotalPrice());
-            order.setOrderStatus(OrderStatus.COMPLETED);
-        }
-        return Response.ok().build();
-    }
+  @DELETE
+  public Response deleteOrder(Order myOrder) {
+    LOGGER.info("Delete method called on order {}", myOrder);
+    System.out.println("Testing precommit");
+    dao.deleteById(myOrder.getId());
+    return Response.ok().build();
+  }
 
-    @DELETE
-    public Response deleteOrder(Order myOrder){
-        LOGGER.info("Delete method called on order {}", myOrder);
-        System.out.println("Testing precommit");
-        dao.deleteById(myOrder.getId());
-        return Response.ok().build();
+  @GET
+  @Path("/{orderId}")
+  @Produces({"application/json"})
+  public Response getOrder(@PathParam("orderId") String orderId) {
+    Resource resource = resourceLoader.getResource("classpath:orders.json");
+    try {
+      InputStream dbAsStream = resource.getInputStream();
+      String InputString = new String(dbAsStream.readAllBytes(), StandardCharsets.UTF_8);
+      objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+      objectMapper.registerModule(new JavaTimeModule());
+      List<Order> ordersList = objectMapper.readValue(InputString, new TypeReference<List<Order>>() {});
+      Optional<Order> order = ordersList.stream().filter(item -> item.getId().equals(orderId)).findFirst();
+      if (order.isPresent()) {
+        LOGGER.info("Get method called to retrieve order with ID = {}. Order details {}", order.get().getId(), order);
+        return Response.ok().entity(order).build();
+      } else {
+        return Response.status(Status.NOT_FOUND).build();
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
-
-    @GET
-    @Path("/{orderId}")
-    @Produces({"application/json"})
-    public Response getOrder(@PathParam("orderId") String orderId) {
-        Resource resource = resourceLoader.getResource("classpath:orders.json");
-        try {
-            InputStream dbAsStream = resource.getInputStream();
-            String InputString = new String(dbAsStream.readAllBytes(), StandardCharsets.UTF_8);
-            objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-            objectMapper.registerModule(new JavaTimeModule());
-            List<Order> ordersList = objectMapper.readValue(InputString,new TypeReference<List<Order>>(){});
-            Optional<Order> order = ordersList.stream().filter(item -> item.getId().equals(orderId)).findFirst();
-            if(order.isPresent()) {
-                LOGGER.info("Get method called to retrieve order with ID = {}. Order details {}", order.get().getId(), order);
-                return Response.ok().entity(order).build();
-            } else {
-                return Response.status(Status.NOT_FOUND).build();
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+  }
 
 }

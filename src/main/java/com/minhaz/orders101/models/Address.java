@@ -15,14 +15,14 @@ import lombok.RequiredArgsConstructor;
 @Entity
 public class Address {
 
-    @NotNull
-    private String addressLine1;
+  @NotNull
+  private String addressLine1;
 
-    @Id
-    @NotNull
-    private String postCode;
+  @Id
+  @NotNull
+  private String postCode;
 
-    @NotNull
-    private String country;
+  @NotNull
+  private String country;
 
 }

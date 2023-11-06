@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 
 public class Orders101Application {
 
-	public static void main(String[] args) {
-		SpringApplication.run(Orders101Application.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(Orders101Application.class, args);
+  }
 }

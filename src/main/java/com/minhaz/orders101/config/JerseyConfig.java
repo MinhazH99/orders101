@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class JerseyConfig extends ResourceConfig {
 
-    public JerseyConfig() {
-        register(OrdersEndpoint.class);
-    }
+  public JerseyConfig() {
+    register(OrdersEndpoint.class);
+  }
 
 
 }

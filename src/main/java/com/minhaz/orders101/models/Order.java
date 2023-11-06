@@ -26,32 +26,32 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class Order {
 
-    @Id
-    @NotNull(message = "Primary key cannot be null")
-    private String id;
+  @Id
+  @NotNull(message = "Primary key cannot be null")
+  private String id;
 
-    @OneToMany(mappedBy = "order")
-    @NotNull
-    private List<ProductItem> basket;
+  @OneToMany(mappedBy = "order")
+  @NotNull
+  private List<ProductItem> basket;
 
-    @Digits(integer=6, fraction=2)
-    private BigDecimal totalPrice;
+  @Digits(integer = 6, fraction = 2)
+  private BigDecimal totalPrice;
 
-    @NotNull
-    private String customerId;
+  @NotNull
+  private String customerId;
 
-    @NotNull
-    private PaymentStatus paymentStatus;
+  @NotNull
+  private PaymentStatus paymentStatus;
 
-    @NotNull
-    private OrderStatus orderStatus;
+  @NotNull
+  private OrderStatus orderStatus;
 
-    @OneToOne
-    @NotNull
-    private Address deliveryAddress;
-    
-    @Past
-    private LocalDate createdDate;
+  @OneToOne
+  @NotNull
+  private Address deliveryAddress;
+
+  @Past
+  private LocalDate createdDate;
 
 
 

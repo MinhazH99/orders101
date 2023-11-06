@@ -14,10 +14,10 @@ import lombok.RequiredArgsConstructor;
 @Data
 @Entity
 public class ProductItem {
-    @Id
-    private String productId;
-    private int quantity;
+  @Id
+  private String productId;
+  private int quantity;
 
-    @ManyToOne
-    private Order order;
+  @ManyToOne
+  private Order order;
 }

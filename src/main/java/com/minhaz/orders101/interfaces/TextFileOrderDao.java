@@ -14,19 +14,20 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
-public class TextFileOrderDao{
-//    @Autowired
-//    private ResourceLoader resourceLoader;
-//    @Override
-//    public Optional<Order> findbyId(String orderID) {
-//       Resource resource = resourceLoader.getResource("/Users/minhaz.hassan/Documents/orders101/src/main/resources/orders.json");
-//        InputStream dbAsStream = resource.getInputStream();
-//        System.out.println(InputStream);
-//        return Optional.empty();
-//    }
-//
-//    @Override
-//    public List<Order> findAll() {
-//        return null;
-//    }
+public class TextFileOrderDao {
+  // @Autowired
+  // private ResourceLoader resourceLoader;
+  // @Override
+  // public Optional<Order> findbyId(String orderID) {
+  // Resource resource =
+  // resourceLoader.getResource("/Users/minhaz.hassan/Documents/orders101/src/main/resources/orders.json");
+  // InputStream dbAsStream = resource.getInputStream();
+  // System.out.println(InputStream);
+  // return Optional.empty();
+  // }
+  //
+  // @Override
+  // public List<Order> findAll() {
+  // return null;
+  // }
 }
