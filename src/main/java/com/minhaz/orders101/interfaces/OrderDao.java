@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-//@Component
+@Component
 public interface OrderDao extends JpaRepository<Order,String> {
 //    Optional<Order> findbyId(String orderID);
 //    List<Order> findAll();

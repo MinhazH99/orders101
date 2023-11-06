@@ -65,17 +65,19 @@ public class OrdersEndpoint {
     @Produces({"application/json"})
     public Response getOrders() {
         Resource resource = resourceLoader.getResource("classpath:orders.json");
-        try {
-            InputStream dbAsStream = resource.getInputStream();
-            String InputString = new String(dbAsStream.readAllBytes(), StandardCharsets.UTF_8);
-            objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-            objectMapper.registerModule(new JavaTimeModule());
-            List<Order> ordersList = objectMapper.readValue(InputString,new TypeReference<List<Order>>(){});
-            LOGGER.info("Get method called with list of all orders {}",ordersList);
-            return Response.ok().entity(ordersList).build();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        //            InputStream dbAsStream = resource.getInputStream();
+//            String InputString = new String(dbAsStream.readAllBytes(), StandardCharsets.UTF_8);
+//            objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+//            objectMapper.registerModule(new JavaTimeModule());
+//            List<Order> ordersList = objectMapper.readValue(InputString,new TypeReference<List<Order>>(){});
+//            LOGGER.info("Get method called with list of all orders {}",ordersList);
+        List<Order> orders = dao.findAll();
+        if (orders.isEmpty()) {
+            return Response.status(Status.NOT_FOUND).build();
+        } else {
+            return Response.ok().entity(orders).build();
         }
+
     }
 
     @PATCH
