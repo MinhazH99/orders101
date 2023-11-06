@@ -52,7 +52,8 @@ public class OrdersEndpoint {
     Address address = Address.builder().addressLine1("Test Street").postCode("T3ST").country("England").build();
     LocalDate date = LocalDate.now();
     System.out.println("Testing pre-commit hook");
-    return Order.builder().id("myTestID").basket(items).deliveryAddress(address).totalPrice(new BigDecimal("125.12")).customerId("3").paymentStatus(PaymentStatus.AUTHORISED).orderStatus(OrderStatus.COMPLETED).createdDate(date)
+    return Order.builder().id("myTestID").basket(items).deliveryAddress(address).totalPrice(new BigDecimal("125.12"))
+        .customerId("3").paymentStatus(PaymentStatus.AUTHORISED).orderStatus(OrderStatus.COMPLETED).createdDate(date)
         .build();
   }
 
