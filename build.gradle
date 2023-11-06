@@ -35,6 +35,8 @@ tasks.named('test') {
 
 apply from: "$projectDir/gradle/preCommit.gradle"
 
+build.dependsOn spotlessApply
+
 spotless {
 	java {
 		eclipse().configFile(rootProject.file('config/code-format/eclipse-java-google-style.xml'))
