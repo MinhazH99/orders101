@@ -2,22 +2,26 @@ package com.minhaz.orders101.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Digits;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+
+import java.math.BigDecimal;
 
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Data
 @Entity
-public class ProductItem {
+public class LineItem {
   @Id
   private String productId;
+  private String name;
+  private String description;
+  @Digits(integer = 6, fraction = 2)
+  private BigDecimal unitPrice;
   private int quantity;
 
-  @ManyToOne
-  private Order order;
 }

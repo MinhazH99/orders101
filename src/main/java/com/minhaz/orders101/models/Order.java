@@ -4,19 +4,19 @@ import com.minhaz.orders101.enums.OrderStatus;
 import com.minhaz.orders101.enums.PaymentStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Builder
 @RequiredArgsConstructor
@@ -28,17 +28,17 @@ public class Order {
 
   @Id
   @NotNull(message = "Primary key cannot be null")
-  private String id;
+  private String orderId;
 
-  @OneToMany(mappedBy = "order")
-  @NotNull
-  private List<ProductItem> basket;
+  @OneToOne
+  private Basket basket;
 
+  @Transient
   @Digits(integer = 6, fraction = 2)
   private BigDecimal totalPrice;
 
-  @NotNull
-  private String customerId;
+  @OneToOne
+  private Customer customer;
 
   @NotNull
   private PaymentStatus paymentStatus;
@@ -46,9 +46,11 @@ public class Order {
   @NotNull
   private OrderStatus orderStatus;
 
-  @OneToOne
-  @NotNull
-  private Address deliveryAddress;
+  // @OneToOne
+  // @NotNull
+  // private Address deliveryAddress;
+
+
 
   @Past
   private LocalDate createdDate;

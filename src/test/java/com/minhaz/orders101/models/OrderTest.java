@@ -24,28 +24,43 @@ class OrderTest {
 
   @BeforeEach
   void instantiateOrder() {
-    ProductItem productItem = ProductItem.builder().productId("3").quantity(5).build();
-    List<ProductItem> items = new ArrayList<>();
-    items.add(productItem);
-    Address address = Address.builder().addressLine1("Test Street").postCode("T3ST").country("England").build();
+    Address address =
+        Address.builder().address_id("1").addressLine1("Test Street").postCode("T3ST").country("England").build();
+    List<Address> addressList = new ArrayList<>();
+    addressList.add(address);
+    Customer customer =
+        Customer.builder().customerId("1").email("test@gmail.com").name("John").addressList(addressList).build();
+
+    LineItem hammer = LineItem.builder().name("Hammer").description("hit screws").quantity(5).productId("1")
+        .unitPrice(BigDecimal.valueOf(50.00)).build();
+    LineItem screwdriver = LineItem.builder().name("Screwdriver").description("test").quantity(6).productId("2")
+        .unitPrice(BigDecimal.valueOf(100.12)).build();
+    List<LineItem> products = new ArrayList<>();
+    products.add(hammer);
+    products.add(screwdriver);
+
+    Basket basket = Basket.builder().basketId("1").product(products).build();
+
     LocalDate date = LocalDate.now().minusDays(1);
-    orderUnderTest = Order.builder().id("myTestID").basket(items).deliveryAddress(address)
-        .totalPrice(new BigDecimal("125.12")).customerId("3").paymentStatus(PaymentStatus.AUTHORISED)
-        .orderStatus(OrderStatus.COMPLETED).createdDate(date).build();
+
+    orderUnderTest = Order.builder().orderId("1234").totalPrice(new BigDecimal("125.12")).customer(customer)
+        .paymentStatus(PaymentStatus.AUTHORISED).orderStatus(OrderStatus.COMPLETED).basket(basket).createdDate(date)
+        .build();
   }
 
   @Test
   void testGetters() {
-    assertAll("address name", () -> assertEquals("Test Street", orderUnderTest.getDeliveryAddress().getAddressLine1()),
-        () -> assertEquals("T3ST", orderUnderTest.getDeliveryAddress().getPostCode()),
-        () -> assertEquals("England", orderUnderTest.getDeliveryAddress().getCountry()));
+    assertAll("address name",
+        () -> assertEquals("Test Street", orderUnderTest.getCustomer().getAddressList().get(0).getAddressLine1()),
+        () -> assertEquals("T3ST", orderUnderTest.getCustomer().getAddressList().get(0).getPostCode()),
+        () -> assertEquals("England", orderUnderTest.getCustomer().getAddressList().get(0).getCountry()));
 
-    assertAll("basket of goods", () -> assertEquals("3", orderUnderTest.getBasket().get(0).getProductId()),
-        () -> assertEquals(5, orderUnderTest.getBasket().get(0).getQuantity()));
+    assertAll("basket of goods", () -> assertEquals("1", orderUnderTest.getBasket().getBasketId()),
+        () -> assertEquals("1", orderUnderTest.getBasket().getProduct().get(0).getProductId()));
 
-    assertEquals("myTestID", orderUnderTest.getId());
+    assertEquals("1234", orderUnderTest.getOrderId());
     assertEquals(new BigDecimal("125.12"), orderUnderTest.getTotalPrice());
-    assertEquals("3", orderUnderTest.getCustomerId());
+    assertEquals("1", orderUnderTest.getCustomer().getCustomerId());
     assertEquals(PaymentStatus.AUTHORISED, orderUnderTest.getPaymentStatus());
     assertEquals(OrderStatus.COMPLETED, orderUnderTest.getOrderStatus());
     LocalDate testDate = LocalDate.now().minusMonths(3);
@@ -65,7 +80,7 @@ class OrderTest {
 
   @Test
   void testIdValidation() {
-    orderUnderTest.setId(null);
+    orderUnderTest.setOrderId(null);
     var results = validate(orderUnderTest);
 
     assertThat(results.size()).isOne();

@@ -2,30 +2,29 @@ package com.minhaz.orders101.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Data
 @Entity
-public class Address {
-
+public class Customer {
   @Id
-  private String address_id;
+  private String customerId;
 
-  @NotNull
-  private String addressLine1;
+  @OneToMany
+  private List<Address> addressList;
 
+  private String name;
 
-  @NotNull
-  private String postCode;
+  private String email;
 
-  @NotNull
-  private String country;
 
 }
