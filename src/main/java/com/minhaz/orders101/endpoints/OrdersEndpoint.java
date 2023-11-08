@@ -49,6 +49,7 @@ public class OrdersEndpoint {
       Order order = foundOrder.get();
       log.info("Found the order with total price {}", order.getTotalPrice());
       order.setOrderStatus(OrderStatus.COMPLETED);
+      dao.save(order);
     }
     return Response.ok().build();
   }
@@ -56,7 +57,7 @@ public class OrdersEndpoint {
   @DELETE
   public Response deleteOrder(Order myOrder) {
     log.info("Delete method called on order {}", myOrder);
-    dao.deleteById(myOrder.getOrderId());
+    dao.deleteById("1");
     return Response.ok().build();
   }
 

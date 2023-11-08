@@ -2,6 +2,7 @@ package com.minhaz.orders101.models;
 
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,7 @@ public class Basket {
   private String basketId;
 
 
-  @OneToMany(targetEntity = LineItem.class)
+  @OneToMany(targetEntity = LineItem.class, fetch = FetchType.EAGER)
   private List<LineItem> product;
 
 

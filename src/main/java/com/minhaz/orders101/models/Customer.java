@@ -1,6 +1,7 @@
 package com.minhaz.orders101.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,7 @@ public class Customer {
   @Id
   private String customerId;
 
-  @OneToMany
+  @OneToMany(fetch = FetchType.EAGER)
   private List<Address> addressList;
 
   private String name;
