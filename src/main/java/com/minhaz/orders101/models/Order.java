@@ -1,6 +1,5 @@
 package com.minhaz.orders101.models;
 
-import com.fasterxml.jackson.databind.annotation.JsonTypeResolver;
 import com.minhaz.orders101.enums.OrderStatus;
 import com.minhaz.orders101.enums.PaymentStatus;
 import jakarta.persistence.*;
