@@ -1,11 +1,9 @@
 package com.minhaz.orders101.models;
 
+import com.fasterxml.jackson.databind.annotation.JsonTypeResolver;
 import com.minhaz.orders101.enums.OrderStatus;
 import com.minhaz.orders101.enums.PaymentStatus;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
@@ -27,10 +25,12 @@ import java.time.LocalDate;
 public class Order {
 
   @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
   @NotNull(message = "Primary key cannot be null")
   private String orderId;
 
   @OneToOne
+  @JoinColumn(name = "BASKET_FK_ID")
   private Basket basket;
 
   @Transient
@@ -38,19 +38,21 @@ public class Order {
   private BigDecimal totalPrice;
 
   @OneToOne
+  @JoinColumn(name = "CUSTOMER_FK_ID")
   private Customer customer;
 
+  @Enumerated(EnumType.STRING)
   @NotNull
   private PaymentStatus paymentStatus;
 
+  @Enumerated(EnumType.STRING)
   @NotNull
   private OrderStatus orderStatus;
 
-  // @OneToOne
-  // @NotNull
-  // private Address deliveryAddress;
-
-
+  @OneToOne
+  @JoinColumn(name = "DELIVERY_ADDRESS_FK_ID")
+  @NotNull
+  private Address deliveryAddress;
 
   @Past
   private LocalDate createdDate;

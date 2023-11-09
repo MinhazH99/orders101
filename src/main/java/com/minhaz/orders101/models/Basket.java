@@ -1,10 +1,7 @@
 package com.minhaz.orders101.models;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,11 +16,12 @@ import java.util.List;
 @Entity
 public class Basket {
   @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
   private String basketId;
 
 
   @OneToMany(targetEntity = LineItem.class, fetch = FetchType.EAGER)
-  private List<LineItem> product;
+  private List<LineItem> lineItems;
 
 
 

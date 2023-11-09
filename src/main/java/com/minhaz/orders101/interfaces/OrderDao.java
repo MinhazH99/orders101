@@ -1,5 +1,6 @@
 package com.minhaz.orders101.interfaces;
 
+import com.minhaz.orders101.models.Address;
 import com.minhaz.orders101.models.Order;
 import jakarta.ws.rs.core.Response;
 import org.springframework.context.annotation.ComponentScan;
@@ -12,6 +13,4 @@ import java.util.Optional;
 
 @Component
 public interface OrderDao extends JpaRepository<Order, String> {
-  // Optional<Order> findbyId(String orderID);
-  // List<Order> findAll();
 }

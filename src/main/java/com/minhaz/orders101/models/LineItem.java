@@ -1,6 +1,8 @@
 package com.minhaz.orders101.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Digits;
 import lombok.AllArgsConstructor;
@@ -17,11 +19,16 @@ import java.math.BigDecimal;
 @Entity
 public class LineItem {
   @Id
-  private String productId;
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private String lineItemId;
+
   private String name;
+
   private String description;
+
   @Digits(integer = 6, fraction = 2)
   private BigDecimal unitPrice;
+
   private int quantity;
 
 }

@@ -26,37 +26,35 @@ class OrderTest {
   void instantiateOrder() {
     Address address =
         Address.builder().address_id("1").addressLine1("Test Street").postCode("T3ST").country("England").build();
-    List<Address> addressList = new ArrayList<>();
-    addressList.add(address);
     Customer customer =
-        Customer.builder().customerId("1").email("test@gmail.com").name("John").addressList(addressList).build();
+        Customer.builder().customerId("1").email("test@gmail.com").name("John").invoiceAddress(address).build();
 
-    LineItem hammer = LineItem.builder().name("Hammer").description("hit screws").quantity(5).productId("1")
+    LineItem hammer = LineItem.builder().name("Hammer").description("hit screws").quantity(5).lineItemId("1")
         .unitPrice(BigDecimal.valueOf(50.00)).build();
-    LineItem screwdriver = LineItem.builder().name("Screwdriver").description("test").quantity(6).productId("2")
+    LineItem screwdriver = LineItem.builder().name("Screwdriver").description("test").quantity(6).lineItemId("2")
         .unitPrice(BigDecimal.valueOf(100.12)).build();
     List<LineItem> products = new ArrayList<>();
     products.add(hammer);
     products.add(screwdriver);
 
-    Basket basket = Basket.builder().basketId("1").product(products).build();
+    Basket basket = Basket.builder().basketId("1").lineItems(products).build();
 
     LocalDate date = LocalDate.now().minusDays(1);
 
     orderUnderTest = Order.builder().orderId("1234").totalPrice(new BigDecimal("125.12")).customer(customer)
         .paymentStatus(PaymentStatus.AUTHORISED).orderStatus(OrderStatus.COMPLETED).basket(basket).createdDate(date)
-        .build();
+        .deliveryAddress(address).build();
   }
 
   @Test
   void testGetters() {
     assertAll("address name",
-        () -> assertEquals("Test Street", orderUnderTest.getCustomer().getAddressList().get(0).getAddressLine1()),
-        () -> assertEquals("T3ST", orderUnderTest.getCustomer().getAddressList().get(0).getPostCode()),
-        () -> assertEquals("England", orderUnderTest.getCustomer().getAddressList().get(0).getCountry()));
+        () -> assertEquals("Test Street", orderUnderTest.getCustomer().getInvoiceAddress().getAddressLine1()),
+        () -> assertEquals("T3ST", orderUnderTest.getCustomer().getInvoiceAddress().getPostCode()),
+        () -> assertEquals("England", orderUnderTest.getCustomer().getInvoiceAddress().getCountry()));
 
     assertAll("basket of goods", () -> assertEquals("1", orderUnderTest.getBasket().getBasketId()),
-        () -> assertEquals("1", orderUnderTest.getBasket().getProduct().get(0).getProductId()));
+        () -> assertEquals("1", orderUnderTest.getBasket().getLineItems().get(0).getLineItemId()));
 
     assertEquals("1234", orderUnderTest.getOrderId());
     assertEquals(new BigDecimal("125.12"), orderUnderTest.getTotalPrice());

@@ -1,9 +1,6 @@
 package com.minhaz.orders101.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,10 +15,13 @@ import java.util.List;
 @Entity
 public class Customer {
   @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
   private String customerId;
 
-  @OneToMany(fetch = FetchType.EAGER)
-  private List<Address> addressList;
+
+  @OneToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "INVOICE_ADDRESS_FK_ID")
+  private Address invoiceAddress;
 
   private String name;
 
