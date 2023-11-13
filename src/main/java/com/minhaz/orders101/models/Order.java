@@ -25,7 +25,6 @@ public class Order {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  @NotNull(message = "Primary key cannot be null")
   private String orderId;
 
   @OneToOne

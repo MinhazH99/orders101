@@ -22,6 +22,11 @@ import jakarta.ws.rs.core.Response;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
+import org.javers.core.Changes;
+import org.javers.core.Javers;
+import org.javers.core.JaversBuilder;
+import org.javers.core.diff.Diff;
+import org.javers.core.diff.changetype.ValueChange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -78,16 +83,30 @@ public class OrdersEndpoint {
   @Consumes({"application/json"})
   public Response updateDate(Order myOrder) {
     // TODO Do something with the order
-    Optional<Order> foundOrder = dao.findById("1");
+    Optional<Order> foundOrder = dao.findById(myOrder.getOrderId());
     if (foundOrder.isPresent()) {
-      Order order = foundOrder.get();
-      log.info("Found the order with total price {}", order.getTotalPrice());
+      Order oldOrder = foundOrder.get();
+      log.info("Found the order with total price {}", oldOrder.getTotalPrice());
       // TODO Compare the input with the stored order. Find out what's changed and update it (look for java library to
-      // compare two objects)
-      order.setOrderStatus(OrderStatus.COMPLETED);
-      dao.save(order);
+      // compare two objects
+      Order newOrder = myOrder;
+      System.out.println(newOrder);
+      Javers javers = JaversBuilder.javers().build();
+      Diff diff = javers.compare(oldOrder, newOrder);
+      System.out.println("iterating over changes:");
+      // diff.getChanges().forEach(change -> System.out.println("- " + change));
+      ValueChange changes = (ValueChange) diff.getChanges().get(0);
+      System.out.println(diff.getChanges().get(0));
+      System.out.println(changes.getRight());
+
+      // for (int i = 0; i< diff.getChanges().size(); i ++) {
+      // myOrder
+      // }
+      return Response.ok().build();
+    } else {
+      return Response.status(Response.Status.NOT_FOUND).build();
     }
-    return Response.ok().build();
+
   }
 
   @DELETE
