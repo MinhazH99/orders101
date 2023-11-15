@@ -1,12 +1,22 @@
 package com.minhaz.orders101.endpoints;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.minhaz.orders101.enums.OrderStatus;
 import com.minhaz.orders101.interfaces.AddressDao;
 import com.minhaz.orders101.interfaces.BasketDao;
 import com.minhaz.orders101.interfaces.CustomerDao;
 import com.minhaz.orders101.interfaces.LineItemDao;
 import com.minhaz.orders101.interfaces.OrderDao;
+import com.minhaz.orders101.models.Basket;
+import com.minhaz.orders101.models.LineItem;
 import com.minhaz.orders101.models.Order;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -19,8 +29,10 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.ServerErrorException;
 import jakarta.ws.rs.core.Response;
-import java.util.List;
-import java.util.Optional;
+
+import java.lang.reflect.Field;
+import java.util.*;
+
 import lombok.extern.slf4j.Slf4j;
 import org.javers.core.Changes;
 import org.javers.core.Javers;
@@ -51,6 +63,33 @@ public class OrdersEndpoint {
   @Autowired
   private BasketDao basketDao;
 
+  private final ObjectMapper objectMapper = new ObjectMapper();
+
+
+  private void replaceNode(JsonNode node, String fieldName, JsonNode jsonValue) {
+    if (node.isObject()) {
+      ObjectNode objectNode = (ObjectNode) node;
+      Iterator<Map.Entry<String, JsonNode>> fields = objectNode.fields();
+      while (fields.hasNext()) {
+        Map.Entry<String, JsonNode> entry = fields.next();
+        String key = entry.getKey();
+        JsonNode value = entry.getValue();
+
+        if (key.equals(fieldName)) {
+          System.out.println("\nthis is the key " + key);
+          System.out.printf("this it the field" + fieldName);
+          objectNode.replace(fieldName, jsonValue);
+        } else {
+          replaceNode(value, fieldName, jsonValue);
+        }
+      }
+    } else if (node.isArray()) {
+      ArrayNode arrayNode = (ArrayNode) node;
+      for (int i = 0; i < arrayNode.size(); i++) {
+        replaceNode(arrayNode.get(i), fieldName, jsonValue);
+      }
+    }
+  }
 
   @POST
   @Consumes({"application/json"})
@@ -81,7 +120,7 @@ public class OrdersEndpoint {
 
   @PATCH
   @Consumes({"application/json"})
-  public Response updateDate(Order myOrder) {
+  public Response updateDate(Order myOrder) throws Exception {
     // TODO Do something with the order
     Optional<Order> foundOrder = dao.findById(myOrder.getOrderId());
     if (foundOrder.isPresent()) {
@@ -90,18 +129,54 @@ public class OrdersEndpoint {
       // TODO Compare the input with the stored order. Find out what's changed and update it (look for java library to
       // compare two objects
       Order newOrder = myOrder;
+      Basket newBasket = myOrder.getBasket();
+      List<LineItem> newLineItem = newBasket.getLineItems();
+
+
+
       System.out.println(newOrder);
       Javers javers = JaversBuilder.javers().build();
       Diff diff = javers.compare(oldOrder, newOrder);
-      System.out.println("iterating over changes:");
-      // diff.getChanges().forEach(change -> System.out.println("- " + change));
-      ValueChange changes = (ValueChange) diff.getChanges().get(0);
-      System.out.println(diff.getChanges().get(0));
-      System.out.println(changes.getRight());
+      diff.getChanges().forEach(change -> System.out.println("- " + change));
 
+      // Field[] orderFields = myOrder.getClass().getDeclaredFields();
+      // Field[] basketFields = newBasket.getClass().getDeclaredFields();
+      // Field[] lineItemFields = newLineItem.getClass().getDeclaredFields();
+      //
+      // for (Field field: orderFields) {
       // for (int i = 0; i< diff.getChanges().size(); i ++) {
-      // myOrder
+      // ValueChange changes = (ValueChange) diff.getChanges().get(i);
+      // if(field.getName().equals(changes.getPropertyName())) {
+      // field.setAccessible(true);
+      // field.set(myOrder,changes.getRight());
+      // dao.save(myOrder);
       // }
+      // }
+      // }
+
+      objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+      objectMapper.registerModule(new JavaTimeModule());
+      JsonNode rootNode = objectMapper.readTree(objectMapper.writeValueAsBytes(oldOrder));
+
+
+
+      diff.getChangesByType(ValueChange.class).forEach(valueChange -> {
+        String fieldName = valueChange.getPropertyName();
+        Object value = valueChange.getRight();
+        Object affectedLocalId = valueChange.getAffectedLocalId();
+        JsonNode jsonValue = objectMapper.valueToTree(value);
+        replaceNode(rootNode, fieldName, jsonValue);
+
+        rootNode.fieldNames().forEachRemaining(key -> {
+          if (key.equals(fieldName)) {
+            System.out.println(key);
+            ((ObjectNode) rootNode).replace(fieldName, jsonValue);
+          }
+        });
+      });
+      Order orderWithUpdatesApplied = objectMapper.treeToValue(rootNode, Order.class);
+      dao.save(orderWithUpdatesApplied);
+
       return Response.ok().build();
     } else {
       return Response.status(Response.Status.NOT_FOUND).build();
