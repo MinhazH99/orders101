@@ -1,7 +1,10 @@
 package com.minhaz.orders101.endpoints;
 
 
-import com.minhaz.orders101.enums.OrderStatus;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.minhaz.orders101.interfaces.AddressDao;
 import com.minhaz.orders101.interfaces.BasketDao;
 import com.minhaz.orders101.interfaces.CustomerDao;
@@ -19,10 +22,12 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.ServerErrorException;
 import jakarta.ws.rs.core.Response;
+import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.javers.core.Changes;
 import org.javers.core.Javers;
 import org.javers.core.JaversBuilder;
 import org.javers.core.diff.Diff;
@@ -50,7 +55,8 @@ public class OrdersEndpoint {
 
   @Autowired
   private BasketDao basketDao;
-
+  private final Javers javers = JaversBuilder.javers().build();
+  private final ObjectMapper objectMapper = new ObjectMapper();
 
   @POST
   @Consumes({"application/json"})
@@ -81,32 +87,56 @@ public class OrdersEndpoint {
 
   @PATCH
   @Consumes({"application/json"})
-  public Response updateDate(Order myOrder) {
-    // TODO Do something with the order
-    Optional<Order> foundOrder = dao.findById(myOrder.getOrderId());
-    if (foundOrder.isPresent()) {
-      Order oldOrder = foundOrder.get();
-      log.info("Found the order with total price {}", oldOrder.getTotalPrice());
-      // TODO Compare the input with the stored order. Find out what's changed and update it (look for java library to
-      // compare two objects
-      Order newOrder = myOrder;
-      System.out.println(newOrder);
-      Javers javers = JaversBuilder.javers().build();
+  public Response updateDate(Order orderToUpdate) throws IOException {
+    Optional<Order> orderInStorage = dao.findById(orderToUpdate.getOrderId());
+    if (orderInStorage.isPresent()) {
+      Order oldOrder = orderInStorage.get();
+      Order newOrder = orderToUpdate;
       Diff diff = javers.compare(oldOrder, newOrder);
-      System.out.println("iterating over changes:");
-      // diff.getChanges().forEach(change -> System.out.println("- " + change));
-      ValueChange changes = (ValueChange) diff.getChanges().get(0);
-      System.out.println(diff.getChanges().get(0));
-      System.out.println(changes.getRight());
+      System.out.println(diff.prettyPrint());
 
-      // for (int i = 0; i< diff.getChanges().size(); i ++) {
-      // myOrder
-      // }
+      objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+      objectMapper.registerModule(new JavaTimeModule());
+      JsonNode rootNode = objectMapper.valueToTree(oldOrder);
+
+      findAndUpdate(diff.getChangesByType(ValueChange.class), rootNode);
+
+      Order orderWithUpdatesApplied = objectMapper.treeToValue(rootNode, Order.class);
+      dao.save(orderWithUpdatesApplied);
+
       return Response.ok().build();
     } else {
       return Response.status(Response.Status.NOT_FOUND).build();
     }
 
+  }
+
+  /**
+   * this method assumes that field names in the json are unique at their level. For example, there may be several
+   * objects with a property called 'unitPrice' but those will be siblings.
+   *
+   * @param changesByType the list of changes from javers
+   * @param node the current json node
+   */
+  private void findAndUpdate(List<ValueChange> changesByType, JsonNode node) {
+    if (node.isObject()) {
+      Iterator<Entry<String, JsonNode>> iter = node.fields();
+      while (iter.hasNext()) {
+        Entry<String, JsonNode> jsonField = iter.next();
+        // if field has more nodes, recurse
+        if (jsonField.getValue().isObject())
+          findAndUpdate(changesByType, jsonField.getValue());
+        if (jsonField.getValue().isArray())
+          jsonField.getValue().forEach(n -> findAndUpdate(changesByType, n));
+        changesByType.forEach(change -> {
+          if (change.getPropertyName().equals(jsonField.getKey())) {
+            jsonField.setValue(objectMapper.valueToTree(change.getRight()));
+          }
+        });
+      }
+    } else if (node.isArray()) {
+      node.forEach(n -> findAndUpdate(changesByType, n));
+    }
   }
 
   @DELETE

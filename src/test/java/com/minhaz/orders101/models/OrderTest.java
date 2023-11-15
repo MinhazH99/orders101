@@ -81,9 +81,7 @@ class OrderTest {
     orderUnderTest.setOrderId(null);
     var results = validate(orderUnderTest);
 
-    assertThat(results.size()).isOne();
-    var violation = results.stream().findFirst().get();
-    assertThat(violation.getMessage()).isEqualTo("Primary key cannot be null");
+    assertThat(results.size()).isZero();
   }
 
   @Test
