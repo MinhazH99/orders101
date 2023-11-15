@@ -5,11 +5,17 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.minhaz.orders101.interfaces.AddressDao;
 import com.minhaz.orders101.interfaces.BasketDao;
 import com.minhaz.orders101.interfaces.CustomerDao;
 import com.minhaz.orders101.interfaces.LineItemDao;
 import com.minhaz.orders101.interfaces.OrderDao;
+import com.minhaz.orders101.models.Basket;
+import com.minhaz.orders101.models.LineItem;
 import com.minhaz.orders101.models.Order;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -24,9 +30,8 @@ import jakarta.ws.rs.ServerErrorException;
 import jakarta.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.javers.core.Javers;
 import org.javers.core.JaversBuilder;
@@ -58,6 +63,31 @@ public class OrdersEndpoint {
   private final Javers javers = JaversBuilder.javers().build();
   private final ObjectMapper objectMapper = new ObjectMapper();
 
+  private void replaceNode(JsonNode node, String fieldName, JsonNode jsonValue) {
+    if (node.isObject()) {
+      ObjectNode objectNode = (ObjectNode) node;
+      Iterator<Map.Entry<String, JsonNode>> fields = objectNode.fields();
+      while (fields.hasNext()) {
+        Map.Entry<String, JsonNode> entry = fields.next();
+        String key = entry.getKey();
+        JsonNode value = entry.getValue();
+
+        if (key.equals(fieldName)) {
+          System.out.println("\nthis is the key " + key);
+          System.out.printf("this it the field" + fieldName);
+          objectNode.replace(fieldName, jsonValue);
+        } else {
+          replaceNode(value, fieldName, jsonValue);
+        }
+      }
+    } else if (node.isArray()) {
+      ArrayNode arrayNode = (ArrayNode) node;
+      for (int i = 0; i < arrayNode.size(); i++) {
+        replaceNode(arrayNode.get(i), fieldName, jsonValue);
+      }
+    }
+  }
+
   @POST
   @Consumes({"application/json"})
   public Response saveOrder(@Valid Order order) throws ServerErrorException {
@@ -85,14 +115,14 @@ public class OrdersEndpoint {
     }
   }
 
+
   @PATCH
   @Consumes({"application/json"})
   public Response updateDate(Order orderToUpdate) throws IOException {
     Optional<Order> orderInStorage = dao.findById(orderToUpdate.getOrderId());
     if (orderInStorage.isPresent()) {
       Order oldOrder = orderInStorage.get();
-      Order newOrder = orderToUpdate;
-      Diff diff = javers.compare(oldOrder, newOrder);
+      Diff diff = javers.compare(oldOrder, orderToUpdate);
       System.out.println(diff.prettyPrint());
 
       objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
@@ -108,7 +138,6 @@ public class OrdersEndpoint {
     } else {
       return Response.status(Response.Status.NOT_FOUND).build();
     }
-
   }
 
   /**
