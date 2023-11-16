@@ -2,13 +2,10 @@ package com.minhaz.orders101.endpoints;
 
 
 import com.fasterxml.jackson.core.json.JsonWriteFeature;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.minhaz.orders101.interfaces.AddressDao;
 import com.minhaz.orders101.interfaces.BasketDao;
 import com.minhaz.orders101.interfaces.CustomerDao;
@@ -16,7 +13,6 @@ import com.minhaz.orders101.interfaces.LineItemDao;
 import com.minhaz.orders101.interfaces.OrderDao;
 import com.minhaz.orders101.models.Order;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Null;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -27,12 +23,12 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.ServerErrorException;
 import jakarta.ws.rs.core.Response;
-
-import java.io.DataInput;
+import jakarta.ws.rs.core.Response.Status;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.*;
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.javers.core.Javers;
 import org.javers.core.JaversBuilder;
@@ -63,31 +59,6 @@ public class OrdersEndpoint {
   private BasketDao basketDao;
   private final Javers javers = JaversBuilder.javers().build();
   private final ObjectMapper objectMapper = new ObjectMapper();
-
-  private void replaceNode(JsonNode node, String fieldName, JsonNode jsonValue) {
-    if (node.isObject()) {
-      ObjectNode objectNode = (ObjectNode) node;
-      Iterator<Map.Entry<String, JsonNode>> fields = objectNode.fields();
-      while (fields.hasNext()) {
-        Map.Entry<String, JsonNode> entry = fields.next();
-        String key = entry.getKey();
-        JsonNode value = entry.getValue();
-
-        if (key.equals(fieldName)) {
-          System.out.println("\nthis is the key " + key);
-          System.out.printf("this it the field" + fieldName);
-          objectNode.replace(fieldName, jsonValue);
-        } else {
-          replaceNode(value, fieldName, jsonValue);
-        }
-      }
-    } else if (node.isArray()) {
-      ArrayNode arrayNode = (ArrayNode) node;
-      for (int i = 0; i < arrayNode.size(); i++) {
-        replaceNode(arrayNode.get(i), fieldName, jsonValue);
-      }
-    }
-  }
 
   @POST
   @Consumes({"application/json"})
@@ -150,68 +121,29 @@ public class OrdersEndpoint {
    * @param node the current json node
    */
   private void findAndUpdate(List<ValueChange> changesByType, JsonNode node) {
-    if (node.isObject()) {
-      if (node.get("id") != null) {
-        changesByType.forEach(change -> {
-          if (node.get("id").textValue().equals(change.getAffectedLocalId())) {
-            if (node.get(change.getPropertyName()) != null) {
-              JsonNode changeNode = node.get(change.getPropertyName());
-              ObjectMapper mapper = new ObjectMapper();
-              Map<String, Object> nodeMap =
-                  mapper.convertValue(changeNode, new TypeReference<Map<String, Object>>() {});
-              nodeMap.put(change.getPropertyName(), change.getRight());
-              changeNode = mapper.convertValue(nodeMap, JsonNode.class);
-            }
-          }
-        });
-      }
-    }
-
-    Iterator<Entry<String, JsonNode>> iter = node.fields();
-    while (iter.hasNext()) {
-      Entry<String, JsonNode> jsonField = iter.next();
-      changesByType.forEach(change -> {
-        try {
-          System.out.println(node.get("id").textValue());
-        } catch (NullPointerException npe) {
-          System.out.println("Error");
-        }
-
-        if (change.getAffectedLocalId().toString().equals(jsonField.getValue().toString())) {
-          System.out.println("Entering if statement");
-          jsonField.setValue(objectMapper.valueToTree(change.getRight()));
+    // loop through the changes
+    changesByType.forEach(change -> {
+      var changedProperty = change.getPropertyName();
+      var changedId = change.getAffectedLocalId();
+      var parents = node.findParents(changedProperty);
+      parents.forEach(parent -> {
+        if (parent.get("id").textValue().equals(changedId) && parent.get(changedProperty) != null) {
+          amendNode(parent, change);
         }
       });
-      // if field has more nodes, recurse
-      // if (jsonField.getValue().isObject())
-      // findAndUpdate(changesByType, jsonField.getValue());
-      // if (jsonField.getValue().isArray())
-      // jsonField.getValue().forEach(n -> findAndUpdate(changesByType, n));
-      // changesByType.forEach(change -> {
-      // if (change.getPropertyName().equals(jsonField.getKey())) {
-      // jsonField.setValue(objectMapper.valueToTree(change.getRight()));
-      // }
-      // });
-    }
-    // } else if (node.isArray()) {
-    // node.forEach(n -> findAndUpdate(changesByType, n));
+    });
   }
 
-
-  private boolean findFields(ValueChange change, JsonNode node) {
-    if (node.isObject()) {
-      Iterator<Entry<String, JsonNode>> iter = node.fields();
-      while (iter.hasNext()) {
-        Entry<String, JsonNode> jsonField = iter.next();
-        if (jsonField.getValue().toString().equals(change.getPropertyName())) {
-          return true;
-        }
+  private void amendNode(JsonNode parent, ValueChange change) {
+    Iterator<Entry<String, JsonNode>> iter = parent.fields();
+    while (iter.hasNext()) {
+      Entry<String, JsonNode> jsonField = iter.next();
+      if (change.getPropertyName().equals(jsonField.getKey())) {
+        jsonField.setValue(objectMapper.valueToTree(change.getRight()));
+        break;
       }
-      return false;
     }
-    return false;
   }
-
 
   @DELETE
   public Response deleteOrder(Order myOrder) {
@@ -230,7 +162,7 @@ public class OrdersEndpoint {
       log.info("Get method called to retrieve order with ID = {}. Order details {}", order.get().getId(), order);
       return Response.ok().entity(order).build();
     } else {
-      return Response.status(Response.Status.NOT_FOUND).build();
+      return Response.status(Status.NOT_FOUND).build();
     }
   }
 }
