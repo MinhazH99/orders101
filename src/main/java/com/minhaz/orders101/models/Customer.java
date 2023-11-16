@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
@@ -16,7 +14,7 @@ import java.util.List;
 public class Customer {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  private String customerId;
+  private String id;
 
 
   @OneToOne(fetch = FetchType.EAGER)

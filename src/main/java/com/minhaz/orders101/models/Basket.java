@@ -17,7 +17,7 @@ import java.util.List;
 public class Basket {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  private String basketId;
+  private String id;
 
 
   @OneToMany(targetEntity = LineItem.class, fetch = FetchType.EAGER)

@@ -25,7 +25,7 @@ public class Order {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  private String orderId;
+  private String id;
 
   @OneToOne
   @JoinColumn(name = "BASKET_FK_ID")

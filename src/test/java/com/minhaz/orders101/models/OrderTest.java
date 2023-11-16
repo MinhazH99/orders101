@@ -24,24 +24,22 @@ class OrderTest {
 
   @BeforeEach
   void instantiateOrder() {
-    Address address =
-        Address.builder().address_id("1").addressLine1("Test Street").postCode("T3ST").country("England").build();
-    Customer customer =
-        Customer.builder().customerId("1").email("test@gmail.com").name("John").invoiceAddress(address).build();
+    Address address = Address.builder().id("1").addressLine1("Test Street").postCode("T3ST").country("England").build();
+    Customer customer = Customer.builder().id("1").email("test@gmail.com").name("John").invoiceAddress(address).build();
 
-    LineItem hammer = LineItem.builder().name("Hammer").description("hit screws").quantity(5).lineItemId("1")
+    LineItem hammer = LineItem.builder().name("Hammer").description("hit screws").quantity(5).id("1")
         .unitPrice(BigDecimal.valueOf(50.00)).build();
-    LineItem screwdriver = LineItem.builder().name("Screwdriver").description("test").quantity(6).lineItemId("2")
+    LineItem screwdriver = LineItem.builder().name("Screwdriver").description("test").quantity(6).id("2")
         .unitPrice(BigDecimal.valueOf(100.12)).build();
     List<LineItem> products = new ArrayList<>();
     products.add(hammer);
     products.add(screwdriver);
 
-    Basket basket = Basket.builder().basketId("1").lineItems(products).build();
+    Basket basket = Basket.builder().id("1").lineItems(products).build();
 
     LocalDate date = LocalDate.now().minusDays(1);
 
-    orderUnderTest = Order.builder().orderId("1234").totalPrice(new BigDecimal("125.12")).customer(customer)
+    orderUnderTest = Order.builder().id("1234").totalPrice(new BigDecimal("125.12")).customer(customer)
         .paymentStatus(PaymentStatus.AUTHORISED).orderStatus(OrderStatus.COMPLETED).basket(basket).createdDate(date)
         .deliveryAddress(address).build();
   }
@@ -53,12 +51,12 @@ class OrderTest {
         () -> assertEquals("T3ST", orderUnderTest.getCustomer().getInvoiceAddress().getPostCode()),
         () -> assertEquals("England", orderUnderTest.getCustomer().getInvoiceAddress().getCountry()));
 
-    assertAll("basket of goods", () -> assertEquals("1", orderUnderTest.getBasket().getBasketId()),
-        () -> assertEquals("1", orderUnderTest.getBasket().getLineItems().get(0).getLineItemId()));
+    assertAll("basket of goods", () -> assertEquals("1", orderUnderTest.getBasket().getId()),
+        () -> assertEquals("1", orderUnderTest.getBasket().getLineItems().get(0).getId()));
 
-    assertEquals("1234", orderUnderTest.getOrderId());
+    assertEquals("1234", orderUnderTest.getId());
     assertEquals(new BigDecimal("125.12"), orderUnderTest.getTotalPrice());
-    assertEquals("1", orderUnderTest.getCustomer().getCustomerId());
+    assertEquals("1", orderUnderTest.getCustomer().getId());
     assertEquals(PaymentStatus.AUTHORISED, orderUnderTest.getPaymentStatus());
     assertEquals(OrderStatus.COMPLETED, orderUnderTest.getOrderStatus());
     LocalDate testDate = LocalDate.now().minusMonths(3);
@@ -78,7 +76,7 @@ class OrderTest {
 
   @Test
   void testIdValidation() {
-    orderUnderTest.setOrderId(null);
+    orderUnderTest.setId(null);
     var results = validate(orderUnderTest);
 
     assertThat(results.size()).isZero();

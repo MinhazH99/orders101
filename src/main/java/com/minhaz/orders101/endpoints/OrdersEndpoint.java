@@ -1,23 +1,22 @@
 package com.minhaz.orders101.endpoints;
 
 
+import com.fasterxml.jackson.core.json.JsonWriteFeature;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.minhaz.orders101.interfaces.AddressDao;
 import com.minhaz.orders101.interfaces.BasketDao;
 import com.minhaz.orders101.interfaces.CustomerDao;
 import com.minhaz.orders101.interfaces.LineItemDao;
 import com.minhaz.orders101.interfaces.OrderDao;
-import com.minhaz.orders101.models.Basket;
-import com.minhaz.orders101.models.LineItem;
 import com.minhaz.orders101.models.Order;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Null;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -28,6 +27,8 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.ServerErrorException;
 import jakarta.ws.rs.core.Response;
+
+import java.io.DataInput;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.*;
@@ -119,13 +120,14 @@ public class OrdersEndpoint {
   @PATCH
   @Consumes({"application/json"})
   public Response updateDate(Order orderToUpdate) throws IOException {
-    Optional<Order> orderInStorage = dao.findById(orderToUpdate.getOrderId());
+    Optional<Order> orderInStorage = dao.findById(orderToUpdate.getId());
     if (orderInStorage.isPresent()) {
       Order oldOrder = orderInStorage.get();
       Diff diff = javers.compare(oldOrder, orderToUpdate);
       System.out.println(diff.prettyPrint());
 
       objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+      objectMapper.disable(JsonWriteFeature.QUOTE_FIELD_NAMES.mappedFeature());
       objectMapper.registerModule(new JavaTimeModule());
       JsonNode rootNode = objectMapper.valueToTree(oldOrder);
 
@@ -149,24 +151,67 @@ public class OrdersEndpoint {
    */
   private void findAndUpdate(List<ValueChange> changesByType, JsonNode node) {
     if (node.isObject()) {
-      Iterator<Entry<String, JsonNode>> iter = node.fields();
-      while (iter.hasNext()) {
-        Entry<String, JsonNode> jsonField = iter.next();
-        // if field has more nodes, recurse
-        if (jsonField.getValue().isObject())
-          findAndUpdate(changesByType, jsonField.getValue());
-        if (jsonField.getValue().isArray())
-          jsonField.getValue().forEach(n -> findAndUpdate(changesByType, n));
+      if (node.get("id") != null) {
         changesByType.forEach(change -> {
-          if (change.getPropertyName().equals(jsonField.getKey())) {
-            jsonField.setValue(objectMapper.valueToTree(change.getRight()));
+          if (node.get("id").textValue().equals(change.getAffectedLocalId())) {
+            if (node.get(change.getPropertyName()) != null) {
+              JsonNode changeNode = node.get(change.getPropertyName());
+              ObjectMapper mapper = new ObjectMapper();
+              Map<String, Object> nodeMap =
+                  mapper.convertValue(changeNode, new TypeReference<Map<String, Object>>() {});
+              nodeMap.put(change.getPropertyName(), change.getRight());
+              changeNode = mapper.convertValue(nodeMap, JsonNode.class);
+            }
           }
         });
       }
-    } else if (node.isArray()) {
-      node.forEach(n -> findAndUpdate(changesByType, n));
     }
+
+    Iterator<Entry<String, JsonNode>> iter = node.fields();
+    while (iter.hasNext()) {
+      Entry<String, JsonNode> jsonField = iter.next();
+      changesByType.forEach(change -> {
+        try {
+          System.out.println(node.get("id").textValue());
+        } catch (NullPointerException npe) {
+          System.out.println("Error");
+        }
+
+        if (change.getAffectedLocalId().toString().equals(jsonField.getValue().toString())) {
+          System.out.println("Entering if statement");
+          jsonField.setValue(objectMapper.valueToTree(change.getRight()));
+        }
+      });
+      // if field has more nodes, recurse
+      // if (jsonField.getValue().isObject())
+      // findAndUpdate(changesByType, jsonField.getValue());
+      // if (jsonField.getValue().isArray())
+      // jsonField.getValue().forEach(n -> findAndUpdate(changesByType, n));
+      // changesByType.forEach(change -> {
+      // if (change.getPropertyName().equals(jsonField.getKey())) {
+      // jsonField.setValue(objectMapper.valueToTree(change.getRight()));
+      // }
+      // });
+    }
+    // } else if (node.isArray()) {
+    // node.forEach(n -> findAndUpdate(changesByType, n));
   }
+
+
+  private boolean findFields(ValueChange change, JsonNode node) {
+    if (node.isObject()) {
+      Iterator<Entry<String, JsonNode>> iter = node.fields();
+      while (iter.hasNext()) {
+        Entry<String, JsonNode> jsonField = iter.next();
+        if (jsonField.getValue().toString().equals(change.getPropertyName())) {
+          return true;
+        }
+      }
+      return false;
+    }
+    return false;
+  }
+
 
   @DELETE
   public Response deleteOrder(Order myOrder) {
@@ -182,7 +227,7 @@ public class OrdersEndpoint {
     Optional<Order> order;
     order = dao.findById(orderId);
     if (order.isPresent()) {
-      log.info("Get method called to retrieve order with ID = {}. Order details {}", order.get().getOrderId(), order);
+      log.info("Get method called to retrieve order with ID = {}. Order details {}", order.get().getId(), order);
       return Response.ok().entity(order).build();
     } else {
       return Response.status(Response.Status.NOT_FOUND).build();

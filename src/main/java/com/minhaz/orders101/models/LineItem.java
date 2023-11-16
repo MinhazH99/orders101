@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 public class LineItem {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  private String lineItemId;
+  private String id;
 
   private String name;
 

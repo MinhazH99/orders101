@@ -19,7 +19,7 @@ public class Address {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  private String address_id;
+  private String id;
 
   @NotNull
   private String addressLine1;

@@ -1,10 +1,10 @@
 INSERT INTO ADDRESS
 VALUES
-    ('1','Test Street','T3ST','England');
+    ('Test Street','T3ST','1','England');
 
 INSERT INTO CUSTOMER
 VALUES
-    ('1','cust1@gmail.com','1','John');
+    ('cust1@gmail.com','1','1','John');
 
 INSERT INTO LINE_ITEM
 VALUES
