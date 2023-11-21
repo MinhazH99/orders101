@@ -1,6 +1,6 @@
 INSERT INTO ADDRESS
 VALUES
-    ('Test Street','T3ST','1','England');
+    ('Test Street','England','1','T3ST');
 
 INSERT INTO CUSTOMER
 VALUES
