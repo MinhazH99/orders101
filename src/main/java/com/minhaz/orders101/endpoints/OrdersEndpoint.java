@@ -16,6 +16,7 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -35,6 +36,7 @@ import org.javers.core.JaversBuilder;
 import org.javers.core.diff.Diff;
 import org.javers.core.diff.changetype.ValueChange;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -74,7 +76,7 @@ public class OrdersEndpoint {
     basketDao.save(order.getBasket());
 
     dao.save(order);
-    return Response.ok().build();
+    return Response.ok().entity(order).build();
   }
 
   @GET
@@ -168,7 +170,8 @@ public class OrdersEndpoint {
       log.info("Get method called to retrieve order with ID = {}. Order details {}", order.get().getId(), order);
       return Response.ok().entity(order).build();
     } else {
-      return Response.status(Status.NOT_FOUND).build();
+      throw new NotFoundException(String.format("Order with orderId %s not found", orderId));
     }
   }
+
 }
