@@ -2,8 +2,11 @@ package com.minhaz.orders101.endpoints;
 
 import com.minhaz.orders101.enums.OrderStatus;
 import com.minhaz.orders101.enums.PaymentStatus;
+import com.minhaz.orders101.interfaces.AddressDao;
 import com.minhaz.orders101.models.Order;
+import com.minhaz.orders101.utils.OrderUtils;
 import jakarta.ws.rs.core.Application;
+import jakarta.ws.rs.core.Response;
 import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.aspectj.weaver.ast.Or;
@@ -32,14 +35,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class OrdersEndpointTest {
-
-  // @Override
-  // protected Application configure() {
-  // return new ResourceConfig(OrdersEndpoint.class);
-  // }
 
   @LocalServerPort
   private int port;
@@ -79,6 +78,37 @@ public class OrdersEndpointTest {
 
   }
 
+  @Test
+  public void testFailedGETRequest() {
+    // Running this test leads to a UnknownContentTypeException error
+    // String url = "http://localhost:" + port + "/orders/2";
+    // ParameterizedTypeReference<Order> paramType = new ParameterizedTypeReference<Order>() {};
+    // ResponseEntity orderResponse = restTemplate.exchange(url, HttpMethod.GET, null, Response.class);
+    //
+    //
+    // assertEquals(orderResponse.getStatusCode(),HttpStatus.BAD_REQUEST);
+  }
+
+  @Test
+  public void testPOSTRequest() {
+    // Retrieving sample order but changing the ID to prevent primary key violations with the existing order in database
+    Order newPostOrder = OrderUtils.sampleOrder();
+    newPostOrder.setId("2");
+    newPostOrder.getBasket().setId("2");
+    newPostOrder.getDeliveryAddress().setId("2");
+    newPostOrder.getCustomer().setId("2");
+    newPostOrder.getBasket().getLineItems().get(0).setId("4");
+    newPostOrder.getBasket().getLineItems().get(1).setId("5");
+    newPostOrder.getBasket().getLineItems().get(2).setId("6");
+
+    String url = "http://localhost:" + port + "/orders";
+    HttpEntity<Order> request = new HttpEntity<>(newPostOrder);
+    ResponseEntity<Order> response = restTemplate.exchange(url, HttpMethod.POST, request, Order.class);
+    assertEquals(response.getStatusCode(), HttpStatus.OK);
+
+
+
+  }
 
   @Test
   public void testFailedPOSTRequest() {
@@ -93,33 +123,41 @@ public class OrdersEndpointTest {
   }
 
   @Test
-  public void testPATCHRequest() throws JSONException {
-    // String url = "http://localhost:" + port + "/orders/1";
-    //
-    // JSONObject updateBody = new JSONObject();
-    // updateBody.put("paymentStatus", "CAPTURED");
-    //
-    // ResponseEntity<Order> response = restTemplate.exchange(url, HttpMethod.PATCH,
-    // buildRequest(updateBody.toString()), Order.class);
-    //
-    // assertEquals(response.getStatusCode(),HttpStatus.OK);
-    //
-    //// Order updatedOrder = response.getBody();
-    //// assertEquals(PaymentStatus.CAPTURED.toString(),updatedOrder.getPaymentStatus());
-    //
-    //
-    // }
-    //
-    // private HttpEntity buildRequest(String jsonPatchBody) {
-    // List acceptTypes = new ArrayList();
-    // acceptTypes.add(MediaType.APPLICATION_JSON);
-    //
-    // HttpHeaders reqHeaders = new HttpHeaders();
-    // reqHeaders.setContentType(MediaType.APPLICATION_JSON);
-    // reqHeaders.setAccept(acceptTypes);
-    //
-    //
-    // return new HttpEntity(jsonPatchBody, reqHeaders);
+  public void testPATCHRequest() {
+    String url = "http://localhost:" + port + "/orders";
+
+    Order newOrder = OrderUtils.sampleOrder();
+    newOrder.setPaymentStatus(PaymentStatus.CAPTURED);
+
+    ResponseEntity response = restTemplate.exchange(url, HttpMethod.PATCH, new HttpEntity<>(newOrder), Order.class);
+
+    System.out.println(response);
+
+    assertEquals(response.getStatusCode(), HttpStatus.OK);
+
+
 
   }
+
+
+  @Test
+  public void testFailedPATCHRequest() {
+    String url = "http://localhost:" + port + "/orders";
+
+    Order newOrder = OrderUtils.sampleOrder();
+    newOrder.setPaymentStatus(null);
+
+    ResponseEntity response = restTemplate.exchange(url, HttpMethod.PATCH, new HttpEntity<>(newOrder), Order.class);
+
+    assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
+  }
+
+  @Test
+  public void testDeleteRequest() {
+
+
+  }
+
+
+
 }

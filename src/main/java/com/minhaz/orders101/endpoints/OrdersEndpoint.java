@@ -91,7 +91,7 @@ public class OrdersEndpoint {
 
   @PATCH
   @Consumes({"application/json"})
-  public Response updateDate(@Valid Order orderToUpdate) throws IOException {
+  public Response updateOrder(@Valid Order orderToUpdate) throws IOException {
     Optional<Order> orderInStorage = dao.findById(orderToUpdate.getId());
     if (orderInStorage.isPresent()) {
       Order oldOrder = orderInStorage.get();
