@@ -39,7 +39,7 @@ public class OrdersEndpoint {
   @Produces({"application/json"})
   public Response saveOrder(@Valid Order order) throws ServerErrorException {
     orderService.persist(order);
-    return Response.ok().entity(order).build();
+    return Response.ok().entity(ResponseModel.builder().data(order).build()).build();
   }
 
   @GET
@@ -57,6 +57,7 @@ public class OrdersEndpoint {
   @PATCH
   @Consumes({"application/json"})
   @Produces({"application/json"})
+  // TODO include the id in the URL path param
   public Response updateOrder(@Valid Order updatedOrder) throws JsonProcessingException {
     Optional<Order> existingOrder = orderService.retrieveById(updatedOrder.getId());
     if (existingOrder.isEmpty()) {

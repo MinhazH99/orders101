@@ -6,11 +6,19 @@ import static com.minhaz.orders101.utils.OrderUtils.sampleDeliveryAddress;
 import static com.minhaz.orders101.utils.OrderUtils.sampleOrder;
 import static com.minhaz.orders101.utils.OrderUtils.sampleThreeLineItems;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import com.fasterxml.jackson.core.json.JsonWriteFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.minhaz.orders101.enums.OrderStatus;
 import com.minhaz.orders101.enums.PaymentStatus;
 import com.minhaz.orders101.models.Order;
 import com.minhaz.orders101.models.ResponseModel;
+import java.math.BigDecimal;
 import java.util.Collections;
-import org.junit.Ignore;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +31,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class OrdersEndpointTest {
+public class OrdersEndpointIntegrationTest {
 
   @LocalServerPort
   private int port;
@@ -31,31 +39,39 @@ public class OrdersEndpointTest {
   @Autowired
   private TestRestTemplate restTemplate;
 
+  private static ObjectMapper objectMapper = null;
+
+  @BeforeAll
+  public static void init() {
+    objectMapper = new ObjectMapper();
+    objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    objectMapper.disable(JsonWriteFeature.QUOTE_FIELD_NAMES.mappedFeature());
+    objectMapper.registerModule(new JavaTimeModule());
+  }
+
   @Test
   void testGETOrder() throws Exception {
     String url = "http://localhost:" + port + "/orders/1";
-    ResponseEntity<ResponseModel> response = restTemplate.exchange(url, HttpMethod.GET, null, ResponseModel.class);
+    ResponseEntity response = restTemplate.exchange(url, HttpMethod.GET, null, ResponseModel.class);
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-    var data = ((ResponseModel) response.getBody()).getData();
-    assertThat(data).isNotNull();
-    // TODO turn 'data' into a testable object (with mapper?)
-    // assertThat(order.getId()).isEqualTo("1");
-    // assertThat(order.getBasket().getId()).isEqualTo("1");
-    // assertThat(order.getPaymentStatus()).isEqualTo(PaymentStatus.AUTHORISED);
-    // assertThat(order.getOrderStatus()).isEqualTo(OrderStatus.COMPLETED);
-    // assertAll("address name",
-    // () -> assertEquals("Test Street", order.getCustomer().getInvoiceAddress().getAddressLine1()),
-    // () -> assertEquals("T3ST", order.getCustomer().getInvoiceAddress().getPostCode()),
-    // () -> assertEquals("England", order.getCustomer().getInvoiceAddress().getCountry()));
-    // assertAll("customer details", () -> assertEquals("1", order.getCustomer().getId()),
-    // () -> assertEquals("John", order.getCustomer().getName()),
-    // () -> assertEquals("cust1@gmail.com", order.getCustomer().getEmail()));
-    // assertAll("line items", () -> assertEquals("1", order.getBasket().getLineItems().get(0).getId()),
-    // () -> assertEquals("hammer", order.getBasket().getLineItems().get(0).getName()),
-    // () -> assertEquals("test", order.getBasket().getLineItems().get(0).getDescription()),
-    // () -> assertEquals(new BigDecimal("125.10"),
-    // order.getBasket().getLineItems().get(0).getUnitPrice()),
-    // () -> assertEquals(15, order.getBasket().getLineItems().get(0).getQuantity()));
+    var order = objectMapper.convertValue(((ResponseModel) response.getBody()).getData(), Order.class);
+    assertThat(order).isNotNull();
+    assertThat(order.getId()).isEqualTo("1");
+    assertThat(order.getBasket().getId()).isEqualTo("1");
+    assertThat(order.getPaymentStatus()).isEqualTo(PaymentStatus.AUTHORISED);
+    assertThat(order.getOrderStatus()).isEqualTo(OrderStatus.COMPLETED);
+    assertAll("address name",
+        () -> assertEquals("Test Street", order.getCustomer().getInvoiceAddress().getAddressLine1()),
+        () -> assertEquals("T3ST", order.getCustomer().getInvoiceAddress().getPostCode()),
+        () -> assertEquals("England", order.getCustomer().getInvoiceAddress().getCountry()));
+    assertAll("customer details", () -> assertEquals("1", order.getCustomer().getId()),
+        () -> assertEquals("John", order.getCustomer().getName()),
+        () -> assertEquals("cust1@gmail.com", order.getCustomer().getEmail()));
+    assertAll("line items", () -> assertEquals("1", order.getBasket().getLineItems().get(0).getId()),
+        () -> assertEquals("hammer", order.getBasket().getLineItems().get(0).getName()),
+        () -> assertEquals("test", order.getBasket().getLineItems().get(0).getDescription()),
+        () -> assertEquals(new BigDecimal("125.1"), order.getBasket().getLineItems().get(0).getUnitPrice()),
+        () -> assertEquals(15, order.getBasket().getLineItems().get(0).getQuantity()));
   }
 
   @Test
@@ -115,7 +131,6 @@ public class OrdersEndpointTest {
         restTemplate.exchange("http://localhost:" + port + "/orders/1", HttpMethod.DELETE, null, String.class);
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
   }
-
 
   @Test
   public void testOrderNotFound() {
