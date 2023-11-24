@@ -20,6 +20,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+
+import jakarta.ws.rs.core.StreamingOutput;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -55,15 +57,17 @@ public class OrdersEndpoint {
 
 
   @PATCH
+  @Path("/{orderId}")
   @Consumes({"application/json"})
   @Produces({"application/json"})
   // TODO include the id in the URL path param
-  public Response updateOrder(@Valid Order updatedOrder) throws JsonProcessingException {
-    Optional<Order> existingOrder = orderService.retrieveById(updatedOrder.getId());
+  public Response updateOrder(@Valid Order updatedOrder, @PathParam("orderId") String orderId)
+      throws JsonProcessingException {
+    Optional<Order> existingOrder = orderService.retrieveById(orderId);
     if (existingOrder.isEmpty()) {
-      return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(updatedOrder.getId())).build();
+      return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(orderId)).build();
     }
-    if (orderService.orderRequiresUpdate(updatedOrder, existingOrder.get())) {
+    if (orderService.orderRequiresUpdate(existingOrder.get(), updatedOrder)) {
       var orderWithDiffs = orderService.applyDiff(updatedOrder, existingOrder.get());
       orderService.persist(orderWithDiffs);
       return Response.ok(ResponseModel.builder().data(orderWithDiffs).build()).build();

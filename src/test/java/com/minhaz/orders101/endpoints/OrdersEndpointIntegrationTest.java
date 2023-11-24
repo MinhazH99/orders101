@@ -18,9 +18,13 @@ import com.minhaz.orders101.models.Order;
 import com.minhaz.orders101.models.ResponseModel;
 import java.math.BigDecimal;
 import java.util.Collections;
+
+import com.minhaz.orders101.service.OrderService;
+import com.minhaz.orders101.utils.OrderUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -35,6 +39,10 @@ public class OrdersEndpointIntegrationTest {
 
   @LocalServerPort
   private int port;
+
+  @Autowired
+  private OrderService orderService;
+
 
   @Autowired
   private TestRestTemplate restTemplate;
@@ -85,6 +93,22 @@ public class OrdersEndpointIntegrationTest {
     var response = restTemplate.exchange(url, HttpMethod.POST, request, ResponseModel.class);
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     // TODO - test response
+    var orderFromResponse = objectMapper.convertValue(((ResponseModel) response.getBody()).getData(), Order.class);
+    assertThat(orderFromResponse).isNotNull();
+    assertThat(orderFromResponse.getPaymentStatus()).isEqualTo(PaymentStatus.AUTHORISED);
+    assertThat(orderFromResponse.getOrderStatus()).isEqualTo(OrderStatus.COMPLETED);
+    assertAll("address name",
+        () -> assertEquals("Test Invoice Street",
+            orderFromResponse.getCustomer().getInvoiceAddress().getAddressLine1()),
+        () -> assertEquals("SO24 8AH", orderFromResponse.getCustomer().getInvoiceAddress().getPostCode()),
+        () -> assertEquals("England", orderFromResponse.getCustomer().getInvoiceAddress().getCountry()));
+    assertAll("customer details", () -> assertEquals("John", orderFromResponse.getCustomer().getName()),
+        () -> assertEquals("cust1@gmail.com", orderFromResponse.getCustomer().getEmail()));
+    assertAll("line items", () -> assertEquals("hammer", orderFromResponse.getBasket().getLineItems().get(0).getName()),
+        () -> assertEquals("test", orderFromResponse.getBasket().getLineItems().get(0).getDescription()),
+        () -> assertEquals(new BigDecimal("125.1"), orderFromResponse.getBasket().getLineItems().get(0).getUnitPrice()),
+        () -> assertEquals(15, orderFromResponse.getBasket().getLineItems().get(0).getQuantity()));
+
   }
 
   @Test
@@ -103,18 +127,23 @@ public class OrdersEndpointIntegrationTest {
 
   @Test
   public void testPATCHRequest() {
-    String url = "http://localhost:" + port + "/orders";
+    String url = "http://localhost:" + port + "/orders/1";
     var order = sampleOrder().paymentStatus(PaymentStatus.CAPTURED).build();
     ResponseEntity response =
         restTemplate.exchange(url, HttpMethod.PATCH, new HttpEntity<>(order), ResponseModel.class);
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    System.out.println(response);
     // TODO - test order data in response
+    var orderFromResponse = objectMapper.convertValue(((ResponseModel) response.getBody()).getData(), Order.class);
+    assertThat(orderFromResponse.getPaymentStatus()).isEqualTo(PaymentStatus.CAPTURED);
+
+
   }
 
 
   @Test
   public void testFailedPATCHRequest() {
-    String url = "http://localhost:" + port + "/orders";
+    String url = "http://localhost:" + port + "/orders/1";
     var order = sampleOrder().paymentStatus(null).build();
     ResponseEntity response =
         restTemplate.exchange(url, HttpMethod.PATCH, new HttpEntity<>(order), ResponseModel.class);
@@ -125,10 +154,19 @@ public class OrdersEndpointIntegrationTest {
   }
 
   @Test
-  @Disabled("this test will delete the record with id 1 used by the other tests!")
+  @Disabled("Test below is returning a 404 response whilst expecting a 200")
   public void testDeleteRequest() {
+    // TODO delete a record within a database rather create
+    var order = sampleOrder().id("2").customer(sampleCustomer().id("2").build())
+        .deliveryAddress(sampleDeliveryAddress().id("3").build())
+        .basket(sampleBasket().id("2").lineItems(sampleThreeLineItems(new int[] {4, 5, 6})).build()).build();
+
+    orderService.persist(order);
+    String orderId = order.getId();
+    System.out.println(orderId);
     var response =
-        restTemplate.exchange("http://localhost:" + port + "/orders/1", HttpMethod.DELETE, null, String.class);
+        restTemplate.exchange("http://localhost:" + port + "/orders" + orderId, HttpMethod.DELETE, null, String.class);
+    assertThat(orderService.retrieveById(orderId).isEmpty());
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
   }
 
