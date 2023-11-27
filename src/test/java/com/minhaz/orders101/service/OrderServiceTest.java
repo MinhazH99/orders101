@@ -103,5 +103,15 @@ class OrderServiceTest {
     verify(dao, times(1)).save(order);
   }
 
+  @Test
+  public void testDeleteOrder() {
+    // var order = sampleOrder().build();
+    // when(dao.findById("1")).thenReturn(Optional.of(order));
+    // orderService.delete(order.getId());
+    // verify(dao, times(1)).deleteById(order.getId());
+    // assertEquals(null, orderService.retrieveById(order.getId()));
+    //
+  }
+
 
 }
