@@ -21,6 +21,7 @@ import java.util.Collections;
 
 import com.minhaz.orders101.service.OrderService;
 import com.minhaz.orders101.utils.OrderUtils;
+import jdk.swing.interop.SwingInterOpUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -154,19 +155,18 @@ public class OrdersEndpointIntegrationTest {
   }
 
   @Test
-  @Disabled("Test below is returning a 404 response whilst expecting a 200")
   public void testDeleteRequest() {
     // TODO delete a record within a database rather create
-    var order = sampleOrder().id("2").customer(sampleCustomer().id("2").build())
-        .deliveryAddress(sampleDeliveryAddress().id("3").build())
-        .basket(sampleBasket().id("2").lineItems(sampleThreeLineItems(new int[] {4, 5, 6})).build()).build();
+    // var order = sampleOrder().id("2").customer(sampleCustomer().id("2").build())
+    // .deliveryAddress(sampleDeliveryAddress().id("3").build())
+    // .basket(sampleBasket().id("2").lineItems(sampleThreeLineItems(new int[] {4, 5, 6})).build()).build();
 
-    orderService.persist(order);
-    String orderId = order.getId();
-    System.out.println(orderId);
+    // System.out.println(orderService.retrieveById("2"));
     var response =
-        restTemplate.exchange("http://localhost:" + port + "/orders" + orderId, HttpMethod.DELETE, null, String.class);
-    assertThat(orderService.retrieveById(orderId).isEmpty());
+        restTemplate.exchange("http://localhost:" + port + "/orders/2", HttpMethod.DELETE, null, String.class);
+
+    assertThat(orderService.retrieveById("2").isEmpty());
+    // System.out.println(orderService.retrieveById("2"));
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
   }
 
