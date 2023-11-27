@@ -3,7 +3,9 @@ package com.minhaz.orders101.service;
 import com.minhaz.orders101.enums.OrderStatus;
 import com.minhaz.orders101.enums.PaymentStatus;
 import com.minhaz.orders101.exceptions.ValidationConstraintExceptionMapper;
-import com.minhaz.orders101.interfaces.OrderDao;
+import com.minhaz.orders101.interfaces.*;
+import com.minhaz.orders101.models.Basket;
+import com.minhaz.orders101.models.Customer;
 import com.minhaz.orders101.models.Order;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -22,13 +24,27 @@ import java.util.Optional;
 
 import static com.minhaz.orders101.utils.OrderUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class) // require this for dependency injection (double check with Joe). Without this, we
                                    // get NullPointerException
 class OrderServiceTest {
   @Mock
   OrderDao dao;
+  @Mock
+  AddressDao addressDao;
+
+  @Mock
+  BasketDao basketDao;
+
+  @Mock
+  CustomerDao customerDao;
+
+  @Mock
+  LineItemDao lineItemDao;
+
+  @Mock
+  OrderDao orderDao;
 
   @InjectMocks
   OrderService orderService;
@@ -73,6 +89,18 @@ class OrderServiceTest {
     assertNotEquals(orderById, null);
     assertEquals(orderById.get().getCustomer().getName(), "John");
     assertEquals(orderById.get().getBasket().getId(), "1");
+  }
+
+  @Test
+  public void testPersist() {
+    var order = sampleOrder().build();
+    orderService.persist(order);
+    verify(addressDao, times(1)).save(order.getCustomer().getInvoiceAddress());
+    verify(addressDao, times(1)).save(order.getDeliveryAddress());
+    verify(customerDao, times(1)).save(order.getCustomer());
+    verify(lineItemDao, times(1)).saveAll(order.getBasket().getLineItems());
+    verify(basketDao, times(1)).save(order.getBasket());
+    verify(dao, times(1)).save(order);
   }
 
 
