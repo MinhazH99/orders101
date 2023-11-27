@@ -1,10 +1,14 @@
 package com.minhaz.orders101.service;
 
-import ch.qos.logback.core.net.AbstractSSLSocketAppender;
 import com.minhaz.orders101.enums.OrderStatus;
 import com.minhaz.orders101.enums.PaymentStatus;
+import com.minhaz.orders101.exceptions.ValidationConstraintExceptionMapper;
 import com.minhaz.orders101.interfaces.OrderDao;
 import com.minhaz.orders101.models.Order;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -12,7 +16,9 @@ import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import static com.minhaz.orders101.utils.OrderUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -56,6 +62,17 @@ class OrderServiceTest {
 
 
 
+  }
+
+  @Test
+  public void testRetrieveId() {
+    var order = sampleOrder().build();
+
+    when(dao.findById(order.getId())).thenReturn(Optional.of(order));
+    var orderById = orderService.retrieveById("1");
+    assertNotEquals(orderById, null);
+    assertEquals(orderById.get().getCustomer().getName(), "John");
+    assertEquals(orderById.get().getBasket().getId(), "1");
   }
 
 
