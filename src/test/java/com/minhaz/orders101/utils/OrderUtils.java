@@ -12,26 +12,26 @@ import java.util.List;
 
 public class OrderUtils {
   public static OrderBuilder sampleOrder() {
-    return Order.builder().id("3").totalPrice(new BigDecimal("125.12")).customer(sampleCustomer().build())
+    return Order.builder().id("1").totalPrice(new BigDecimal("125.12")).customer(sampleCustomer().build())
         .paymentStatus(PaymentStatus.AUTHORISED).orderStatus(OrderStatus.COMPLETED).basket(sampleBasket().build())
         .createdDate(LocalDate.now().minusDays(1)).deliveryAddress(sampleDeliveryAddress().build());
   }
 
   public static Customer.CustomerBuilder sampleCustomer() {
-    return Customer.builder().id("3").email("cust1@gmail.com").name("John")
+    return Customer.builder().id("1").email("cust1@gmail.com").name("John")
         .invoiceAddress(sampleInvoiceAddress().build());
   }
 
   public static Address.AddressBuilder sampleDeliveryAddress() {
-    return Address.builder().id("3").addressLine1("Test Delivery Street").postCode("RG24 3KL").country("England");
+    return Address.builder().id("1").addressLine1("Test Delivery Street").postCode("RG24 3KL").country("England");
   }
 
   public static Address.AddressBuilder sampleInvoiceAddress() {
-    return Address.builder().id("3").addressLine1("Test Invoice Street").postCode("SO24 8AH").country("England");
+    return Address.builder().id("2").addressLine1("Test Invoice Street").postCode("SO24 8AH").country("England");
   }
 
   public static Basket.BasketBuilder sampleBasket() {
-    return Basket.builder().id("3").lineItems(sampleThreeLineItems(new int[] {1, 2, 3}));
+    return Basket.builder().id("1").lineItems(sampleThreeLineItems(new int[] {1, 2, 3}));
   }
 
   public static List<LineItem> sampleThreeLineItems(int[] ids) {

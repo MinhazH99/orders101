@@ -10,7 +10,6 @@ import com.minhaz.orders101.models.Order;
 import com.minhaz.orders101.models.ResponseModel;
 import com.minhaz.orders101.service.OrderService;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,9 +19,11 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Objects;
+
 import static com.minhaz.orders101.utils.OrderUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -87,8 +88,10 @@ public class OrdersEndpointIntegrationTest {
 
   @Test
   public void testPOSTRequest() {
-    var order =
-        sampleOrder().basket(sampleBasket().lineItems(sampleThreeLineItems(new int[] {7, 8, 9})).build()).build();
+    var order = sampleOrder().id("3")
+        .customer(sampleCustomer().id("3").invoiceAddress(sampleInvoiceAddress().id("3").build()).build())
+        .deliveryAddress(sampleDeliveryAddress().id("4").build())
+        .basket(sampleBasket().id("3").lineItems(sampleThreeLineItems(new int[] {7, 8, 9})).build()).build();
     var response =
         restTemplate.exchange(buildUrlWithoutId(), HttpMethod.POST, new HttpEntity<>(order), ResponseModel.class);
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -124,7 +127,6 @@ public class OrdersEndpointIntegrationTest {
   }
 
   @Test
-  @Disabled("unable to convert response")
   public void testPATCHRequest() {
     var order = sampleOrder().paymentStatus(PaymentStatus.CAPTURED).build();
     ResponseEntity<?> response =
@@ -148,14 +150,14 @@ public class OrdersEndpointIntegrationTest {
   }
 
   @Test
-  public void testDeleteRequest() {
+  public void testDELETERequest() {
     var response = restTemplate.exchange(buildUrlWithId("2"), HttpMethod.DELETE, null, String.class);
     assertThat(orderService.retrieveById("2")).isEmpty();
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
   }
 
   @Test
-  public void testDeleteWithNullId() {
+  public void testDELETEWithNullId() {
     // TODO throws IllegalArgumentException
   }
 
