@@ -30,9 +30,9 @@ class OrderServiceTest {
   @Test
   public void testRetrieveAll() {
     var order1 = sampleOrder().build();
-    var order2 = sampleOrder().id("4").customer(sampleCustomer().id("4").build())
-        .deliveryAddress(sampleDeliveryAddress().id("4").build())
-        .basket(sampleBasket().id("4").lineItems(sampleThreeLineItems(new int[] {10, 11, 12})).build()).build();
+    var order2 = sampleOrder().id("2").customer(sampleCustomer().id("2").build())
+        .deliveryAddress(sampleDeliveryAddress().id("3").build())
+        .basket(sampleBasket().id("2").lineItems(sampleThreeLineItems(new int[] {4, 5, 6})).build()).build();
     List<Order> orders = new ArrayList<>();
     orders.add(order1);
     orders.add(order2);
@@ -40,19 +40,19 @@ class OrderServiceTest {
 
     List<Order> orderList = orderService.retrieveAll();
     assertEquals(orderList.size(), 2);
-    assertEquals(orderList.get(0).getId(), "3");
+    assertEquals(orderList.get(0).getId(), "1");
     assertEquals(orderList.get(0).getPaymentStatus(), PaymentStatus.AUTHORISED);
     assertEquals(orderList.get(0).getOrderStatus(), OrderStatus.COMPLETED);
-    assertEquals(orderList.get(0).getCustomer().getId(), "3");
-    assertEquals(orderList.get(0).getDeliveryAddress().getId(), "3");
-    assertEquals(orderList.get(0).getBasket().getId(), "3");
+    assertEquals(orderList.get(0).getCustomer().getId(), "1");
+    assertEquals(orderList.get(0).getDeliveryAddress().getId(), "1");
+    assertEquals(orderList.get(0).getBasket().getId(), "1");
 
-    assertEquals(orderList.get(1).getId(), "4");
+    assertEquals(orderList.get(1).getId(), "2");
     assertEquals(orderList.get(1).getPaymentStatus(), PaymentStatus.AUTHORISED);
     assertEquals(orderList.get(1).getOrderStatus(), OrderStatus.COMPLETED);
-    assertEquals(orderList.get(1).getCustomer().getId(), "4");
-    assertEquals(orderList.get(1).getDeliveryAddress().getId(), "4");
-    assertEquals(orderList.get(1).getBasket().getId(), "4");
+    assertEquals(orderList.get(1).getCustomer().getId(), "2");
+    assertEquals(orderList.get(1).getDeliveryAddress().getId(), "3");
+    assertEquals(orderList.get(1).getBasket().getId(), "2");
 
 
 
