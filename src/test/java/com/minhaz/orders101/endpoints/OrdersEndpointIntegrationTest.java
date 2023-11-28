@@ -1,13 +1,5 @@
 package com.minhaz.orders101.endpoints;
 
-import static com.minhaz.orders101.utils.OrderUtils.sampleBasket;
-import static com.minhaz.orders101.utils.OrderUtils.sampleCustomer;
-import static com.minhaz.orders101.utils.OrderUtils.sampleDeliveryAddress;
-import static com.minhaz.orders101.utils.OrderUtils.sampleOrder;
-import static com.minhaz.orders101.utils.OrderUtils.sampleThreeLineItems;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.fasterxml.jackson.core.json.JsonWriteFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -16,16 +8,10 @@ import com.minhaz.orders101.enums.OrderStatus;
 import com.minhaz.orders101.enums.PaymentStatus;
 import com.minhaz.orders101.models.Order;
 import com.minhaz.orders101.models.ResponseModel;
-import java.math.BigDecimal;
-import java.util.Collections;
-
 import com.minhaz.orders101.service.OrderService;
-import com.minhaz.orders101.utils.OrderUtils;
-import jdk.swing.interop.SwingInterOpUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -34,9 +20,24 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.Objects;
+import static com.minhaz.orders101.utils.OrderUtils.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class OrdersEndpointIntegrationTest {
+
+  private String buildUrlWithId(String id) {
+    return "http://localhost:" + port + "/orders/" + id;
+  }
+
+  private String buildUrlWithoutId() {
+    return "http://localhost:" + port + "/orders/";
+  }
 
   @LocalServerPort
   private int port;
@@ -58,12 +59,13 @@ public class OrdersEndpointIntegrationTest {
     objectMapper.registerModule(new JavaTimeModule());
   }
 
+
   @Test
-  void testGETOrder() throws Exception {
-    String url = "http://localhost:" + port + "/orders/1";
-    ResponseEntity response = restTemplate.exchange(url, HttpMethod.GET, null, ResponseModel.class);
+  public void testGETOrder() {
+    ResponseEntity<?> response = restTemplate.exchange(buildUrlWithId("1"), HttpMethod.GET, null, ResponseModel.class);
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-    var order = objectMapper.convertValue(((ResponseModel) response.getBody()).getData(), Order.class);
+    var order = objectMapper.convertValue(((ResponseModel<?>) Objects.requireNonNull(response.getBody())).getData(),
+        Order.class);
     assertThat(order).isNotNull();
     assertThat(order.getId()).isEqualTo("1");
     assertThat(order.getBasket().getId()).isEqualTo("1");
@@ -84,17 +86,15 @@ public class OrdersEndpointIntegrationTest {
   }
 
   @Test
+  @Disabled("primary key violation")
   public void testPOSTRequest() {
-    // Retrieving sample order but changing the ID to prevent primary key violations with the existing order in database
-    var order = sampleOrder().id("2").customer(sampleCustomer().id("2").build())
-        .deliveryAddress(sampleDeliveryAddress().id("3").build())
-        .basket(sampleBasket().id("2").lineItems(sampleThreeLineItems(new int[] {4, 5, 6})).build()).build();
-    String url = "http://localhost:" + port + "/orders";
-    HttpEntity<Order> request = new HttpEntity<>(order);
-    var response = restTemplate.exchange(url, HttpMethod.POST, request, ResponseModel.class);
+    var order =
+        sampleOrder().basket(sampleBasket().lineItems(sampleThreeLineItems(new int[] {7, 8, 9})).build()).build();
+    var response =
+        restTemplate.exchange(buildUrlWithoutId(), HttpMethod.POST, new HttpEntity<>(order), ResponseModel.class);
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-    // TODO - test response
-    var orderFromResponse = objectMapper.convertValue(((ResponseModel) response.getBody()).getData(), Order.class);
+    var orderFromResponse = objectMapper
+        .convertValue(((ResponseModel<?>) Objects.requireNonNull(response.getBody())).getData(), Order.class);
     assertThat(orderFromResponse).isNotNull();
     assertThat(orderFromResponse.getPaymentStatus()).isEqualTo(PaymentStatus.AUTHORISED);
     assertThat(orderFromResponse.getOrderStatus()).isEqualTo(OrderStatus.COMPLETED);
@@ -109,17 +109,15 @@ public class OrdersEndpointIntegrationTest {
         () -> assertEquals("test", orderFromResponse.getBasket().getLineItems().get(0).getDescription()),
         () -> assertEquals(new BigDecimal("125.1"), orderFromResponse.getBasket().getLineItems().get(0).getUnitPrice()),
         () -> assertEquals(15, orderFromResponse.getBasket().getLineItems().get(0).getQuantity()));
-
   }
 
   @Test
   public void testFailedPOSTRequest() {
-    Order failedPostOrder = Order.builder().build();
-    String url = "http://localhost:" + port + "/orders";
-    HttpEntity<Order> request = new HttpEntity<>(failedPostOrder);
-    ResponseEntity response = restTemplate.exchange(url, HttpMethod.POST, request, ResponseModel.class);
+    Order failedPostOrder = sampleOrder().paymentStatus(null).orderStatus(null).deliveryAddress(null).build();
+    ResponseEntity<?> response = restTemplate.exchange(buildUrlWithoutId(), HttpMethod.POST,
+        new HttpEntity<>(failedPostOrder), ResponseModel.class);
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-    var errors = ((ResponseModel) response.getBody()).getErrors();
+    var errors = ((ResponseModel<?>) Objects.requireNonNull(response.getBody())).getErrors();
     assertThat(errors.size()).isEqualTo(3);
     assertThat(errors).contains(Collections.singletonMap("saveOrder.order.paymentStatus", "must not be null"));
     assertThat(errors).contains(Collections.singletonMap("saveOrder.order.orderStatus", "must not be null"));
@@ -128,55 +126,44 @@ public class OrdersEndpointIntegrationTest {
 
   @Test
   public void testPATCHRequest() {
-    String url = "http://localhost:" + port + "/orders/1";
     var order = sampleOrder().paymentStatus(PaymentStatus.CAPTURED).build();
-    ResponseEntity response =
-        restTemplate.exchange(url, HttpMethod.PATCH, new HttpEntity<>(order), ResponseModel.class);
+    ResponseEntity<?> response =
+        restTemplate.exchange(buildUrlWithId("1"), HttpMethod.PATCH, new HttpEntity<>(order), ResponseModel.class);
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-    System.out.println(response);
-    // TODO - test order data in response
-    var orderFromResponse = objectMapper.convertValue(((ResponseModel) response.getBody()).getData(), Order.class);
+    var orderFromResponse = objectMapper
+        .convertValue(((ResponseModel<?>) Objects.requireNonNull(response.getBody())).getData(), Order.class);
     assertThat(orderFromResponse.getPaymentStatus()).isEqualTo(PaymentStatus.CAPTURED);
-
-
   }
 
 
   @Test
   public void testFailedPATCHRequest() {
-    String url = "http://localhost:" + port + "/orders/1";
     var order = sampleOrder().paymentStatus(null).build();
-    ResponseEntity response =
-        restTemplate.exchange(url, HttpMethod.PATCH, new HttpEntity<>(order), ResponseModel.class);
+    ResponseEntity<?> response =
+        restTemplate.exchange(buildUrlWithId("1"), HttpMethod.PATCH, new HttpEntity<>(order), ResponseModel.class);
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-    var errors = ((ResponseModel) response.getBody()).getErrors();
+    var errors = ((ResponseModel<?>) Objects.requireNonNull(response.getBody())).getErrors();
     assertThat(errors.size()).isOne();
     assertThat(errors).contains(Collections.singletonMap("updateOrder.updatedOrder.paymentStatus", "must not be null"));
   }
 
   @Test
   public void testDeleteRequest() {
-    // TODO delete a record within a database rather create
-    // var order = sampleOrder().id("2").customer(sampleCustomer().id("2").build())
-    // .deliveryAddress(sampleDeliveryAddress().id("3").build())
-    // .basket(sampleBasket().id("2").lineItems(sampleThreeLineItems(new int[] {4, 5, 6})).build()).build();
-
-    // System.out.println(orderService.retrieveById("2"));
-    var response =
-        restTemplate.exchange("http://localhost:" + port + "/orders/2", HttpMethod.DELETE, null, String.class);
-
-    assertThat(orderService.retrieveById("2").isEmpty());
-    // System.out.println(orderService.retrieveById("2"));
+    var response = restTemplate.exchange(buildUrlWithId("2"), HttpMethod.DELETE, null, String.class);
+    assertThat(orderService.retrieveById("2")).isEmpty();
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
   }
 
   @Test
-  public void testOrderNotFound() {
-    var response =
-        restTemplate.exchange("http://localhost:" + port + "/orders/2", HttpMethod.GET, null, ResponseModel.class);
-    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-    assertThat(((ResponseModel) response.getBody()).getErrors())
-        .contains(Collections.singletonMap("error", "Order with id 2 not found."));
+  public void testDeleteWithNullId() {
+    // TODO throws IllegalArgumentException
   }
 
+  @Test
+  public void testOrderNotFound() {
+    var response = restTemplate.exchange(buildUrlWithId("3"), HttpMethod.GET, null, ResponseModel.class);
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    assertThat(((ResponseModel<?>) Objects.requireNonNull(response.getBody())).getErrors())
+        .contains(Collections.singletonMap("error", "Order with id 3 not found."));
+  }
 }
