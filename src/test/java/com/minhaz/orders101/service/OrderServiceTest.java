@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.minhaz.orders101.utils.OrderUtils.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -105,12 +106,12 @@ class OrderServiceTest {
 
   @Test
   public void testDeleteOrder() {
-    // var order = sampleOrder().build();
-    // when(dao.findById("1")).thenReturn(Optional.of(order));
-    // orderService.delete(order.getId());
-    // verify(dao, times(1)).deleteById(order.getId());
-    // assertEquals(null, orderService.retrieveById(order.getId()));
-    //
+    var order = sampleOrder().build();
+    when(dao.findById("2")).thenReturn(Optional.of(order));
+    orderService.delete(order.getId());
+    verify(dao, times(1)).deleteById(order.getId());
+    assertThat(orderService.retrieveById("2").isEmpty());
+
   }
 
 
