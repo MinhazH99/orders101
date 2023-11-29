@@ -68,10 +68,6 @@ public class OrderService {
     return dao.findById(id);
   }
 
-  public void update(Optional<Order> retrievedOrder) {
-
-  }
-
   public boolean orderRequiresUpdate(Order oldOrder, Order newOrder) {
     Diff diff = javers.compare(oldOrder, newOrder);
     System.out.println(diff.prettyPrint());

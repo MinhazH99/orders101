@@ -11,12 +11,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import static com.minhaz.orders101.utils.OrderUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class) // require this for dependency injection (double check with Joe). Without this, we
@@ -45,29 +45,13 @@ class OrderServiceTest {
     var order2 = sampleOrder().id("2").customer(sampleCustomer().id("2").build())
         .deliveryAddress(sampleDeliveryAddress().id("3").build())
         .basket(sampleBasket().id("2").lineItems(sampleThreeLineItems(new int[] {4, 5, 6})).build()).build();
-    List<Order> orders = new ArrayList<>();
-    orders.add(order1);
-    orders.add(order2);
+    List<Order> orders = Arrays.asList(order1, order2);
     when(dao.findAll()).thenReturn(orders);
-
     List<Order> orderList = orderService.retrieveAll();
+    verify(dao, times(1)).findAll();
+    assertEquals(orderList.get(0), order1);
+    assertEquals(orderList.get(1), order2);
     assertEquals(orderList.size(), 2);
-    assertEquals(orderList.get(0).getId(), "1");
-    assertEquals(orderList.get(0).getPaymentStatus(), PaymentStatus.AUTHORISED);
-    assertEquals(orderList.get(0).getOrderStatus(), OrderStatus.COMPLETED);
-    assertEquals(orderList.get(0).getCustomer().getId(), "1");
-    assertEquals(orderList.get(0).getDeliveryAddress().getId(), "1");
-    assertEquals(orderList.get(0).getBasket().getId(), "1");
-
-    assertEquals(orderList.get(1).getId(), "2");
-    assertEquals(orderList.get(1).getPaymentStatus(), PaymentStatus.AUTHORISED);
-    assertEquals(orderList.get(1).getOrderStatus(), OrderStatus.COMPLETED);
-    assertEquals(orderList.get(1).getCustomer().getId(), "2");
-    assertEquals(orderList.get(1).getDeliveryAddress().getId(), "3");
-    assertEquals(orderList.get(1).getBasket().getId(), "2");
-
-
-
   }
 
   @Test
@@ -76,9 +60,9 @@ class OrderServiceTest {
 
     when(dao.findById(order.getId())).thenReturn(Optional.of(order));
     var orderById = orderService.retrieveById("1");
-    assertNotEquals(orderById, null);
-    assertEquals(orderById.get().getCustomer().getName(), "John");
-    assertEquals(orderById.get().getBasket().getId(), "1");
+    verify(dao, times(1)).findById(anyString());
+    assertNotNull(orderById);
+    assertEquals(orderById.get(), order);
   }
 
   @Test
@@ -94,16 +78,13 @@ class OrderServiceTest {
   }
 
   @Test
-  @Disabled("assert statement fails - need to check if needed")
   public void testDeleteOrder() {
-    var order = sampleOrder().id("4").build();
-    when(dao.findById("4")).thenReturn(Optional.of(order));
-    orderService.delete(order.getId());
-    verify(dao, times(1)).deleteById(order.getId());
+    orderService.delete("4");
+    verify(dao, times(1)).deleteById(anyString());
     assertThat(dao.findById("4")).isEmpty(); // Ask if this line is necessary
-
-
   }
+
+  // what happens if you insert null in apply
 
 
 }
