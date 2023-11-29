@@ -86,17 +86,17 @@ class OrderTest {
   void testDateValidation() {
     orderUnderTest.setCreatedDate(LocalDate.now().plusDays(1));
     var results = validate(orderUnderTest);
-
     assertThat(results.size()).isOne();
-    var violation = results.stream().findFirst().get();
-    assertThat(violation.getMessage()).isEqualTo("must be a past date");
+    results.stream().findFirst()
+        .ifPresent(violation -> assertThat(violation.getMessage()).isEqualTo("must be a past date"));
   }
 
   Collection<ConstraintViolation<Order>> validate(Order order) {
-    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-    Validator validator = factory.getValidator();
-
-    return validator.validate(order);
+    try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
+      Validator validator;
+      validator = factory.getValidator();
+      return validator.validate(order);
+    }
   }
 
 }
