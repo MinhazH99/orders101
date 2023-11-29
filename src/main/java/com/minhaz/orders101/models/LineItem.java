@@ -1,5 +1,6 @@
 package com.minhaz.orders101.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,6 +28,7 @@ public class LineItem {
   private String description;
 
   @Digits(integer = 6, fraction = 2)
+  @JsonFormat(shape = JsonFormat.Shape.STRING)
   private BigDecimal unitPrice;
 
   private int quantity;

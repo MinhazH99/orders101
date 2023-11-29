@@ -82,7 +82,7 @@ public class OrdersEndpointIntegrationTest {
     assertAll("line items", () -> assertEquals("1", order.getBasket().getLineItems().get(0).getId()),
         () -> assertEquals("hammer", order.getBasket().getLineItems().get(0).getName()),
         () -> assertEquals("test", order.getBasket().getLineItems().get(0).getDescription()),
-        () -> assertEquals(new BigDecimal("125.1"), order.getBasket().getLineItems().get(0).getUnitPrice()),
+        () -> assertEquals(new BigDecimal("125.10"), order.getBasket().getLineItems().get(0).getUnitPrice()),
         () -> assertEquals(15, order.getBasket().getLineItems().get(0).getQuantity()));
   }
 
