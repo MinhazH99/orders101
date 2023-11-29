@@ -93,8 +93,7 @@ class OrderTest {
 
   Collection<ConstraintViolation<Order>> validate(Order order) {
     try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
-      Validator validator;
-      validator = factory.getValidator();
+      Validator validator = factory.getValidator();
       return validator.validate(order);
     }
   }

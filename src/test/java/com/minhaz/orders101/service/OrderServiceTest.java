@@ -1,6 +1,5 @@
 package com.minhaz.orders101.service;
 
-import ch.qos.logback.core.net.AbstractSSLSocketAppender;
 import com.minhaz.orders101.enums.OrderStatus;
 import com.minhaz.orders101.enums.PaymentStatus;
 import com.minhaz.orders101.interfaces.OrderDao;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.minhaz.orders101.utils.OrderUtils.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class) // require this for dependency injection (double check with Joe). Without this, we
