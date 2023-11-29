@@ -1,6 +1,5 @@
 package com.minhaz.orders101.endpoints;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.minhaz.orders101.models.Order;
 import com.minhaz.orders101.models.ResponseModel;
@@ -91,5 +90,4 @@ public class OrdersEndpoint {
       return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(orderId)).build();
     }
   }
-
 }

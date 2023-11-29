@@ -9,10 +9,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.minhaz.orders101.utils.OrderUtils.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -45,17 +43,11 @@ class OrderServiceTest {
     assertEquals(orderList.get(0).getCustomer().getId(), "1");
     assertEquals(orderList.get(0).getDeliveryAddress().getId(), "1");
     assertEquals(orderList.get(0).getBasket().getId(), "1");
-
     assertEquals(orderList.get(1).getId(), "2");
     assertEquals(orderList.get(1).getPaymentStatus(), PaymentStatus.AUTHORISED);
     assertEquals(orderList.get(1).getOrderStatus(), OrderStatus.COMPLETED);
     assertEquals(orderList.get(1).getCustomer().getId(), "2");
     assertEquals(orderList.get(1).getDeliveryAddress().getId(), "3");
     assertEquals(orderList.get(1).getBasket().getId(), "2");
-
-
-
   }
-
-
 }

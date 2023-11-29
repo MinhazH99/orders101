@@ -24,7 +24,6 @@ public class Address {
   @NotNull
   private String addressLine1;
 
-
   @NotNull
   private String postCode;
 

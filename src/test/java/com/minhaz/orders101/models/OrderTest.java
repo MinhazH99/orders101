@@ -44,7 +44,6 @@ class OrderTest {
     orderUnderTest = sampleOrder().build();
   }
 
-
   @Test
   void testGetters() {
     assertAll("Customer details", () -> assertEquals("1", orderUnderTest.getCustomer().getId()),
@@ -95,6 +94,7 @@ class OrderTest {
   }
 
   @Test
+  // Do we still need this? Would it make more sense to instead set the fields which have @NotNull to null?
   void testIdValidation() {
     orderUnderTest.setId(null);
     var results = validate(orderUnderTest);
@@ -116,5 +116,4 @@ class OrderTest {
       return validator.validate(order);
     }
   }
-
 }

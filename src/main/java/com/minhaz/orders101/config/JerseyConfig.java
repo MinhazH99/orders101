@@ -7,11 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JerseyConfig extends ResourceConfig {
-
   public JerseyConfig() {
     register(OrdersEndpoint.class);
     register(ValidationConstraintExceptionMapper.class);
   }
-
-
 }

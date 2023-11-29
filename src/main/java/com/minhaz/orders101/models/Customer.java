@@ -16,7 +16,6 @@ public class Customer {
   @GeneratedValue(strategy = GenerationType.UUID)
   private String id;
 
-
   @OneToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "INVOICE_ADDRESS_FK_ID")
   private Address invoiceAddress;

@@ -19,10 +19,6 @@ public class Basket {
   @GeneratedValue(strategy = GenerationType.UUID)
   private String id;
 
-
   @OneToMany(targetEntity = LineItem.class, fetch = FetchType.EAGER)
   private List<LineItem> lineItems;
-
-
-
 }

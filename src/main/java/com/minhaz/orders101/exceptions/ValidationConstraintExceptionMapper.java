@@ -30,5 +30,4 @@ public class ValidationConstraintExceptionMapper implements ExceptionMapper<Cons
     }
     return errors;
   }
-
 }

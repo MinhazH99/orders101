@@ -50,7 +50,6 @@ public class OrderService {
   private final Javers javers = JaversBuilder.javers().build();
   private final ObjectMapper objectMapper = new ObjectMapper();
 
-
   public void persist(Order order) {
     addressDao.save(order.getCustomer().getInvoiceAddress());
     addressDao.save(order.getDeliveryAddress());
@@ -66,10 +65,6 @@ public class OrderService {
 
   public Optional<Order> retrieveById(String id) {
     return dao.findById(id);
-  }
-
-  public void update(Optional<Order> retrievedOrder) {
-
   }
 
   public boolean orderRequiresUpdate(Order oldOrder, Order newOrder) {
