@@ -44,5 +44,4 @@ public class OrderUtils {
         .unitPrice(BigDecimal.valueOf(65.00)).build());
     return products;
   }
-
 }

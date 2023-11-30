@@ -1,30 +1,19 @@
 package com.minhaz.orders101.endpoints;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.minhaz.orders101.models.Order;
 import com.minhaz.orders101.models.ResponseModel;
 import com.minhaz.orders101.service.OrderService;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.PATCH;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.ServerErrorException;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-
-import jakarta.ws.rs.core.StreamingOutput;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 @Component
 @Path("/orders")
@@ -86,8 +75,11 @@ public class OrdersEndpoint {
   @DELETE
   @Path("/{orderId}")
   public Response deleteOrder(@PathParam("orderId") String orderId) {
+    if (orderId == null) {
+      throw new IllegalArgumentException("Order id should not be null");
+    }
     orderService.delete(orderId);
-    return Response.ok().build();
+    return Response.ok().entity(ResponseModel.builder().build()).build();
   }
 
   @GET
@@ -96,10 +88,10 @@ public class OrdersEndpoint {
   public Response getOrder(@PathParam("orderId") String orderId) {
     Optional<Order> order = orderService.retrieveById(orderId);
     if (order.isPresent()) {
+      System.out.println(order.get().getBasket().getLineItems().get(0).getUnitPrice());
       return Response.ok().entity(ResponseModel.builder().data(order).build()).build();
     } else {
       return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(orderId)).build();
     }
   }
-
 }

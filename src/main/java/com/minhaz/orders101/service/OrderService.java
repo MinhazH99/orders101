@@ -50,7 +50,6 @@ public class OrderService {
   private final Javers javers = JaversBuilder.javers().build();
   private final ObjectMapper objectMapper = new ObjectMapper();
 
-
   public void persist(Order order) {
     addressDao.save(order.getCustomer().getInvoiceAddress());
     addressDao.save(order.getDeliveryAddress());

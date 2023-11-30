@@ -10,7 +10,7 @@ VALUES
 
 INSERT INTO LINE_ITEM
 VALUES
-    ('15',125.10,'test','1','hammer'),
+    ('15',25.1,'test','1','hammer'),
     ('25',100,'test1','2','screwdriver'),
     ('40',65,'test2','3','drill'),
     ('50',37,'test3','4','nails'),

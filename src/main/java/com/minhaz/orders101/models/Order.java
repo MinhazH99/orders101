@@ -54,7 +54,4 @@ public class Order {
 
   @Past
   private LocalDate createdDate;
-
-
-
 }
