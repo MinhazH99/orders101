@@ -28,7 +28,6 @@ public class LineItem {
   private String description;
 
   @Digits(integer = 6, fraction = 2)
-  @JsonFormat(shape = JsonFormat.Shape.STRING)
   private BigDecimal unitPrice;
 
   private int quantity;

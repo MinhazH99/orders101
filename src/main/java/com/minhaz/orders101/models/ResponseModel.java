@@ -13,5 +13,5 @@ public class ResponseModel<T> {
 
   private T data;
 
-  private List<Map> errors;
+  private List<Map<String, String>> errors;
 }

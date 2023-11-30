@@ -75,8 +75,11 @@ public class OrdersEndpoint {
   @DELETE
   @Path("/{orderId}")
   public Response deleteOrder(@PathParam("orderId") String orderId) {
+    if (orderId == null) {
+      throw new IllegalArgumentException("Order id should not be null");
+    }
     orderService.delete(orderId);
-    return Response.ok().build();
+    return Response.ok().entity(ResponseModel.builder().build()).build();
   }
 
   @GET
@@ -85,6 +88,7 @@ public class OrdersEndpoint {
   public Response getOrder(@PathParam("orderId") String orderId) {
     Optional<Order> order = orderService.retrieveById(orderId);
     if (order.isPresent()) {
+      System.out.println(order.get().getBasket().getLineItems().get(0).getUnitPrice());
       return Response.ok().entity(ResponseModel.builder().data(order).build()).build();
     } else {
       return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(orderId)).build();

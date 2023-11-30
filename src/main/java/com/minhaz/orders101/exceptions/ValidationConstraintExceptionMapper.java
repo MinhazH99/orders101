@@ -19,8 +19,8 @@ public class ValidationConstraintExceptionMapper implements ExceptionMapper<Cons
         .entity(ResponseModel.builder().errors(populateErrors(exception)).build()).build();
   }
 
-  private List<Map> populateErrors(ConstraintViolationException exception) {
-    List<Map> errors = new ArrayList<>();
+  private List<Map<String, String>> populateErrors(ConstraintViolationException exception) {
+    List<Map<String, String>> errors = new ArrayList<>();
     for (ConstraintViolation<?> cv : exception.getConstraintViolations()) {
       errors.add(new HashMap<>() {
         {
