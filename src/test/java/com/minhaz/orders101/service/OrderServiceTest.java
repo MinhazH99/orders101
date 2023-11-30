@@ -19,8 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(SpringExtension.class) // require this for dependency injection (double check with Joe). Without this, we
-                                   // get NullPointerException
+@ExtendWith(SpringExtension.class)
 class OrderServiceTest {
   @Mock
   OrderDao dao;
@@ -57,7 +56,6 @@ class OrderServiceTest {
   @Test
   public void testRetrieveId() {
     var order = sampleOrder().build();
-
     when(dao.findById(order.getId())).thenReturn(Optional.of(order));
     var orderById = orderService.retrieveById("1");
     verify(dao, times(1)).findById(anyString());
@@ -83,8 +81,5 @@ class OrderServiceTest {
     verify(dao, times(1)).deleteById(anyString());
     assertThat(dao.findById("4")).isEmpty(); // Ask if this line is necessary
   }
-
-  // what happens if you insert null in apply
-
 
 }
