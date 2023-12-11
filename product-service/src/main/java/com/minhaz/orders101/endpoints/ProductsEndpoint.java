@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@Path("/products")
+@Path("/")
 @Consumes("application/json")
 @Slf4j
 public class ProductsEndpoint {
@@ -35,6 +35,7 @@ public class ProductsEndpoint {
   }
 
   @GET
+  @Path("/products")
   @Produces({"application/json"})
   public Response getProducts() {
     List<Product> orders = productService.retrieveAll();
@@ -45,12 +46,37 @@ public class ProductsEndpoint {
     }
   }
 
+  @GET
+  @Path("products/{productId}")
+  @Produces({"application/json"})
+  public Response getProduct(@PathParam("productId") String productId) {
+    Optional<Product> product = productService.retrieveById(productId);
+    if (product.isPresent()) {
+      return Response.ok().entity(ResponseModel.builder().data(product).build()).build();
+    } else {
+      return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(productId)).build();
+    }
+  }
+
+  @GET
+  @Path("available-stock/{productId}")
+  @Produces({"application/json"})
+  public Response getProductStock(@PathParam("productId") String productId) {
+    Optional<Product> product = productService.retrieveById(productId);
+    if (product.isPresent()) {
+      int stockLevel = product.get().getStockLevel();
+      return Response.ok().entity(ResponseModel.builder().data(stockLevel).build()).build();
+    } else {
+      return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(productId)).build();
+    }
+  }
+
+
 
   @PATCH
   @Path("/{orderId}")
   @Consumes({"application/json"})
   @Produces({"application/json"})
-  // TODO include the id in the URL path param
   public Response updateOrder(@Valid Product updatedOrder, @PathParam("orderId") String orderId)
       throws JsonProcessingException {
     Optional<Product> existingOrder = productService.retrieveById(orderId);
@@ -83,15 +109,5 @@ public class ProductsEndpoint {
     return Response.ok().entity(ResponseModel.builder().build()).build();
   }
 
-  @GET
-  @Path("/{productId}")
-  @Produces({"application/json"})
-  public Response getProduct(@PathParam("productId") String productId) {
-    Optional<Product> product = productService.retrieveById(productId);
-    if (product.isPresent()) {
-      return Response.ok().entity(ResponseModel.builder().data(product).build()).build();
-    } else {
-      return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(productId)).build();
-    }
-  }
+
 }
