@@ -5,9 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication()
 
-public class Orders101Application {
+public class OrderApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(Orders101Application.class, args);
+    SpringApplication.run(OrderApplication.class, args);
   }
 }

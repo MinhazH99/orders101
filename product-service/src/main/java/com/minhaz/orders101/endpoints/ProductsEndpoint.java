@@ -1,9 +1,9 @@
 package com.minhaz.orders101.endpoints;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.minhaz.orders101.models.Order;
+import com.minhaz.orders101.models.Product;
 import com.minhaz.orders101.models.ResponseModel;
-import com.minhaz.orders101.service.OrderService;
+import com.minhaz.orders101.service.ProductService;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
@@ -19,24 +19,26 @@ import java.util.Optional;
 @Path("/orders")
 @Consumes("application/json")
 @Slf4j
-public class OrdersEndpoint {
+public class ProductsEndpoint {
 
   private static final String ORDER_WITH_ORDER_ID_NOT_FOUND = "Order with id %s not found.";
   @Autowired
-  OrderService orderService;
+  ProductService orderService;
+
 
   @POST
   @Consumes({"application/json"})
   @Produces({"application/json"})
-  public Response saveOrder(@Valid Order order) throws ServerErrorException {
+  public Response saveOrder(@Valid Product order) throws ServerErrorException {
     orderService.persist(order);
+    System.out.printf("Test");
     return Response.ok().entity(ResponseModel.builder().data(order).build()).build();
   }
 
   @GET
   @Produces({"application/json"})
   public Response getOrders() {
-    List<Order> orders = orderService.retrieveAll();
+    List<Product> orders = orderService.retrieveAll();
     if (orders.isEmpty()) {
       return Response.status(Response.Status.NOT_FOUND).build();
     } else {
@@ -50,9 +52,9 @@ public class OrdersEndpoint {
   @Consumes({"application/json"})
   @Produces({"application/json"})
   // TODO include the id in the URL path param
-  public Response updateOrder(@Valid Order updatedOrder, @PathParam("orderId") String orderId)
+  public Response updateOrder(@Valid Product updatedOrder, @PathParam("orderId") String orderId)
       throws JsonProcessingException {
-    Optional<Order> existingOrder = orderService.retrieveById(orderId);
+    Optional<Product> existingOrder = orderService.retrieveById(orderId);
     if (existingOrder.isEmpty()) {
       return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(orderId)).build();
     }
@@ -78,7 +80,7 @@ public class OrdersEndpoint {
     if (orderId == null) {
       throw new IllegalArgumentException("Order id should not be null");
     }
-    orderService.delete(orderId);
+    // orderService.delete(orderId);
     return Response.ok().entity(ResponseModel.builder().build()).build();
   }
 
@@ -86,9 +88,8 @@ public class OrdersEndpoint {
   @Path("/{orderId}")
   @Produces({"application/json"})
   public Response getOrder(@PathParam("orderId") String orderId) {
-    Optional<Order> order = orderService.retrieveById(orderId);
+    Optional<Product> order = orderService.retrieveById(orderId);
     if (order.isPresent()) {
-      System.out.println(order.get().getBasket().getLineItems().get(0).getUnitPrice());
       return Response.ok().entity(ResponseModel.builder().data(order).build()).build();
     } else {
       return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(orderId)).build();
