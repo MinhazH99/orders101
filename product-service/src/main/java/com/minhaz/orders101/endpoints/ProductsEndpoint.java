@@ -21,7 +21,7 @@ import java.util.Optional;
 @Slf4j
 public class ProductsEndpoint {
 
-  private static final String ORDER_WITH_ORDER_ID_NOT_FOUND = "Order with id %s not found.";
+  private static final String ORDER_WITH_ORDER_ID_NOT_FOUND = "Product with id %s not found.";
   @Autowired
   ProductService productService;
 
