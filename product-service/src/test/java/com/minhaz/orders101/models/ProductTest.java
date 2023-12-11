@@ -34,8 +34,10 @@ class ProductTest {
   }
 
   @Test
-  @Disabled
   void testSetters() {
+    assertEquals("tool", productUnderTest.getDescription());
+    productUnderTest.setDescription("test");
+    assertEquals("test", productUnderTest.getDescription());
 
   }
 
