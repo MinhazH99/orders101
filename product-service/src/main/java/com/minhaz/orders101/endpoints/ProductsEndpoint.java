@@ -21,7 +21,7 @@ import java.util.Optional;
 @Slf4j
 public class ProductsEndpoint {
 
-  private static final String ORDER_WITH_ORDER_ID_NOT_FOUND = "Product with id %s not found.";
+  private static final String PRODUCT_WITH_ID_S_NOT_FOUND = "Product with id %s not found.";
   @Autowired
   ProductService productService;
 
@@ -94,7 +94,7 @@ public class ProductsEndpoint {
   private Object notFoundError(String id) {
     return ResponseModel.builder().errors(Arrays.asList(new HashMap<>() {
       {
-        put("error", String.format(ORDER_WITH_ORDER_ID_NOT_FOUND, id));
+        put("error", String.format(PRODUCT_WITH_ID_S_NOT_FOUND, id));
       }
     })).build();
   }
