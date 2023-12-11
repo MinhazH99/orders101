@@ -29,11 +29,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ProductsEndpointIntegrationTest {
 
   private String buildUrlWithId(String id) {
-    return "http://localhost:" + port + "/orders/" + id;
+    return "http://localhost:" + port + "/products/" + id;
   }
 
   private String buildUrlWithoutId() {
-    return "http://localhost:" + port + "/orders/";
+    return "http://localhost:" + port + "/products/";
   }
 
   @LocalServerPort
@@ -58,7 +58,6 @@ public class ProductsEndpointIntegrationTest {
 
 
   @Test
-  @Disabled("UnknownContentTypeException")
   public void testGETOrder() {
     ResponseEntity<?> response = restTemplate.exchange(buildUrlWithId("1"), HttpMethod.GET, null, ResponseModel.class);
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
