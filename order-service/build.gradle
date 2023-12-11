@@ -35,7 +35,7 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-apply from: "$projectDir/gradle/preCommit.gradle"
+apply from: "$rootDir/gradle/preCommit.gradle"
 
 spotless {
 	java {
