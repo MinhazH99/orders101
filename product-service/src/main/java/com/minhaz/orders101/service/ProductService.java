@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Optional;
 
+import com.minhaz.orders101.interfaces.ProductDao;
 import com.minhaz.orders101.models.Product;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -29,20 +30,8 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class ProductService {
 
-  // @Autowired
-  // private OrderDao dao;
-  //
-  // @Autowired
-  // private AddressDao addressDao;
-  //
-  // @Autowired
-  // private CustomerDao customerDao;
-  //
-  // @Autowired
-  // private LineItemDao lineItemDao;
-  //
-  // @Autowired
-  // private BasketDao basketDao;
+  @Autowired
+  ProductDao productDao;
   private final Javers javers = JaversBuilder.javers().build();
   private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -51,11 +40,11 @@ public class ProductService {
   }
 
   public List<Product> retrieveAll() {
-    return null;
+    return productDao.findAll();
   }
 
   public Optional<Product> retrieveById(String id) {
-    return Optional.empty();
+    return productDao.findById(id);
   }
 
   public boolean orderRequiresUpdate(Product oldOrder, Product newOrder) {

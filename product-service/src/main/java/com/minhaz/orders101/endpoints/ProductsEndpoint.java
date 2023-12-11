@@ -16,29 +16,28 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@Path("/orders")
+@Path("/products")
 @Consumes("application/json")
 @Slf4j
 public class ProductsEndpoint {
 
   private static final String ORDER_WITH_ORDER_ID_NOT_FOUND = "Order with id %s not found.";
   @Autowired
-  ProductService orderService;
+  ProductService productService;
 
 
   @POST
   @Consumes({"application/json"})
   @Produces({"application/json"})
   public Response saveOrder(@Valid Product order) throws ServerErrorException {
-    orderService.persist(order);
-    System.out.printf("Test");
+    productService.persist(order);
     return Response.ok().entity(ResponseModel.builder().data(order).build()).build();
   }
 
   @GET
   @Produces({"application/json"})
-  public Response getOrders() {
-    List<Product> orders = orderService.retrieveAll();
+  public Response getProducts() {
+    List<Product> orders = productService.retrieveAll();
     if (orders.isEmpty()) {
       return Response.status(Response.Status.NOT_FOUND).build();
     } else {
@@ -54,13 +53,13 @@ public class ProductsEndpoint {
   // TODO include the id in the URL path param
   public Response updateOrder(@Valid Product updatedOrder, @PathParam("orderId") String orderId)
       throws JsonProcessingException {
-    Optional<Product> existingOrder = orderService.retrieveById(orderId);
+    Optional<Product> existingOrder = productService.retrieveById(orderId);
     if (existingOrder.isEmpty()) {
       return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(orderId)).build();
     }
-    if (orderService.orderRequiresUpdate(existingOrder.get(), updatedOrder)) {
-      var orderWithDiffs = orderService.applyDiff(updatedOrder, existingOrder.get());
-      orderService.persist(orderWithDiffs);
+    if (productService.orderRequiresUpdate(existingOrder.get(), updatedOrder)) {
+      var orderWithDiffs = productService.applyDiff(updatedOrder, existingOrder.get());
+      productService.persist(orderWithDiffs);
       return Response.ok(ResponseModel.builder().data(orderWithDiffs).build()).build();
     }
     return Response.ok(ResponseModel.builder().data(existingOrder.get()).build()).build();
@@ -85,14 +84,14 @@ public class ProductsEndpoint {
   }
 
   @GET
-  @Path("/{orderId}")
+  @Path("/{productId}")
   @Produces({"application/json"})
-  public Response getOrder(@PathParam("orderId") String orderId) {
-    Optional<Product> order = orderService.retrieveById(orderId);
-    if (order.isPresent()) {
-      return Response.ok().entity(ResponseModel.builder().data(order).build()).build();
+  public Response getProduct(@PathParam("productId") String productId) {
+    Optional<Product> product = productService.retrieveById(productId);
+    if (product.isPresent()) {
+      return Response.ok().entity(ResponseModel.builder().data(product).build()).build();
     } else {
-      return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(orderId)).build();
+      return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(productId)).build();
     }
   }
 }
