@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -60,9 +62,9 @@ public class ProductsEndpoint {
   }
 
   @GET
-  @Path("available-stock/{productId}")
+  @Path("availability/{productId}")
   @Produces({"application/json"})
-  public Response getProductStock(@PathParam("productId") String productId) {
+  public Response getProductStock(@PathParam("productId") String productId, @RequestParam Integer qty) {
     Optional<Product> product = productService.retrieveById(productId);
     if (product.isPresent()) {
       int stockLevel = product.get().getStockLevel();
