@@ -96,7 +96,7 @@ public class ProductService {
     }
   }
 
-  // public void delete(String id) {
-  // dao.deleteById(id);
-  // }
+  public void delete(String id) {
+    productDao.deleteById(id);
+  }
 }

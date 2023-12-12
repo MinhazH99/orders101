@@ -10,7 +10,6 @@ import jakarta.ws.rs.core.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +26,7 @@ public class ProductsEndpoint {
 
 
   @POST
+  @Path("/products")
   @Consumes({"application/json"})
   @Produces({"application/json"})
   public Response saveOrder(@Valid Product product) throws ServerErrorException {
@@ -74,7 +74,7 @@ public class ProductsEndpoint {
 
 
   @PATCH
-  @Path("/{productId}")
+  @Path("products/{productId}")
   @Consumes({"application/json"})
   @Produces({"application/json"})
   public Response updateOrder(@Valid Product updatedOrder, @PathParam("productId") String orderId)
@@ -92,7 +92,7 @@ public class ProductsEndpoint {
   }
 
   private Object notFoundError(String id) {
-    return ResponseModel.builder().errors(Arrays.asList(new HashMap<>() {
+    return ResponseModel.builder().errors(List.of(new HashMap<>() {
       {
         put("error", String.format(PRODUCT_WITH_ID_NOT_FOUND, id));
       }
@@ -100,12 +100,12 @@ public class ProductsEndpoint {
   }
 
   @DELETE
-  @Path("/{orderId}")
-  public Response deleteOrder(@PathParam("orderId") String orderId) {
-    if (orderId == null) {
+  @Path("/{productId}")
+  public Response deleteOrder(@PathParam("productId") String productId) {
+    if (productId == null) {
       throw new IllegalArgumentException("Order id should not be null");
     }
-    // orderService.delete(orderId);
+    productService.delete(productId);
     return Response.ok().entity(ResponseModel.builder().build()).build();
   }
 
