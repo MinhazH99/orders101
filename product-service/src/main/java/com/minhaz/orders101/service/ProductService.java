@@ -36,7 +36,7 @@ public class ProductService {
   private final ObjectMapper objectMapper = new ObjectMapper();
 
   public void persist(Product product) {
-
+    productDao.save(product);
   }
 
   public List<Product> retrieveAll() {

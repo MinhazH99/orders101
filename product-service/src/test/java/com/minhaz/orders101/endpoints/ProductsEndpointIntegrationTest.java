@@ -58,7 +58,7 @@ public class ProductsEndpointIntegrationTest {
 
 
   @Test
-  public void testGETOrder() {
+  public void testGETProduct() {
     ResponseEntity<?> response = restTemplate.exchange(buildUrlWithId("1"), HttpMethod.GET, null, ResponseModel.class);
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     var product = objectMapper.convertValue(((ResponseModel<?>) Objects.requireNonNull(response.getBody())).getData(),

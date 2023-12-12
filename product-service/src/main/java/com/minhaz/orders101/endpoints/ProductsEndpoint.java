@@ -21,7 +21,7 @@ import java.util.Optional;
 @Slf4j
 public class ProductsEndpoint {
 
-  private static final String PRODUCT_WITH_ID_S_NOT_FOUND = "Product with id %s not found.";
+  private static final String PRODUCT_WITH_ID_NOT_FOUND = "Product with id %s not found.";
   @Autowired
   ProductService productService;
 
@@ -29,20 +29,20 @@ public class ProductsEndpoint {
   @POST
   @Consumes({"application/json"})
   @Produces({"application/json"})
-  public Response saveOrder(@Valid Product order) throws ServerErrorException {
-    productService.persist(order);
-    return Response.ok().entity(ResponseModel.builder().data(order).build()).build();
+  public Response saveOrder(@Valid Product product) throws ServerErrorException {
+    productService.persist(product);
+    return Response.ok().entity(ResponseModel.builder().data(product).build()).build();
   }
 
   @GET
   @Path("/products")
   @Produces({"application/json"})
   public Response getProducts() {
-    List<Product> orders = productService.retrieveAll();
-    if (orders.isEmpty()) {
+    List<Product> products = productService.retrieveAll();
+    if (products.isEmpty()) {
       return Response.status(Response.Status.NOT_FOUND).build();
     } else {
-      return Response.ok().entity(ResponseModel.builder().data(orders).build()).build();
+      return Response.ok().entity(ResponseModel.builder().data(products).build()).build();
     }
   }
 
@@ -94,7 +94,7 @@ public class ProductsEndpoint {
   private Object notFoundError(String id) {
     return ResponseModel.builder().errors(Arrays.asList(new HashMap<>() {
       {
-        put("error", String.format(PRODUCT_WITH_ID_S_NOT_FOUND, id));
+        put("error", String.format(PRODUCT_WITH_ID_NOT_FOUND, id));
       }
     })).build();
   }
