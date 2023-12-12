@@ -100,10 +100,10 @@ public class ProductsEndpoint {
   }
 
   @DELETE
-  @Path("/{productId}")
+  @Path("products/{productId}")
   public Response deleteOrder(@PathParam("productId") String productId) {
     if (productId == null) {
-      throw new IllegalArgumentException("Order id should not be null");
+      throw new IllegalArgumentException("Product id should not be null");
     }
     productService.delete(productId);
     return Response.ok().entity(ResponseModel.builder().build()).build();
