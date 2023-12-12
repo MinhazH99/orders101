@@ -9,6 +9,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.List;
@@ -106,7 +107,7 @@ public class ProductsEndpoint {
       throw new IllegalArgumentException("Product id should not be null");
     }
     productService.delete(productId);
-    return Response.ok().entity(ResponseModel.builder().build()).build();
+    return Response.ok().entity(HttpStatus.OK).build();
   }
 
 
