@@ -47,8 +47,8 @@ public class ProductService {
     return productDao.findById(id);
   }
 
-  public boolean orderRequiresUpdate(Product oldOrder, Product newOrder) {
-    Diff diff = javers.compare(oldOrder, newOrder);
+  public boolean productRequiresUpdate(Product oldProduct, Product newProduct) {
+    Diff diff = javers.compare(oldProduct, newProduct);
     System.out.println(diff.prettyPrint());
     return diff.hasChanges();
   }
@@ -75,12 +75,12 @@ public class ProductService {
     });
   }
 
-  public Product applyDiff(Product updatedOrder, Product existingOrder) throws JsonProcessingException {
-    Diff diff = javers.compare(existingOrder, updatedOrder);
+  public Product applyDiff(Product updatedProduct, Product existingProduct) throws JsonProcessingException {
+    Diff diff = javers.compare(existingProduct, updatedProduct);
     objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     objectMapper.disable(JsonWriteFeature.QUOTE_FIELD_NAMES.mappedFeature());
     objectMapper.registerModule(new JavaTimeModule());
-    JsonNode rootNode = objectMapper.valueToTree(existingOrder);
+    JsonNode rootNode = objectMapper.valueToTree(existingProduct);
     findAndUpdate(diff.getChangesByType(ValueChange.class), rootNode);
     return objectMapper.treeToValue(rootNode, Product.class);
   }

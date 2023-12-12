@@ -74,21 +74,21 @@ public class ProductsEndpoint {
 
 
   @PATCH
-  @Path("/{orderId}")
+  @Path("/{productId}")
   @Consumes({"application/json"})
   @Produces({"application/json"})
-  public Response updateOrder(@Valid Product updatedOrder, @PathParam("orderId") String orderId)
+  public Response updateOrder(@Valid Product updatedOrder, @PathParam("productId") String orderId)
       throws JsonProcessingException {
-    Optional<Product> existingOrder = productService.retrieveById(orderId);
-    if (existingOrder.isEmpty()) {
+    Optional<Product> existingProduct = productService.retrieveById(orderId);
+    if (existingProduct.isEmpty()) {
       return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(orderId)).build();
     }
-    if (productService.orderRequiresUpdate(existingOrder.get(), updatedOrder)) {
-      var orderWithDiffs = productService.applyDiff(updatedOrder, existingOrder.get());
-      productService.persist(orderWithDiffs);
-      return Response.ok(ResponseModel.builder().data(orderWithDiffs).build()).build();
+    if (productService.productRequiresUpdate(existingProduct.get(), updatedOrder)) {
+      var productWithDiffs = productService.applyDiff(updatedOrder, existingProduct.get());
+      productService.persist(productWithDiffs);
+      return Response.ok(ResponseModel.builder().data(productWithDiffs).build()).build();
     }
-    return Response.ok(ResponseModel.builder().data(existingOrder.get()).build()).build();
+    return Response.ok(ResponseModel.builder().data(existingProduct.get()).build()).build();
   }
 
   private Object notFoundError(String id) {
