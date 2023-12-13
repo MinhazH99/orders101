@@ -12,8 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +31,7 @@ public class ProductsEndpoint {
   @Path("/products")
   @Consumes({"application/json"})
   @Produces({"application/json"})
-  public Response saveOrder(@Valid Product product) throws ServerErrorException {
+  public Response saveProduct(@Valid Product product) throws ServerErrorException {
     productService.persist(product);
     return Response.ok().entity(ResponseModel.builder().data(product).build()).build();
   }
@@ -86,14 +84,14 @@ public class ProductsEndpoint {
   @Path("products/{productId}")
   @Consumes({"application/json"})
   @Produces({"application/json"})
-  public Response updateOrder(@Valid Product updatedOrder, @PathParam("productId") String orderId)
+  public Response updateProduct(@Valid Product updatedProduct, @PathParam("productId") String productId)
       throws JsonProcessingException {
-    Optional<Product> existingProduct = productService.retrieveById(orderId);
+    Optional<Product> existingProduct = productService.retrieveById(productId);
     if (existingProduct.isEmpty()) {
-      return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(orderId)).build();
+      return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(productId)).build();
     }
-    if (productService.productRequiresUpdate(existingProduct.get(), updatedOrder)) {
-      var productWithDiffs = productService.applyDiff(updatedOrder, existingProduct.get());
+    if (productService.productRequiresUpdate(existingProduct.get(), updatedProduct)) {
+      var productWithDiffs = productService.applyDiff(updatedProduct, existingProduct.get());
       productService.persist(productWithDiffs);
       return Response.ok(ResponseModel.builder().data(productWithDiffs).build()).build();
     }
@@ -110,7 +108,7 @@ public class ProductsEndpoint {
 
   @DELETE
   @Path("products/{productId}")
-  public Response deleteOrder(@PathParam("productId") String productId) {
+  public Response deleteProduct(@PathParam("productId") String productId) {
     if (productId == null) {
       throw new IllegalArgumentException("Product id should not be null");
     }
