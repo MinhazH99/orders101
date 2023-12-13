@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@Path("/")
+@Path("/products")
 @Consumes("application/json")
 @Slf4j
 public class ProductsEndpoint {
@@ -28,7 +28,6 @@ public class ProductsEndpoint {
 
 
   @POST
-  @Path("/products")
   @Consumes({"application/json"})
   @Produces({"application/json"})
   public Response saveProduct(@Valid Product product) throws ServerErrorException {
@@ -37,7 +36,6 @@ public class ProductsEndpoint {
   }
 
   @GET
-  @Path("/products")
   @Produces({"application/json"})
   public Response getProducts() {
     List<Product> products = productService.retrieveAll();
@@ -49,7 +47,7 @@ public class ProductsEndpoint {
   }
 
   @GET
-  @Path("products/{productId}")
+  @Path("{productId}")
   @Produces({"application/json"})
   public Response getProduct(@PathParam("productId") String productId) {
     Optional<Product> product = productService.retrieveById(productId);
@@ -61,14 +59,13 @@ public class ProductsEndpoint {
   }
 
   @GET
-  @Path("availability/{productId}")
+  @Path("/stock-availability/{productId}")
   @Produces({"application/json"})
   public Response getProductStock(@PathParam("productId") String productId, @QueryParam("qty") Integer qty) {
     Optional<Product> product = productService.retrieveById(productId);
     if (product.isPresent()) {
-      int stockLevel = product.get().getStockLevel();
       StockAvailability stockAvailability = StockAvailability.builder().id(productId).requestQuantity(qty)
-          .isAvailable(checkAvailability(stockLevel, qty)).build();
+          .isAvailable(checkAvailability(product.get().getStockLevel(), qty)).build();
       return Response.ok().entity(ResponseModel.builder().data(stockAvailability).build()).build();
     } else {
       return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(productId)).build();
@@ -81,7 +78,7 @@ public class ProductsEndpoint {
 
 
   @PATCH
-  @Path("products/{productId}")
+  @Path("{productId}")
   @Consumes({"application/json"})
   @Produces({"application/json"})
   public Response updateProduct(@Valid Product updatedProduct, @PathParam("productId") String productId)
@@ -107,7 +104,7 @@ public class ProductsEndpoint {
   }
 
   @DELETE
-  @Path("products/{productId}")
+  @Path("{productId}")
   public Response deleteProduct(@PathParam("productId") String productId) {
     if (productId == null) {
       throw new IllegalArgumentException("Product id should not be null");
