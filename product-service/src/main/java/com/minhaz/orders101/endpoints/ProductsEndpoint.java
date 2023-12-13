@@ -108,6 +108,35 @@ public class ProductsEndpoint {
     })).build();
   }
 
+  @PATCH
+  @Path("stock-availability/{productId}")
+  @Consumes({"application/json"})
+  @Produces({"application/json"})
+  public Response updateStock(@PathParam("productId") String productId, @QueryParam("inc") boolean inc,
+      @QueryParam("qty") Integer qty) {
+    if (inc == false) {
+      Optional<Product> product = productService.retrieveById(productId);
+      if (product.isPresent()) {
+        int stockLevel = product.get().getStockLevel();
+        StockAvailability stockAvailability = StockAvailability.builder().id(productId).requestQuantity(qty)
+            .isAvailable(checkAvailability(stockLevel, qty)).build();
+        if (stockAvailability.isAvailable() & (stockLevel - qty) >= 0) {
+          product.get().setStockLevel(stockLevel - qty);
+          productService.persist(product.get());
+          return Response.ok().entity(ResponseModel.builder().data(stockAvailability).build()).build();
+        } else {
+          return Response.ok().entity(HttpStatus.BAD_REQUEST).build(); // change this with correct model
+        }
+
+
+
+      } else {
+        return Response.ok().entity(HttpStatus.BAD_REQUEST).build();
+      }
+    }
+    return Response.ok().entity(HttpStatus.BAD_REQUEST).build();
+  }
+
   @DELETE
   @Path("products/{productId}")
   public Response deleteProduct(@PathParam("productId") String productId) {
