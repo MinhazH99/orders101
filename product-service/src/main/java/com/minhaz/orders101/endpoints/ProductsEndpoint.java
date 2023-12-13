@@ -3,6 +3,7 @@ package com.minhaz.orders101.endpoints;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.minhaz.orders101.models.Product;
 import com.minhaz.orders101.models.ResponseModel;
+import com.minhaz.orders101.models.StockAvailability;
 import com.minhaz.orders101.service.ProductService;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
@@ -60,18 +61,23 @@ public class ProductsEndpoint {
   }
 
   @GET
-  @Path("available-stock/{productId}")
+  @Path("availability/{productId}")
   @Produces({"application/json"})
-  public Response getProductStock(@PathParam("productId") String productId) {
+  public Response getProductStock(@PathParam("productId") String productId, @QueryParam("qty") Integer qty) {
     Optional<Product> product = productService.retrieveById(productId);
     if (product.isPresent()) {
       int stockLevel = product.get().getStockLevel();
-      return Response.ok().entity(ResponseModel.builder().data(stockLevel).build()).build();
+      StockAvailability stockAvailability = StockAvailability.builder().id(productId).requestQuantity(qty)
+          .isAvailable(checkAvailability(stockLevel, qty)).build();
+      return Response.ok().entity(ResponseModel.builder().data(stockAvailability).build()).build();
     } else {
       return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(productId)).build();
     }
   }
 
+  private boolean checkAvailability(int stockLevel, Integer qty) {
+    return stockLevel >= qty;
+  }
 
 
   @PATCH
