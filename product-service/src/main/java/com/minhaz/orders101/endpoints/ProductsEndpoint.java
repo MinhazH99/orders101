@@ -114,9 +114,9 @@ public class ProductsEndpoint {
   @Produces({"application/json"})
   public Response updateStock(@PathParam("productId") String productId, @QueryParam("inc") boolean inc,
       @QueryParam("qty") Integer qty) {
-    if (inc == false) {
-      Optional<Product> product = productService.retrieveById(productId);
-      if (product.isPresent()) {
+    Optional<Product> product = productService.retrieveById(productId);
+    if (product.isPresent()) {
+      if (inc == false & qty > 0) {
         int stockLevel = product.get().getStockLevel();
         StockAvailability stockAvailability = StockAvailability.builder().id(productId).requestQuantity(qty)
             .isAvailable(checkAvailability(stockLevel, qty)).build();
@@ -124,16 +124,18 @@ public class ProductsEndpoint {
           product.get().setStockLevel(stockLevel - qty);
           productService.persist(product.get());
           return Response.ok().entity(ResponseModel.builder().data(stockAvailability).build()).build();
-        } else {
-          return Response.ok().entity(HttpStatus.BAD_REQUEST).build(); // change this with correct model
-        }
-
-
-
-      } else {
-        return Response.ok().entity(HttpStatus.BAD_REQUEST).build();
+        } else
+          return Response.ok().entity(HttpStatus.BAD_REQUEST).build();
+      } else if (inc == true & qty > 0) {
+        int stockLevel = product.get().getStockLevel();
+        StockAvailability stockAvailability = StockAvailability.builder().id(productId).requestQuantity(qty)
+            .isAvailable(checkAvailability(stockLevel, qty)).build();
+        product.get().setStockLevel(stockLevel + qty);
+        productService.persist(product.get());
+        return Response.ok().entity(ResponseModel.builder().data(stockAvailability).build()).build();
       }
     }
+
     return Response.ok().entity(HttpStatus.BAD_REQUEST).build();
   }
 
