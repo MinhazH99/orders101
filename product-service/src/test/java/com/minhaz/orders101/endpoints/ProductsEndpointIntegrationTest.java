@@ -4,30 +4,46 @@ import com.fasterxml.jackson.core.json.JsonWriteFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.minhaz.orders101.models.Product;
 import com.minhaz.orders101.models.ResponseModel;
+import com.minhaz.orders101.service.ProductService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import java.math.BigDecimal;
+import java.util.Objects;
 
-// @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ProductsEndpointIntegrationTest {
 
-  private String buildUrlWithId() {
-    return "http://localhost:" + port + "/orders/" + "1";
+  private String buildUrlWithId(String id) {
+    return "http://localhost:" + port + "/products/" + id;
   }
 
   private String buildUrlWithoutId() {
-    return "http://localhost:" + port + "/orders/";
+    return "http://localhost:" + port + "/products/";
   }
 
   @LocalServerPort
   private int port;
+
+  @Autowired
+  private ProductService productService;
+
+  @Autowired
+  private TestRestTemplate restTemplate;
 
 
   private static ObjectMapper objectMapper = null;
@@ -42,8 +58,17 @@ public class ProductsEndpointIntegrationTest {
 
 
   @Test
-  @Disabled
-  public void testGETOrder() {
+  public void testGETProduct() {
+    ResponseEntity<?> response = restTemplate.exchange(buildUrlWithId("1"), HttpMethod.GET, null, ResponseModel.class);
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    var product = objectMapper.convertValue(((ResponseModel<?>) Objects.requireNonNull(response.getBody())).getData(),
+        Product.class);
+    assertThat(product).isNotNull();
+    assertThat(product.getId()).isEqualTo("1");
+    assertThat(product.getUnitPrice()).isEqualTo(new BigDecimal("15.5"));
+    assertThat(product.getStockLevel()).isEqualTo(10);
+    assertThat(product.getDescription()).isEqualTo("tool");
+    assertThat(product.getName()).isEqualTo("screwdriver");
 
   }
 

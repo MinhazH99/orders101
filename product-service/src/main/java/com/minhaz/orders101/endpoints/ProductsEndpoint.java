@@ -3,96 +3,118 @@ package com.minhaz.orders101.endpoints;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.minhaz.orders101.models.Product;
 import com.minhaz.orders101.models.ResponseModel;
+import com.minhaz.orders101.models.StockAvailability;
 import com.minhaz.orders101.service.ProductService;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
 @Component
-@Path("/orders")
+@Path("/")
 @Consumes("application/json")
 @Slf4j
 public class ProductsEndpoint {
 
-  private static final String ORDER_WITH_ORDER_ID_NOT_FOUND = "Order with id %s not found.";
+  private static final String PRODUCT_WITH_ID_NOT_FOUND = "Product with id %s not found.";
   @Autowired
-  ProductService orderService;
+  ProductService productService;
 
 
   @POST
+  @Path("/products")
   @Consumes({"application/json"})
   @Produces({"application/json"})
-  public Response saveOrder(@Valid Product order) throws ServerErrorException {
-    orderService.persist(order);
-    System.out.printf("Test");
-    return Response.ok().entity(ResponseModel.builder().data(order).build()).build();
+  public Response saveProduct(@Valid Product product) throws ServerErrorException {
+    productService.persist(product);
+    return Response.ok().entity(ResponseModel.builder().data(product).build()).build();
   }
 
   @GET
+  @Path("/products")
   @Produces({"application/json"})
-  public Response getOrders() {
-    List<Product> orders = orderService.retrieveAll();
-    if (orders.isEmpty()) {
+  public Response getProducts() {
+    List<Product> products = productService.retrieveAll();
+    if (products.isEmpty()) {
       return Response.status(Response.Status.NOT_FOUND).build();
     } else {
-      return Response.ok().entity(ResponseModel.builder().data(orders).build()).build();
+      return Response.ok().entity(ResponseModel.builder().data(products).build()).build();
     }
+  }
+
+  @GET
+  @Path("products/{productId}")
+  @Produces({"application/json"})
+  public Response getProduct(@PathParam("productId") String productId) {
+    Optional<Product> product = productService.retrieveById(productId);
+    if (product.isPresent()) {
+      return Response.ok().entity(ResponseModel.builder().data(product).build()).build();
+    } else {
+      return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(productId)).build();
+    }
+  }
+
+  @GET
+  @Path("availability/{productId}")
+  @Produces({"application/json"})
+  public Response getProductStock(@PathParam("productId") String productId, @QueryParam("qty") Integer qty) {
+    Optional<Product> product = productService.retrieveById(productId);
+    if (product.isPresent()) {
+      int stockLevel = product.get().getStockLevel();
+      StockAvailability stockAvailability = StockAvailability.builder().id(productId).requestQuantity(qty)
+          .isAvailable(checkAvailability(stockLevel, qty)).build();
+      return Response.ok().entity(ResponseModel.builder().data(stockAvailability).build()).build();
+    } else {
+      return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(productId)).build();
+    }
+  }
+
+  private boolean checkAvailability(int stockLevel, Integer qty) {
+    return stockLevel >= qty;
   }
 
 
   @PATCH
-  @Path("/{orderId}")
+  @Path("products/{productId}")
   @Consumes({"application/json"})
   @Produces({"application/json"})
-  // TODO include the id in the URL path param
-  public Response updateOrder(@Valid Product updatedOrder, @PathParam("orderId") String orderId)
+  public Response updateProduct(@Valid Product updatedProduct, @PathParam("productId") String productId)
       throws JsonProcessingException {
-    Optional<Product> existingOrder = orderService.retrieveById(orderId);
-    if (existingOrder.isEmpty()) {
-      return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(orderId)).build();
+    Optional<Product> existingProduct = productService.retrieveById(productId);
+    if (existingProduct.isEmpty()) {
+      return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(productId)).build();
     }
-    if (orderService.orderRequiresUpdate(existingOrder.get(), updatedOrder)) {
-      var orderWithDiffs = orderService.applyDiff(updatedOrder, existingOrder.get());
-      orderService.persist(orderWithDiffs);
-      return Response.ok(ResponseModel.builder().data(orderWithDiffs).build()).build();
+    if (productService.productRequiresUpdate(existingProduct.get(), updatedProduct)) {
+      var productWithDiffs = productService.applyDiff(updatedProduct, existingProduct.get());
+      productService.persist(productWithDiffs);
+      return Response.ok(ResponseModel.builder().data(productWithDiffs).build()).build();
     }
-    return Response.ok(ResponseModel.builder().data(existingOrder.get()).build()).build();
+    return Response.ok(ResponseModel.builder().data(existingProduct.get()).build()).build();
   }
 
   private Object notFoundError(String id) {
-    return ResponseModel.builder().errors(Arrays.asList(new HashMap<>() {
+    return ResponseModel.builder().errors(List.of(new HashMap<>() {
       {
-        put("error", String.format(ORDER_WITH_ORDER_ID_NOT_FOUND, id));
+        put("error", String.format(PRODUCT_WITH_ID_NOT_FOUND, id));
       }
     })).build();
   }
 
   @DELETE
-  @Path("/{orderId}")
-  public Response deleteOrder(@PathParam("orderId") String orderId) {
-    if (orderId == null) {
-      throw new IllegalArgumentException("Order id should not be null");
+  @Path("products/{productId}")
+  public Response deleteProduct(@PathParam("productId") String productId) {
+    if (productId == null) {
+      throw new IllegalArgumentException("Product id should not be null");
     }
-    // orderService.delete(orderId);
-    return Response.ok().entity(ResponseModel.builder().build()).build();
+    productService.delete(productId);
+    return Response.ok().entity(HttpStatus.OK).build();
   }
 
-  @GET
-  @Path("/{orderId}")
-  @Produces({"application/json"})
-  public Response getOrder(@PathParam("orderId") String orderId) {
-    Optional<Product> order = orderService.retrieveById(orderId);
-    if (order.isPresent()) {
-      return Response.ok().entity(ResponseModel.builder().data(order).build()).build();
-    } else {
-      return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(orderId)).build();
-    }
-  }
+
 }

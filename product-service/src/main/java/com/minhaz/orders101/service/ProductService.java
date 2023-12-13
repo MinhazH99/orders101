@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Optional;
 
+import com.minhaz.orders101.interfaces.ProductDao;
 import com.minhaz.orders101.models.Product;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -29,37 +30,25 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class ProductService {
 
-  // @Autowired
-  // private OrderDao dao;
-  //
-  // @Autowired
-  // private AddressDao addressDao;
-  //
-  // @Autowired
-  // private CustomerDao customerDao;
-  //
-  // @Autowired
-  // private LineItemDao lineItemDao;
-  //
-  // @Autowired
-  // private BasketDao basketDao;
+  @Autowired
+  ProductDao productDao;
   private final Javers javers = JaversBuilder.javers().build();
   private final ObjectMapper objectMapper = new ObjectMapper();
 
   public void persist(Product product) {
-
+    productDao.save(product);
   }
 
   public List<Product> retrieveAll() {
-    return null;
+    return productDao.findAll();
   }
 
   public Optional<Product> retrieveById(String id) {
-    return Optional.empty();
+    return productDao.findById(id);
   }
 
-  public boolean orderRequiresUpdate(Product oldOrder, Product newOrder) {
-    Diff diff = javers.compare(oldOrder, newOrder);
+  public boolean productRequiresUpdate(Product oldProduct, Product newProduct) {
+    Diff diff = javers.compare(oldProduct, newProduct);
     System.out.println(diff.prettyPrint());
     return diff.hasChanges();
   }
@@ -86,12 +75,12 @@ public class ProductService {
     });
   }
 
-  public Product applyDiff(Product updatedOrder, Product existingOrder) throws JsonProcessingException {
-    Diff diff = javers.compare(existingOrder, updatedOrder);
+  public Product applyDiff(Product updatedProduct, Product existingProduct) throws JsonProcessingException {
+    Diff diff = javers.compare(existingProduct, updatedProduct);
     objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     objectMapper.disable(JsonWriteFeature.QUOTE_FIELD_NAMES.mappedFeature());
     objectMapper.registerModule(new JavaTimeModule());
-    JsonNode rootNode = objectMapper.valueToTree(existingOrder);
+    JsonNode rootNode = objectMapper.valueToTree(existingProduct);
     findAndUpdate(diff.getChangesByType(ValueChange.class), rootNode);
     return objectMapper.treeToValue(rootNode, Product.class);
   }
@@ -107,7 +96,7 @@ public class ProductService {
     }
   }
 
-  // public void delete(String id) {
-  // dao.deleteById(id);
-  // }
+  public void delete(String id) {
+    productDao.deleteById(id);
+  }
 }
