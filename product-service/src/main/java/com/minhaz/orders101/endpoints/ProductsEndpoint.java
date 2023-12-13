@@ -65,7 +65,7 @@ public class ProductsEndpoint {
   @GET
   @Path("availability/{productId}")
   @Produces({"application/json"})
-  public Response getProductStock(@PathParam("productId") String productId, @RequestParam Integer qty) {
+  public Response getProductStock(@PathParam("productId") String productId, @QueryParam("qty") Integer qty) {
     Optional<Product> product = productService.retrieveById(productId);
     if (product.isPresent()) {
       int stockLevel = product.get().getStockLevel();
