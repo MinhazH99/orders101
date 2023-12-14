@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+import static com.minhaz.orders101.utils.ProductUtils.sampleProduct;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -73,16 +75,24 @@ public class ProductsEndpointIntegrationTest {
   }
 
   @Test
-  @Disabled
   public void testPOSTRequest() {
-
+    var product = sampleProduct().id("3").unitPrice(new BigDecimal("56.25")).stockLevel(24).description("test")
+        .name("test").build();
+    var response =
+        restTemplate.exchange(buildUrlWithoutId(), HttpMethod.POST, new HttpEntity<>(product), ResponseModel.class);
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    var productFromResponse = objectMapper
+        .convertValue(((ResponseModel<?>) Objects.requireNonNull(response.getBody())).getData(), Product.class);
+    assertThat(productFromResponse).isNotNull();
+    assertThat(productFromResponse.getUnitPrice()).isEqualTo(new BigDecimal("56.25"));
+    assertThat(productFromResponse.getStockLevel()).isEqualTo(24);
+    assertThat(productFromResponse.getDescription()).isEqualTo("test");
+    assertThat(productFromResponse.getName()).isEqualTo("test");
   }
 
   @Test
   @Disabled
-  public void testFailedPOSTRequest() {
-
-  }
+  public void testFailedPOSTRequest() {}
 
   @Test
   @Disabled

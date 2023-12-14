@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@Path("/")
+@Path("/products")
 @Consumes("application/json")
 @Slf4j
 public class ProductsEndpoint {
@@ -31,7 +31,6 @@ public class ProductsEndpoint {
 
 
   @POST
-  @Path("/products")
   @Consumes({"application/json"})
   @Produces({"application/json"})
   public Response saveProduct(@Valid Product product) throws ServerErrorException {
@@ -40,7 +39,6 @@ public class ProductsEndpoint {
   }
 
   @GET
-  @Path("/products")
   @Produces({"application/json"})
   public Response getProducts() {
     List<Product> products = productService.retrieveAll();
@@ -52,7 +50,7 @@ public class ProductsEndpoint {
   }
 
   @GET
-  @Path("products/{productId}")
+  @Path("{productId}")
   @Produces({"application/json"})
   public Response getProduct(@PathParam("productId") String productId) {
     Optional<Product> product = productService.retrieveById(productId);
@@ -84,7 +82,7 @@ public class ProductsEndpoint {
 
 
   @PATCH
-  @Path("products/{productId}")
+  @Path("{productId}")
   @Consumes({"application/json"})
   @Produces({"application/json"})
   public Response updateProduct(@Valid Product updatedProduct, @PathParam("productId") String productId)
@@ -150,7 +148,7 @@ public class ProductsEndpoint {
   }
 
   @DELETE
-  @Path("products/{productId}")
+  @Path("{productId}")
   public Response deleteProduct(@PathParam("productId") String productId) {
     if (productId == null) {
       throw new IllegalArgumentException("Product id should not be null");
