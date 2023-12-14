@@ -25,6 +25,7 @@ import java.util.Optional;
 public class ProductsEndpoint {
 
   private static final String PRODUCT_WITH_ID_NOT_FOUND = "Product with id %s not found.";
+  private static final String QUANTITY_CAN_NOT_BE_NEGATIVE = "Quantity provided (%s) can not be a negative value";
   @Autowired
   ProductService productService;
 
@@ -115,28 +116,34 @@ public class ProductsEndpoint {
   public Response updateStock(@PathParam("productId") String productId, @QueryParam("inc") boolean inc,
       @QueryParam("qty") Integer qty) {
     Optional<Product> product = productService.retrieveById(productId);
-    if (product.isPresent()) {
-      if (inc == false & qty > 0) {
-        int stockLevel = product.get().getStockLevel();
-        StockAvailability stockAvailability = StockAvailability.builder().id(productId).requestQuantity(qty)
-            .isAvailable(checkAvailability(stockLevel, qty)).build();
-        if (stockAvailability.isAvailable() & (stockLevel - qty) >= 0) {
-          product.get().setStockLevel(stockLevel - qty);
-          productService.persist(product.get());
-          return Response.ok().entity(ResponseModel.builder().data(stockAvailability).build()).build();
-        } else
-          return Response.ok().entity(HttpStatus.BAD_REQUEST).build();
-      } else if (inc == true & qty > 0) {
-        int stockLevel = product.get().getStockLevel();
-        StockAvailability stockAvailability = StockAvailability.builder().id(productId).requestQuantity(qty)
-            .isAvailable(checkAvailability(stockLevel, qty)).build();
+    if (product.isEmpty()) {
+      return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(productId)).build();
+
+    }
+    if (product.isPresent() & qty > 0) {
+      int stockLevel = product.get().getStockLevel();
+      StockAvailability stockAvailability = StockAvailability.builder().id(productId).requestQuantity(qty)
+          .isAvailable(checkAvailability(stockLevel, qty)).build();
+      if (!inc && stockAvailability.isAvailable()) {
+        product.get().setStockLevel(stockLevel - qty);
+        productService.persist(product.get());
+      } else if (inc) {
         product.get().setStockLevel(stockLevel + qty);
         productService.persist(product.get());
-        return Response.ok().entity(ResponseModel.builder().data(stockAvailability).build()).build();
       }
+      StockAvailability stockAvailabilityLatest = StockAvailability.builder().id(productId).requestQuantity(qty)
+          .isAvailable(checkAvailability(stockLevel, qty)).build();
+      return Response.ok().entity(ResponseModel.builder().data(stockAvailabilityLatest).build()).build();
     }
+    return Response.status(Response.Status.NOT_FOUND).entity(quantityNegativeError(qty)).build();
+  }
 
-    return Response.ok().entity(HttpStatus.BAD_REQUEST).build();
+  private Object quantityNegativeError(Integer qty) {
+    return ResponseModel.builder().errors(List.of(new HashMap<>() {
+      {
+        put("error", String.format(QUANTITY_CAN_NOT_BE_NEGATIVE, qty));
+      }
+    })).build();
   }
 
   @DELETE
