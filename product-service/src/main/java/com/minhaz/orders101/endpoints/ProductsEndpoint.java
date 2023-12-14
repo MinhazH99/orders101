@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +24,8 @@ import java.util.Optional;
 public class ProductsEndpoint {
 
   private static final String PRODUCT_WITH_ID_NOT_FOUND = "Product with id %s not found.";
-  private static final String QUANTITY_CAN_NOT_BE_NEGATIVE = "Quantity provided (%s) can not be a negative value";
+  private static final String QTY_CAN_NOT_BE_A_NEGATIVE_NULL_VALUE =
+      "Quantity provided (%s) can not be a negative/null value";
   @Autowired
   ProductService productService;
 
@@ -116,6 +116,9 @@ public class ProductsEndpoint {
   public Response updateStock(@PathParam("productId") String productId, @QueryParam("inc") boolean inc,
       @QueryParam("qty") Integer qty) {
     Optional<Product> product = productService.retrieveById(productId);
+    if (qty == null) {
+      return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(quantityNegativeNullError(null)).build();
+    }
     if (product.isEmpty()) {
       return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(productId)).build();
 
@@ -135,13 +138,13 @@ public class ProductsEndpoint {
           .isAvailable(checkAvailability(stockLevel, qty)).build();
       return Response.ok().entity(ResponseModel.builder().data(stockAvailabilityLatest).build()).build();
     }
-    return Response.status(Response.Status.NOT_FOUND).entity(quantityNegativeError(qty)).build();
+    return Response.status(Response.Status.BAD_REQUEST).entity(quantityNegativeNullError(qty)).build();
   }
 
-  private Object quantityNegativeError(Integer qty) {
+  private Object quantityNegativeNullError(Integer qty) {
     return ResponseModel.builder().errors(List.of(new HashMap<>() {
       {
-        put("error", String.format(QUANTITY_CAN_NOT_BE_NEGATIVE, qty));
+        put("error", String.format(QTY_CAN_NOT_BE_A_NEGATIVE_NULL_VALUE, qty));
       }
     })).build();
   }
