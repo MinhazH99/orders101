@@ -62,7 +62,7 @@ public class ProductsEndpoint {
   }
 
   @GET
-  @Path("availability/{productId}")
+  @Path("stock-availability/{productId}")
   @Produces({"application/json"})
   public Response getProductStock(@PathParam("productId") String productId, @QueryParam("qty") Integer qty) {
     Optional<Product> product = productService.retrieveById(productId);
