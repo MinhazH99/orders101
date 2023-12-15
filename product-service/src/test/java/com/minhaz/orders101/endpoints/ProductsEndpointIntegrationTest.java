@@ -38,7 +38,8 @@ public class ProductsEndpointIntegrationTest {
     return "http://localhost:" + port + "/products/";
   }
 
-  private String buildPatchUrl(String id, Integer qty) {
+
+  private String buildStockAvailabilityUrl(String id, Integer qty) {
     return "http://localhost:" + port + "/products/stock-availability/" + id + "?qty=" + qty;
   }
 
@@ -77,11 +78,38 @@ public class ProductsEndpointIntegrationTest {
     assertThat(product.getStockLevel()).isEqualTo(10);
     assertThat(product.getDescription()).isEqualTo("tool");
     assertThat(product.getName()).isEqualTo("screwdriver");
-
   }
 
   @Test
   @Order(2)
+  public void testGETStockAvailabilityWhereQuantityIsAvailable() {
+    ResponseEntity<?> response =
+        restTemplate.exchange(buildStockAvailabilityUrl("1", 6), HttpMethod.GET, null, ResponseModel.class);
+
+    var stockAvailabilityResponse = objectMapper.convertValue(
+        ((ResponseModel<?>) Objects.requireNonNull(response.getBody())).getData(), StockAvailability.class);
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    assertAll("stock availability model", () -> assertEquals(6, stockAvailabilityResponse.getRequestQuantity()),
+        () -> assertTrue(stockAvailabilityResponse.isAvailable()));
+  }
+
+  @Test
+  @Order(3)
+  public void testGETStockAvailabilityWhereQuantityIsNotAvailable() {
+    ResponseEntity<?> response =
+        restTemplate.exchange(buildStockAvailabilityUrl("1", 11), HttpMethod.GET, null, ResponseModel.class);
+
+    var stockAvailabilityResponse = objectMapper.convertValue(
+        ((ResponseModel<?>) Objects.requireNonNull(response.getBody())).getData(), StockAvailability.class);
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    assertAll("stock availability model", () -> assertEquals(11, stockAvailabilityResponse.getRequestQuantity()),
+        () -> assertFalse(stockAvailabilityResponse.isAvailable()));
+  }
+
+
+
+  @Test
+  @Order(4)
   public void testPOSTRequest() {
     var product = sampleProduct().id("3").unitPrice(new BigDecimal("56.25")).stockLevel(24).description("test")
         .name("test").build();
@@ -98,7 +126,7 @@ public class ProductsEndpointIntegrationTest {
   }
 
   @Test
-  @Order(3)
+  @Order(5)
   public void testFailedPOSTRequest() {
     var failedPostProduct = sampleProduct().id("3").stockLevel(null).name(null).build();
     ResponseEntity<?> response = restTemplate.exchange(buildUrlWithoutId(), HttpMethod.POST,
@@ -111,11 +139,11 @@ public class ProductsEndpointIntegrationTest {
   }
 
   @Test
-  @Order(4)
+  @Order(6)
   public void testPATCHRequest() {
     var product = sampleProduct().build();
-    ResponseEntity<?> response =
-        restTemplate.exchange(buildPatchUrl("1", 5), HttpMethod.PATCH, new HttpEntity<>(product), ResponseModel.class);
+    ResponseEntity<?> response = restTemplate.exchange(buildStockAvailabilityUrl("1", 5), HttpMethod.PATCH,
+        new HttpEntity<>(product), ResponseModel.class);
     var stockAvailabilityResponse = objectMapper.convertValue(
         ((ResponseModel<?>) Objects.requireNonNull(response.getBody())).getData(), StockAvailability.class);
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -125,10 +153,11 @@ public class ProductsEndpointIntegrationTest {
 
 
   @Test
+  @Order(7)
   public void testFailedPATCHRequestWithNegativeQuantity() {
     var product = sampleProduct().build();
-    ResponseEntity<?> response =
-        restTemplate.exchange(buildPatchUrl("1", -5), HttpMethod.PATCH, new HttpEntity<>(product), ResponseModel.class);
+    ResponseEntity<?> response = restTemplate.exchange(buildStockAvailabilityUrl("1", -5), HttpMethod.PATCH,
+        new HttpEntity<>(product), ResponseModel.class);
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     var errors = ((ResponseModel<?>) Objects.requireNonNull(response.getBody())).getErrors();
     assertThat(errors.size()).isEqualTo(1);
@@ -137,6 +166,7 @@ public class ProductsEndpointIntegrationTest {
   }
 
   @Test
+  @Order(6)
   public void testFailedPATCHRequestWithNullQuantityParam() {
     var product = sampleProduct().build();
     String failedPatchUrl = "http://localhost:" + port + "/products/stock-availability/" + product.getId() + "?qty=";
@@ -147,26 +177,14 @@ public class ProductsEndpointIntegrationTest {
     assertThat(errors.size()).isEqualTo(1);
     assertThat(errors)
         .contains(Collections.singletonMap("error", "Quantity provided can not be a negative/null value"));
-
   }
 
   @Test
+  @Order(8)
   public void testDELETERequest() {
     System.out.println(buildUrlWithId("2"));
     var response = restTemplate.exchange(buildUrlWithId("2"), HttpMethod.DELETE, null, ResponseModel.class);
     assertThat(productService.retrieveById("2")).isEmpty();
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-  }
-
-  @Test
-  @Disabled("can not reach end point")
-  public void testDELETEWithNullId() {
-
-  }
-
-  @Test
-  @Disabled
-  public void testOrderNotFound() {
-
   }
 }
