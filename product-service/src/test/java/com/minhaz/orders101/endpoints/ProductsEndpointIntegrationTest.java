@@ -137,6 +137,20 @@ public class ProductsEndpointIntegrationTest {
   }
 
   @Test
+  public void testFailedPATCHRequestWithNullQuantityParam() {
+    var product = sampleProduct().build();
+    String failedPatchUrl = "http://localhost:" + port + "/products/stock-availability/" + product.getId() + "?qty=";
+    ResponseEntity<?> response =
+        restTemplate.exchange(failedPatchUrl, HttpMethod.PATCH, new HttpEntity<>(product), ResponseModel.class);
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+    var errors = ((ResponseModel<?>) Objects.requireNonNull(response.getBody())).getErrors();
+    assertThat(errors.size()).isEqualTo(1);
+    assertThat(errors)
+        .contains(Collections.singletonMap("error", "Quantity provided can not be a negative/null value"));
+
+  }
+
+  @Test
   @Disabled
   public void testDELETERequest() {
 
