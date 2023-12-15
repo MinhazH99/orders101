@@ -151,9 +151,11 @@ public class ProductsEndpointIntegrationTest {
   }
 
   @Test
-  @Disabled
   public void testDELETERequest() {
-
+    System.out.println(buildUrlWithId("2"));
+    var response = restTemplate.exchange(buildUrlWithId("2"), HttpMethod.DELETE, null, ResponseModel.class);
+    assertThat(productService.retrieveById("2")).isEmpty();
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
   }
 
   @Test

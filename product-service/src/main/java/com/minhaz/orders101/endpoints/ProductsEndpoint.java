@@ -154,7 +154,7 @@ public class ProductsEndpoint {
       throw new IllegalArgumentException("Product id should not be null");
     }
     productService.delete(productId);
-    return Response.ok().entity(HttpStatus.OK).build();
+    return Response.ok().entity(ResponseModel.builder().build()).build();
   }
 
 
