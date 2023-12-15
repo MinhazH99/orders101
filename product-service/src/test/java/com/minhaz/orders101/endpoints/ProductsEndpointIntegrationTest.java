@@ -8,9 +8,7 @@ import com.minhaz.orders101.models.Product;
 import com.minhaz.orders101.models.ResponseModel;
 import com.minhaz.orders101.models.StockAvailability;
 import com.minhaz.orders101.service.ProductService;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -28,6 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ProductsEndpointIntegrationTest {
 
   private String buildUrlWithId(String id) {
@@ -65,7 +64,7 @@ public class ProductsEndpointIntegrationTest {
 
 
   @Test
-  @Disabled("POST request is being run before GET - which changes existing value")
+  @Order(1)
   public void testGETProduct() {
     ResponseEntity<?> response = restTemplate.exchange(buildUrlWithId("1"), HttpMethod.GET, null, ResponseModel.class);
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -81,6 +80,7 @@ public class ProductsEndpointIntegrationTest {
   }
 
   @Test
+  @Order(2)
   public void testPOSTRequest() {
     var product = sampleProduct().id("3").unitPrice(new BigDecimal("56.25")).stockLevel(24).description("test")
         .name("test").build();
@@ -98,6 +98,7 @@ public class ProductsEndpointIntegrationTest {
 
   @Test
   @Disabled
+  @Order(3)
   public void testFailedPOSTRequest() {
     var failedPostProduct = sampleProduct().id("3").stockLevel(null).name(null);
     System.out.println(buildUrlWithoutId());
@@ -109,6 +110,7 @@ public class ProductsEndpointIntegrationTest {
   }
 
   @Test
+  @Order(4)
   public void testPATCHRequest() {
     var product = sampleProduct().build();
     ResponseEntity<?> response =
