@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
+import java.rmi.server.RemoteRef;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -154,7 +155,7 @@ public class ProductsEndpoint {
       throw new IllegalArgumentException("Product id should not be null");
     }
     productService.delete(productId);
-    return Response.ok().entity(ResponseModel.builder().build()).build();
+    return Response.ok().build();
   }
 
 
