@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.Objects;
 
 import static com.minhaz.orders101.utils.ProductUtils.sampleProduct;
@@ -97,16 +98,16 @@ public class ProductsEndpointIntegrationTest {
   }
 
   @Test
-  @Disabled
   @Order(3)
   public void testFailedPOSTRequest() {
-    var failedPostProduct = sampleProduct().id("3").stockLevel(null).name(null);
-    System.out.println(buildUrlWithoutId());
+    var failedPostProduct = sampleProduct().id("3").stockLevel(null).name(null).build();
     ResponseEntity<?> response = restTemplate.exchange(buildUrlWithoutId(), HttpMethod.POST,
         new HttpEntity<>(failedPostProduct), ResponseModel.class);
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     var errors = ((ResponseModel<?>) Objects.requireNonNull(response.getBody())).getErrors();
     assertThat(errors.size()).isEqualTo(2);
+    assertThat(errors).contains(Collections.singletonMap("saveProduct.product.name", "must not be null"));
+    assertThat(errors).contains(Collections.singletonMap("saveProduct.product.stockLevel", "must not be null"));
   }
 
   @Test
