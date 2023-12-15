@@ -125,9 +125,15 @@ public class ProductsEndpointIntegrationTest {
 
 
   @Test
-  @Disabled
-  public void testFailedPATCHRequest() {
-
+  public void testFailedPATCHRequestWithNegativeQuantity() {
+    var product = sampleProduct().build();
+    ResponseEntity<?> response =
+        restTemplate.exchange(buildPatchUrl("1", -5), HttpMethod.PATCH, new HttpEntity<>(product), ResponseModel.class);
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    var errors = ((ResponseModel<?>) Objects.requireNonNull(response.getBody())).getErrors();
+    assertThat(errors.size()).isEqualTo(1);
+    assertThat(errors)
+        .contains(Collections.singletonMap("error", "Quantity provided can not be a negative/null value"));
   }
 
   @Test

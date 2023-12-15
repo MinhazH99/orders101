@@ -25,7 +25,7 @@ public class ProductsEndpoint {
 
   private static final String PRODUCT_WITH_ID_NOT_FOUND = "Product with id %s not found.";
   private static final String QTY_CAN_NOT_BE_A_NEGATIVE_NULL_VALUE =
-      "Quantity provided (%s) can not be a negative/null value";
+      "Quantity provided can not be a negative/null value";
   @Autowired
   ProductService productService;
 
