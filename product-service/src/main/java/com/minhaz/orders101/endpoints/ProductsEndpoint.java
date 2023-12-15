@@ -6,6 +6,8 @@ import com.minhaz.orders101.models.ResponseModel;
 import com.minhaz.orders101.models.StockAvailability;
 import com.minhaz.orders101.service.ProductService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 import lombok.extern.slf4j.Slf4j;
@@ -64,7 +66,8 @@ public class ProductsEndpoint {
   @GET
   @Path("stock-availability/{productId}")
   @Produces({"application/json"})
-  public Response getProductStock(@PathParam("productId") String productId, @QueryParam("qty") Integer qty) {
+  public Response getProductStock(@PathParam("productId") String productId,
+      @QueryParam("qty") @NotNull @Valid @Min(value = 0L, message = "The value must be positive") Integer qty) {
     Optional<Product> product = productService.retrieveById(productId);
     if (product.isPresent()) {
       int stockLevel = product.get().getStockLevel();
@@ -112,16 +115,11 @@ public class ProductsEndpoint {
   @Consumes({"application/json"})
   @Produces({"application/json"})
   public Response updateStock(@PathParam("productId") String productId, @QueryParam("inc") boolean inc,
-      @QueryParam("qty") Integer qty) {
+      @QueryParam("qty") @NotNull @Valid @Min(value = 0L, message = "The value must be positive") Integer qty) {
     Optional<Product> product = productService.retrieveById(productId);
-    if (qty == null) {
-      return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(quantityNegativeNullError(null)).build();
-    }
     if (product.isEmpty()) {
       return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(productId)).build();
-
-    }
-    if (product.isPresent() & qty > 0) {
+    } else {
       int stockLevel = product.get().getStockLevel();
       StockAvailability stockAvailability = StockAvailability.builder().id(productId).requestQuantity(qty)
           .isAvailable(checkAvailability(stockLevel, qty)).build();
@@ -136,7 +134,6 @@ public class ProductsEndpoint {
           .isAvailable(checkAvailability(stockLevel, qty)).build();
       return Response.ok().entity(ResponseModel.builder().data(stockAvailabilityLatest).build()).build();
     }
-    return Response.status(Response.Status.BAD_REQUEST).entity(quantityNegativeNullError(qty)).build();
   }
 
   private Object quantityNegativeNullError(Integer qty) {
