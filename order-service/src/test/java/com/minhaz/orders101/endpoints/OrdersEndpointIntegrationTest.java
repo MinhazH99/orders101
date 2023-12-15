@@ -155,14 +155,6 @@ public class OrdersEndpointIntegrationTest {
   }
 
   @Test
-  @Disabled("can not reach end point")
-  public void testDELETEWithNullId() {
-    // TODO throws IllegalArgumentException
-    var response = restTemplate.exchange(buildUrlWithoutId(), HttpMethod.DELETE, null, ResponseModel.class);
-    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-  }
-
-  @Test
   public void testOrderNotFound() {
     var response = restTemplate.exchange(buildUrlWithId("3"), HttpMethod.GET, null, ResponseModel.class);
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
