@@ -161,8 +161,7 @@ public class ProductsEndpointIntegrationTest {
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     var errors = ((ResponseModel<?>) Objects.requireNonNull(response.getBody())).getErrors();
     assertThat(errors.size()).isEqualTo(1);
-    assertThat(errors)
-        .contains(Collections.singletonMap("error", "Quantity provided can not be a negative/null value"));
+    assertThat(errors).contains(Collections.singletonMap("updateStock.qty", "The value must be 0 or greater"));
   }
 
   @Test
@@ -172,11 +171,10 @@ public class ProductsEndpointIntegrationTest {
     String failedPatchUrl = "http://localhost:" + port + "/products/stock-availability/" + product.getId() + "?qty=";
     ResponseEntity<?> response =
         restTemplate.exchange(failedPatchUrl, HttpMethod.PATCH, new HttpEntity<>(product), ResponseModel.class);
-    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     var errors = ((ResponseModel<?>) Objects.requireNonNull(response.getBody())).getErrors();
     assertThat(errors.size()).isEqualTo(1);
-    assertThat(errors)
-        .contains(Collections.singletonMap("error", "Quantity provided can not be a negative/null value"));
+    assertThat(errors).contains(Collections.singletonMap("updateStock.qty", "must not be null"));
   }
 
   @Test
