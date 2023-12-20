@@ -112,7 +112,7 @@ public class ProductsEndpoint {
   @Consumes({"application/json"})
   @Produces({"application/json"})
   public Response updateStock(@PathParam("productId") String productId, @QueryParam("inc") boolean inc,
-      @QueryParam("qty") @NotNull @Valid @Min(value = 0L, message = "The value must be positive") Integer qty) {
+      @QueryParam("qty") @NotNull @Valid @Min(value = 0L, message = "The value must be 0 or greater") Integer qty) {
     Optional<Product> product = productService.retrieveById(productId);
     if (product.isEmpty()) {
       return Response.status(Response.Status.NOT_FOUND).entity(notFoundError(productId)).build();
@@ -140,7 +140,7 @@ public class ProductsEndpoint {
       throw new IllegalArgumentException("Product id should not be null");
     }
     productService.delete(productId);
-    return Response.ok().entity(HttpStatus.OK).build();
+    return Response.ok().build();
   }
 
 
