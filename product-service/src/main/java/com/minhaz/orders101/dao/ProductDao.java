@@ -1,4 +1,4 @@
-package com.minhaz.orders101.productinterface;
+package com.minhaz.orders101.dao;
 
 import com.minhaz.orders101.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;

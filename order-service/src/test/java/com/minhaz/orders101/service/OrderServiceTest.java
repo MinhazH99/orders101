@@ -1,6 +1,6 @@
 package com.minhaz.orders101.service;
 
-import com.minhaz.orders101.orderinterface.*;
+import com.minhaz.orders101.dao.*;
 import com.minhaz.orders101.model.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

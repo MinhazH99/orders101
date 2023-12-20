@@ -1,7 +1,7 @@
 package com.minhaz.orders101.util;
 
-import com.minhaz.orders101.orderenum.OrderStatus;
-import com.minhaz.orders101.orderenum.PaymentStatus;
+import com.minhaz.orders101.status.OrderStatus;
+import com.minhaz.orders101.status.PaymentStatus;
 import com.minhaz.orders101.model.*;
 
 import com.minhaz.orders101.model.Order.OrderBuilder;
