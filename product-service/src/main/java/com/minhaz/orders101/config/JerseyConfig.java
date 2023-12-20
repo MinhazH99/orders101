@@ -1,7 +1,7 @@
 package com.minhaz.orders101.config;
 
-import com.minhaz.orders101.endpoints.ProductsEndpoint;
-import com.minhaz.orders101.exceptions.ValidationConstraintExceptionMapper;
+import com.minhaz.orders101.endpoint.ProductsEndpoint;
+import com.minhaz.orders101.exception.ValidationConstraintExceptionMapper;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.stereotype.Component;
 
