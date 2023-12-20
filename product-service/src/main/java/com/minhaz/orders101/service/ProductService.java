@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Optional;
 
-import com.minhaz.orders101.interfaces.ProductDao;
-import com.minhaz.orders101.models.Product;
+import com.minhaz.orders101.dao.ProductDao;
+import com.minhaz.orders101.model.Product;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
