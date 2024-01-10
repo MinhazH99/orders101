@@ -1,3 +1,0 @@
-INSERT INTO BASKET
-VALUES
-    ('1');
