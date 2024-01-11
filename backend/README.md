@@ -1,4 +1,4 @@
-# Orders101
+# Orders101.
 ## Endpoints
 ### POST /orders
 1. payload example
