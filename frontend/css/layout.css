@@ -1,9 +1,10 @@
 
-
+.container {
+   display: flex;
+}
 /* Account management */
 
-.account-container {
-   display: flex;
+.account {
    justify-content: flex-end;
    padding-right: 20px;
 }
@@ -16,8 +17,7 @@
 
 /* Search section */
 
-.search-container {
-   display: flex;
+.search {
    padding-left: 20px;
    padding-right: 20px;
 }
@@ -37,7 +37,7 @@
 }
 
 #searchbar {
-   width: 100%;
+   width: 50rem;
 }
 
 .icons {
@@ -49,11 +49,32 @@
    width: 20px;
 }
 
-.icons-container{
+.icons-list{
    display: flex;
    list-style: none;
    gap: 20px;
 }
 
+/* Categories section */
+
+.categories {
+   justify-content: center;
+   align-items: center;
+}
+.categories-list {
+   display: flex;
+   list-style-type: none;
+   gap: 20px;
+}
+
+.features {
+   justify-content: center;
+   gap: 20px;
+}
+
+.banner {
+   justify-content: center;
+   padding: 10px;
+}
 
 
