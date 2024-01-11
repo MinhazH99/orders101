@@ -1,12 +1,11 @@
 
-section {
-   display: flex;
-}
 
 /* Account management */
 
-#account {
+.account-container {
+   display: flex;
    justify-content: flex-end;
+   padding-right: 20px;
 }
 
 .accountlinks {
@@ -14,3 +13,47 @@ section {
   list-style: none;
   gap: 20px;
 }
+
+/* Search section */
+
+.search-container {
+   display: flex;
+   padding-left: 20px;
+   padding-right: 20px;
+}
+
+.logo {
+   flex:1;
+   display: flex;
+   justify-content: flex-start;
+   align-items: center;
+}
+
+.search-bar{
+   flex: 1;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+#searchbar {
+   width: 100%;
+}
+
+.icons {
+   flex:1;
+   display: flex;
+   justify-content: flex-end;
+   align-items: center;
+   height:20px;
+   width: 20px;
+}
+
+.icons-container{
+   display: flex;
+   list-style: none;
+   gap: 20px;
+}
+
+
+
