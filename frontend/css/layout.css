@@ -2,6 +2,10 @@
 .container {
    display: flex;
 }
+
+.grid {
+   display: grid;
+}
 /* Account management */
 
 .account {
@@ -67,14 +71,35 @@
    gap: 20px;
 }
 
+/* Features section */
+
 .features {
    justify-content: center;
    gap: 20px;
 }
 
+/* Banner section */
+
 .banner {
    justify-content: center;
    padding: 10px;
+}
+
+/* Popular section */
+
+.popular {
+   grid-template-columns: 1fr 1fr 1fr 1fr;
+   grid-template-rows: 1fr 1fr;
+}
+
+/* Trending section */
+
+.trending {
+   grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.subtitle {
+   text-align: center;
 }
 
 
