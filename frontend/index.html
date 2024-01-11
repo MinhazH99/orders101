@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/layout.css">
     <title>DIYToolWorld</title>
 </head>
 <body>
     <!-- Account management and contact us section -->
     <section id="account">
         <div>
-            <ul>
+            <ul class = accountlinks>
                 <li><a href="#account">Account</a></li>
                 <li><a href="#contactus">Contact us</a></li>
             </ul>
@@ -17,17 +18,20 @@
     </section>
 
     <section id="search">
-        <div>
-            Logo
+        <div class="container">
+            <div class="logo">
+                Logo
+            </div>
+            <div>
+                <input id="searchbar" type="search">
+            </div>
+            <div class="icons-container">
+                <img class="icons" src="./assets/images/lightbulb.svg">
+                <img class="icons" src="./assets/images/geo-alt.svg">
+                <img class="icons" src="./assets/images/basket.svg">
+            </div>
         </div>
-        <div>
-            <input type="search">
-        </div>
-        <div>
-            <img src="./assets/images/lightbulb.svg">
-            <img src="./assets/images/geo-alt.svg">
-            <img src="./assets/images/basket.svg">
-        </div>
+    
     </section>
 
     <!-- Categories section -->

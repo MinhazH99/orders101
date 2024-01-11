@@ -1,0 +1,16 @@
+
+section {
+   display: flex;
+}
+
+/* Account management */
+
+#account {
+   justify-content: flex-end;
+}
+
+.accountlinks {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+}
