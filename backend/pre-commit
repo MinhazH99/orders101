@@ -2,6 +2,8 @@
 
 echo "Running git pre-commit hook"
 
+cd ./backend
+
 ./gradlew clean build spotlessCheck
 
 RESULT=$?
