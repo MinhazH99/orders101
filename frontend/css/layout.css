@@ -63,6 +63,11 @@
    gap: 20px;
 }
 
+.category-image {
+   height: 145px;
+   width: 250px;
+}
+
 /* Features section */
 
 .features {
@@ -81,9 +86,15 @@
 
 /* Popular section */
 
+.popcategories {
+   justify-content: center;
+   align-items: center;
+}
+
 .popular {
    grid-template-columns: 1fr 1fr 1fr 1fr;
    grid-template-rows: 1fr 1fr;
+   gap:20px;
 }
 
 /* Trending section */
