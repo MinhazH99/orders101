@@ -30,7 +30,7 @@ a {
 /* Search section */
 
 .search {
-   padding: 20px;
+   padding: 10px;
    border-bottom: 2px solid lightgray;
 }
 
@@ -57,8 +57,7 @@ a {
 
 .icons-list{
    display: flex;
-   list-style: none;
-   gap: 20px;
+   gap: 2rem;
 }
 
 /* Categories section */
