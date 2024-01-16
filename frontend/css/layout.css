@@ -29,7 +29,7 @@ a {
 
 /* Search section */
 
-.search {
+.menu {
    padding: 10px;
    border-bottom: 2px solid lightgray;
 }
@@ -42,16 +42,16 @@ a {
    
 }
 
-.search-bar{
+.search-container{
    flex: 1;
    display: flex;
    justify-content: center;
    align-items: center;
 }
 
-#searchbar {
-   width: 30rem;
-   height: 2rem;
+.search-bar {
+   width: 100%;
+   height: 35%;
 }
 
 
