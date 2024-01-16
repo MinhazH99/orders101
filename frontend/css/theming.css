@@ -1,11 +1,7 @@
-/* .main-theme {
-    background-color: #169de5;
+section {
+    --subsection-bg-color: #DCF2F1;
 }
 
-.nav-color {
-    background-color: #365486;
-} */
-
 .subsection {
-    background-color: #DCF2F1;
+    background-color: var(--subsection-bg-color);
 }
