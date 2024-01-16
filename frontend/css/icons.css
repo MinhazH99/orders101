@@ -4,10 +4,10 @@
     justify-content: flex-end;
     align-items: center;
     padding-right: 2rem;
+    padding-top: 1rem;
 }
 
 .searchicons {
     height: 2rem;
     width: 2rem;
-    justify-content: center;
 }
