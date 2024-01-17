@@ -72,8 +72,8 @@ a {
 }
 
 .site-image {
-    height: 20%;
-    width: 50%;
+    height: 100%;
+    width: 100%;
 }
 
 /* Features section */
@@ -94,10 +94,6 @@ a {
 }
 
 /* Popular section */
-
-.popcategories {
-    align-items: center;
-}
 
 .popular {
     grid-template-columns: 1fr 1fr 1fr 1fr;
