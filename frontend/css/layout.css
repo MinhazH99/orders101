@@ -29,16 +29,17 @@ a {
     border-bottom: 2px solid lightgray;
 }
 
-.logo {
+.flex {
     flex: 1;
     display: flex;
+}
+
+.logo {
     justify-content: flex-start;
     align-items: center;
 }
 
 .search-container {
-    flex: 1;
-    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -85,17 +86,17 @@ a {
 
 .banner {
     justify-content: center;
+    width: 100%;
 }
 
 /* Popular section */
 
 .popcategories {
-    justify-content: center;
     align-items: center;
 }
 
 .popular {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 2fr 2fr 2fr 1fr;
     grid-template-rows: 1fr 1fr;
 }
 
