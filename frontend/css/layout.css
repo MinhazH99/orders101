@@ -70,9 +70,9 @@ a {
     list-style-type: none;
 }
 
-.category-image {
-    height: 145px;
-    width: 250px;
+.site-image {
+    height: 20%;
+    width: 50%;
 }
 
 /* Features section */
@@ -96,7 +96,7 @@ a {
 }
 
 .popular {
-    grid-template-columns: 2fr 2fr 2fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
 }
 
