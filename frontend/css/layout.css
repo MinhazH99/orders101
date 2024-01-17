@@ -25,6 +25,14 @@ a {
     gap: 20px;
 }
 
+li a {
+    display: flex;
+}
+
+.user {
+    margin-right: 0.4rem;
+}
+
 /* Search section */
 
 .menu {
