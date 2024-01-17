@@ -1,0 +1,7 @@
+section {
+    --subsection-bg-color: #dcf2f1;
+}
+
+.subsection {
+    background-color: var(--subsection-bg-color);
+}

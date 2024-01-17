@@ -3,83 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/orders101-ui.css">
     <title>DIYToolWorld</title>
 </head>
 <body>
     <!-- Account management and contact us section -->
-    <section id="account">
-        <div>
-            <ul>
-                <li><a href="#account">Account</a></li>
+    <header class="main-theme">
+        <div class="account container">
+            <ul class = account-links>
+                <li><a href="#account"><img class="user" src="./assets/images/person-fill.svg" alt="">Account</a></li>
                 <li><a href="#contactus">Contact us</a></li>
             </ul>
         </div>
-    </section>
 
-    <section id="search">
-        <div>
-            Logo
-        </div>
-        <div>
-            <input type="search">
-        </div>
-        <div>
-            <img src="./assets/images/lightbulb.svg">
-            <img src="./assets/images/geo-alt.svg">
-            <img src="./assets/images/basket.svg">
-        </div>
-    </section>
+        <div class="menu container">
+            <div class="logo">
+               <p>DIYToolWorld</p>
+            </div>
+            <div class="search-container">
+                <input class="search-bar" type="search" placeholder="Search...">
+            </div>
+             <div class="icons">
+                <div class="icons-list">
+                    <div class="ideas">
+                        <a href="#ideas">
+                            <div><img  class="searchicons" src="./assets/images/lightbulb.svg" alt="" >
+                                <p>Ideas & Advice</p></div>
+                        </a> 
+                    </div>
+                    <div class="ideas">
+                        <a href="#stores">
+                            <div><img class="searchicons" src="./assets/images/geo-alt.svg" alt="">
+                                <p>Stores</p></div>
+                        </a>
+                        </div>
+                        <div class="ideas">
+                            <a href="#basket">
+                                <div> <img img class="searchicons" src="./assets/images/basket.svg" alt="">
+                                    <p>Basket</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+             </div>
+    </header>
 
-    <!-- Categories section -->
-    <section id="categories">
-        <div>
-            <ul>
-                <li>Decorations</li>
-                <li>Garden</li>
-                <li>Kitchen</li>
-                <li>Tools</li>
-                <li>Storage</li>
+        <nav class="categories container nav-color">
+            <ul class="categories-list">
+                <li><a href="#decorations">Decorations</a></li>
+                <li><a href="#garden">Garden</a></li>
+                <li><a href="#kitchen">Kitchen</a></li>
+                <li><a href="#tools">Tools</a></li>
+                <li><a href="#storage">Storage</a></li>
             </ul>
-        </div>
-    </section>
+        </nav>
+    </header>
+
 
     <!-- Key features  -->
-    <section id="features">
-        <div>
-            <img src="./assets/images/bag-check.svg"> Free click & collect
-            <img src="./assets/images/cart.svg"> 90 day return policy
-            <img src="./assets/images/truck.svg"> Free delivery on 1000s of products
+    <section id="features" class="subsection">
+        <div class="features container">
+            <div><img src="./assets/images/bag-check.svg" alt=""> Free click & collect</div>
+            <div><img src="./assets/images/cart.svg" alt=""> 90 day return policy</div>
+            <div><img src="./assets/images/truck.svg" alt=""> Free delivery on 1000s of products</div>
         </div>
     </section>
 
     <!-- Banner image -->
     <section id="banner">
-        <div>Banner image</div>
+        <div class="banner container"><img src="./assets/images/6456-LEYLAND-Web_1400x400px_AW.webp" alt="banner image"></div>
     </section>
 
     <!-- Popular categories -->
     <section id="popular">
-        <div>
-            Popular categories
-            <div> Category name 1</div>
-            <div> Category name 2</div>
-            <div> Category name 3</div>
-            <div> Category name 4</div>
-            <div> Category name 5</div>
-            <div> Category name 6</div>
-            <div> Category name 7</div>
-            <div> Category name 8</div>
+        <h2 class="subtitle">Popular categories</h2>
+        <div class="popcategories container">
+        <div class="popular grid">
+            <div>
+               <div><img class= "category-image" src="./assets/images/categories.webp" alt="picture of a chair"></div>
+               <div>Category 1</div>
+            </div>
+            <div>
+                <div><img class= "category-image" src="./assets/images/categories.webp" alt="picture of a chair"></div>
+                <div>Category 2</div>
+             </div>
+             <div>
+                <div><img class= "category-image" src="./assets/images/categories.webp" alt="picture of a chair"></div>
+                <div>Category 3</div>
+             </div>
+             <div>
+                <div><img class= "category-image" src="./assets/images/categories.webp" alt="picture of a chair"></div>
+                <div>Category 4</div>
+             </div>
+             <div>
+                <div><img class= "category-image" src="./assets/images/categories.webp" alt="picture of a chair"></div>
+                <div>Category 5</div>
+             </div>
+             <div>
+                <div><img class= "category-image" src="./assets/images/categories.webp" alt="picture of a chair"></div>
+                <div>Category 6</div>
+             </div>
+             <div>
+                <div><img class= "category-image" src="./assets/images/categories.webp" alt="picture of a chair"></div>
+                <div>Category 7</div>
+             </div>
+             <div>
+                <div><img class= "category-image" src="./assets/images/categories.webp" alt="picture of a chair"></div>
+                <div>Category 8</div>
+             </div>
+
         </div>
+    </div>
     </section>
 
     <!-- Trending now -->
     <section id="trending">
-        <div>
-            Trending now
-            <div> Product 1</div>
-            <div> Product 2</div>
-            <div> Product 3</div>
-            <div> Product 4</div>
+        <h2 class="subtitle">Trending now</h2>
+        <div class="trending grid">
+            <div>
+                <div><img src="./assets/images/trending-product.webp" alt="trending product"></div>
+                <div>Product name</div>
+                <div>£XX.XX</div>
+            </div>
+            <div>
+                <div><img src="./assets/images/trending-product.webp" alt="trending product"></div>
+                <div>Product name</div>
+                <div>£XX.XX</div>
+            </div>
+            <div>
+                <div><img src="./assets/images/trending-product.webp" alt="trending product"></div>
+                <div>Product name</div>
+                <div>£XX.XX</div>
+            </div>
+            <div>
+                <div><img src="./assets/images/trending-product.webp" alt="trending product"></div>
+                <div>Product name</div>
+                <div>£XX.XX</div>
+            </div>
         </div>
     </section>
     
