@@ -14,7 +14,6 @@ a {
 
 .account {
     justify-content: flex-end;
-    padding-right: 20px;
     border-bottom: 0.5px solid lightgray;
     font-size: 14px;
 }
@@ -22,13 +21,11 @@ a {
 .account-links {
     display: flex;
     list-style: none;
-    gap: 20px;
 }
 
 /* Search section */
 
 .menu {
-    padding: 10px;
     border-bottom: 2px solid lightgray;
 }
 
@@ -54,7 +51,6 @@ a {
 
 .icons-list {
     display: flex;
-    gap: 2rem;
 }
 
 .ideas {
@@ -66,13 +62,11 @@ a {
 .categories {
     justify-content: center;
     align-items: center;
-    padding-bottom: 5px;
     border-bottom: 2px solid lightgray;
 }
 .categories-list {
     display: flex;
     list-style-type: none;
-    gap: 20px;
 }
 
 .category-image {
@@ -85,15 +79,12 @@ a {
 .features {
     justify-content: center;
     align-items: center;
-    padding-bottom: 10px;
-    gap: 20px;
 }
 
 /* Banner section */
 
 .banner {
     justify-content: center;
-    padding: 10px;
 }
 
 /* Popular section */
@@ -106,14 +97,12 @@ a {
 .popular {
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    gap: 20px;
 }
 
 /* Trending section */
 
 .trending {
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    padding-top: 1rem;
 }
 
 .subtitle {

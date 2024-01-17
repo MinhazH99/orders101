@@ -1,0 +1,57 @@
+/* Setting up CSS variables */
+
+.container {
+    --right-padding: 1.5rem;
+    --gaps: 1.5rem;
+    --bottom_padding: 0.1rem;
+    --features-top-padding: 0.2rem;
+    --features-btm-padding: 0.2rem;
+    --banner-padding: 2rem;
+}
+
+.grid {
+    --grid-gap: 2rem;
+    --grid-padding-top: 1rem;
+}
+
+/* Spacing for header section */
+.account {
+    padding-right: var(--right-padding);
+}
+
+.account-links {
+    gap: var(--gaps);
+}
+
+.icons-list {
+    gap: var(--gaps);
+}
+
+/* Spacing for nav bar section */
+.categories {
+    padding-bottom: var(--bottom_padding);
+}
+
+.categories-list {
+    gap: var(--gaps);
+}
+
+.features {
+    padding-top: var(--features-top-padding);
+    padding-bottom: var(--features-btm-padding);
+    gap: var(--gaps);
+}
+
+/* Banner section */
+.banner {
+    padding: var(--banner-padding);
+}
+
+/* Popular categories section */
+.popular {
+    gap: var(--grid-gap);
+}
+
+.trending {
+    gap: var(--grid-padding-top);
+}
