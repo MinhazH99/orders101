@@ -10,6 +10,7 @@ a {
     text-decoration: none;
     color: inherit;
 }
+
 /* Account management */
 
 .account {
@@ -86,6 +87,9 @@ a {
 
 .banner {
     justify-content: center;
+}
+
+.banner-image {
     width: 100%;
 }
 
