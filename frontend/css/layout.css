@@ -1,5 +1,7 @@
 .container {
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .grid {
@@ -60,8 +62,6 @@ a {
 /* Categories section */
 
 .categories {
-    justify-content: center;
-    align-items: center;
     border-bottom: 2px solid lightgray;
 }
 .categories-list {
@@ -72,26 +72,6 @@ a {
 .category-image {
     height: 145px;
     width: 250px;
-}
-
-/* Features section */
-
-.features {
-    justify-content: center;
-    align-items: center;
-}
-
-/* Banner section */
-
-.banner {
-    justify-content: center;
-}
-
-/* Popular section */
-
-.popcategories {
-    justify-content: center;
-    align-items: center;
 }
 
 .popular {
