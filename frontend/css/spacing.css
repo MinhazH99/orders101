@@ -1,17 +1,18 @@
 /* Setting up CSS variables */
-
-.container {
+:root {
     --right-padding: 1.5rem;
-    --gaps: 1.5rem;
-    --bottom_padding: 0.1rem;
-    --features-top-padding: 0.2rem;
-    --features-btm-padding: 0.2rem;
-    --banner-padding: 2rem;
+    --small-gap: 1.5rem;
+    --large-gap: 2rem;
+    --btm-padding-sml: 0.1rem;
+    --btm-padding-sml2: 0.2rem;
+    --btm-padding-sml2: 0.2rem;
+    --large-padding: 2rem;
 }
 
 .grid {
-    --grid-gap: 2rem;
+    gap: var(--large-gap);
     --grid-padding-top: 1rem;
+    padding-top: var(--grid-padding-top);
 }
 
 /* Spacing for header section */
@@ -20,38 +21,29 @@
 }
 
 .account-links {
-    gap: var(--gaps);
+    gap: var(--small-gap);
 }
 
 .icons-list {
-    gap: var(--gaps);
+    gap: var(--small-gap);
 }
 
 /* Spacing for nav bar section */
 .categories {
-    padding-bottom: var(--bottom_padding);
+    padding-bottom: var(--btm-padding-sml);
 }
 
 .categories-list {
-    gap: var(--gaps);
+    gap: var(--large-gap);
 }
 
 .features {
-    padding-top: var(--features-top-padding);
-    padding-bottom: var(--features-btm-padding);
-    gap: var(--gaps);
+    padding-top: var(--btm-padding-sml2);
+    padding-bottom: var(--btm-padding-sml2);
+    gap: var(--small-gap);
 }
 
 /* Banner section */
 .banner {
-    padding: var(--banner-padding);
-}
-
-/* Popular categories section */
-.popular {
-    gap: var(--grid-gap);
-}
-
-.trending {
-    gap: var(--grid-padding-top);
+    padding: var(--large-padding);
 }
