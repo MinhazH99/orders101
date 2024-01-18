@@ -45,6 +45,11 @@
     gap: var(--gaps);
 }
 
+.searchicons {
+    --search-icon-margin-bottom: 0.5rem;
+    margin-bottom: var(--search-icon-margin-bottom);
+}
+
 /* Banner section */
 
 /* Popular categories section */
