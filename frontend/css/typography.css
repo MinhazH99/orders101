@@ -11,10 +11,6 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
-.account {
-    font-size: var(--small-font-size);
-}
-
 h1 {
     font-weight: bold;
     font-size: var(--h1-font-size);

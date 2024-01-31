@@ -6,6 +6,9 @@
 
 .grid {
     display: grid;
+    gap: var(--spacing-l);
+    --grid-padding-top: 1rem;
+    padding-top: var(--grid-padding-top);
 }
 
 a {
@@ -17,11 +20,14 @@ a {
 .account {
     justify-content: flex-end;
     border-bottom: 0.5px solid lightgray;
+    padding-right: var(--spacing-m);
+    font-size: var(--small-font-size);
 }
 
 .account-links {
     display: flex;
     list-style: none;
+    gap: var(--spacing-m);
 }
 
 /* Search section */
@@ -33,10 +39,15 @@ a {
         width: 33%;
         overflow: hidden;
     }
+
+    .menu__item + .menu__item {
+        margin-left: var(--spacing-xl);
+    }
 }
 
 .icons-list {
     display: flex;
+    gap: var(--spacing-m);
 }
 
 .ideas {
@@ -47,16 +58,33 @@ a {
 
 .categories {
     border-bottom: 2px solid lightgray;
+    padding-bottom: var(--spacing-xs);
 }
 .categories-list {
     display: flex;
     list-style-type: none;
+    gap: var(--spacing-l);
 }
 
 .category-image {
     height: 145px;
     width: 250px;
 }
+
+/* Features section */
+
+.features {
+    padding-top: var(--spacing-s);
+    padding-bottom: var(--spacing-s);
+    gap: var(--spacing-m);
+}
+
+/* Banner section */
+.banner {
+    padding: var(--spacing-l);
+}
+
+/* Popular section */
 
 .popular {
     grid-template-columns: 1fr 1fr 1fr 1fr;
