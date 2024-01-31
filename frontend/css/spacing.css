@@ -1,49 +1,51 @@
 /* Setting up CSS variables */
 :root {
-    --right-padding: 1.5rem;
-    --small-gap: 1.5rem;
-    --large-gap: 2rem;
-    --btm-padding-sml: 0.1rem;
-    --btm-padding-sml2: 0.2rem;
-    --btm-padding-sml2: 0.2rem;
-    --large-padding: 2rem;
+    --spacing-xs: 0.1rem;
+    --spacing-s: 0.2rem;
+    --spacing-m: 1.5rem;
+    --spacing-l: 2rem;
+    --spacing-xl: 25rem;
 }
 
 .grid {
-    gap: var(--large-gap);
+    gap: var(--spacing-l);
     --grid-padding-top: 1rem;
     padding-top: var(--grid-padding-top);
 }
 
 /* Spacing for header section */
 .account {
-    padding-right: var(--right-padding);
+    padding-right: var(--spacing-m);
 }
 
 .account-links {
-    gap: var(--small-gap);
+    gap: var(--spacing-m);
 }
 
 .icons-list {
-    gap: var(--small-gap);
+    gap: var(--spacing-m);
 }
 
 /* Spacing for nav bar section */
 .categories {
-    padding-bottom: var(--btm-padding-sml);
+    padding-bottom: var(--spacing-xs);
 }
 
 .categories-list {
-    gap: var(--large-gap);
+    gap: var(--spacing-l);
 }
 
 .features {
-    padding-top: var(--btm-padding-sml2);
-    padding-bottom: var(--btm-padding-sml2);
-    gap: var(--small-gap);
+    padding-top: var(--spacing-s);
+    padding-bottom: var(--spacing-s);
+    gap: var(--spacing-m);
 }
 
 /* Banner section */
 .banner {
-    padding: var(--large-padding);
+    padding: var(--spacing-l);
+}
+
+.menu__item + .menu__item {
+    margin-left: var(--spacing-xl);
 }
