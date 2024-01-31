@@ -1,23 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+    --h1-font-size: 2rem;
+    --h2-font-size: 1.5rem;
+    --h3-font-size: 1.17rem;
+    --p-font-size: 1rem;
+    --small-font-size: 0.9rem;
+}
 body {
     font-family: 'Poppins', sans-serif;
 }
 
+.account {
+    font-size: var(--small-font-size);
+}
+
 h1 {
     font-weight: bold;
-    font-size: 2rem;
+    font-size: var(--h1-font-size);
 }
 
 h2 {
     font-weight: bold;
-    font-size: 1.5rem;
+    font-size: var(--h2-font-size);
 }
 
 h3 {
     font-weight: bold;
-    font-size: 1.17em;
+    font-size: var(--h3-font-size);
 }
 
 p {
-    font-size: 16px;
+    font-size: var(--p-font-size);
 }
