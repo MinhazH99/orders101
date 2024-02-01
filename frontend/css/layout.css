@@ -1,9 +1,14 @@
 .container {
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .grid {
     display: grid;
+    gap: var(--spacing-l);
+    --grid-padding-top: 1rem;
+    padding-top: var(--grid-padding-top);
 }
 
 a {
@@ -14,15 +19,15 @@ a {
 
 .account {
     justify-content: flex-end;
-    padding-right: 20px;
     border-bottom: 0.5px solid lightgray;
-    font-size: 14px;
+    padding-right: var(--spacing-m);
+    font-size: var(--small-font-size);
 }
 
 .account-links {
     display: flex;
     list-style: none;
-    gap: 20px;
+    gap: var(--spacing-m);
 }
 
 li a {
@@ -36,33 +41,27 @@ li a {
 /* Search section */
 
 .menu {
-    padding: 10px;
     border-bottom: 2px solid lightgray;
-}
 
-.logo {
-    flex: 1;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
+    .menu__item {
+        flex: 1;
+    }
 
-.search-container {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    .menu__item + .menu__item {
+        margin-left: var(--spacing-xl);
+    }
 }
 
 .search-bar {
-    width: 100%;
+    width: 150%;
     height: 35%;
     border: 1px solid black;
 }
 
 .icons-list {
     display: flex;
-    gap: 2rem;
+    gap: var(--spacing-m);
+    padding-top: var(--spacing-m);
 }
 
 .ideas {
@@ -72,15 +71,13 @@ li a {
 /* Categories section */
 
 .categories {
-    justify-content: center;
-    align-items: center;
-    padding-bottom: 5px;
     border-bottom: 2px solid lightgray;
+    padding-bottom: var(--spacing-xs);
 }
 .categories-list {
     display: flex;
     list-style-type: none;
-    gap: 20px;
+    gap: var(--spacing-l);
 }
 
 .category-image {
@@ -91,37 +88,27 @@ li a {
 /* Features section */
 
 .features {
-    justify-content: center;
-    align-items: center;
-    padding-bottom: 10px;
-    gap: 20px;
+    padding-top: var(--spacing-s);
+    padding-bottom: var(--spacing-s);
+    gap: var(--spacing-m);
 }
 
 /* Banner section */
-
 .banner {
-    justify-content: center;
-    padding: 10px;
+    padding: var(--spacing-l);
 }
 
 /* Popular section */
 
-.popcategories {
-    justify-content: center;
-    align-items: center;
-}
-
 .popular {
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    gap: 20px;
 }
 
 /* Trending section */
 
 .trending {
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    padding-top: 1rem;
 }
 
 .subtitle {

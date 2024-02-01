@@ -1,0 +1,8 @@
+/* Setting up CSS variables */
+:root {
+    --spacing-xs: 0.1rem;
+    --spacing-s: 0.2rem;
+    --spacing-m: 1.5rem;
+    --spacing-l: 2rem;
+    --spacing-xl: 18rem;
+}
