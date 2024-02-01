@@ -36,8 +36,7 @@ a {
     border-bottom: 2px solid lightgray;
 
     .menu__item {
-        width: 33%;
-        overflow: hidden;
+        flex: 1;
     }
 
     .menu__item + .menu__item {
@@ -45,9 +44,16 @@ a {
     }
 }
 
+.search-bar {
+    width: 150%;
+    height: 35%;
+    border: 1px solid black;
+}
+
 .icons-list {
     display: flex;
     gap: var(--spacing-m);
+    padding-top: var(--spacing-m);
 }
 
 .ideas {
