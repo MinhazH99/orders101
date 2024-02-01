@@ -1,62 +1,8 @@
 /* Setting up CSS variables */
-
-.main-content {
-    --main-margin: 2rem;
-    margin: var(--main-margin);
-}
-.container {
-    --right-padding: 1.5rem;
-    --gaps: 1.5rem;
-    --bottom_padding: 0.1rem;
-    --features-top-padding: 0.2rem;
-    --features-btm-padding: 0.2rem;
-}
-
-.grid {
-    --grid-gap: 2rem;
-    --grid-padding-top: 1rem;
-}
-
-/* Spacing for header section */
-.account {
-    padding-right: var(--right-padding);
-}
-
-.account-links {
-    gap: var(--gaps);
-}
-
-.icons-list {
-    gap: var(--gaps);
-}
-
-/* Spacing for nav bar section */
-.categories {
-    padding-bottom: var(--bottom_padding);
-}
-
-.categories-list {
-    gap: var(--gaps);
-}
-
-.features {
-    padding-top: var(--features-top-padding);
-    padding-bottom: var(--features-btm-padding);
-    gap: var(--gaps);
-}
-
-.searchicons {
-    --search-icon-margin-bottom: 0.5rem;
-    margin-bottom: var(--search-icon-margin-bottom);
-}
-
-/* Banner section */
-
-/* Popular categories section */
-.popular {
-    gap: var(--grid-gap);
-}
-
-.trending {
-    gap: var(--grid-padding-top);
+:root {
+    --spacing-xs: 0.1rem;
+    --spacing-s: 0.2rem;
+    --spacing-m: 1.5rem;
+    --spacing-l: 2rem;
+    --spacing-xl: 18rem;
 }

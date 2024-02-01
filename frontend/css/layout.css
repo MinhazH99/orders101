@@ -1,9 +1,14 @@
 .container {
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .grid {
     display: grid;
+    gap: var(--spacing-l);
+    --grid-padding-top: 1rem;
+    padding-top: var(--grid-padding-top);
 }
 
 a {
@@ -16,19 +21,28 @@ a {
 .account {
     justify-content: flex-end;
     border-bottom: 0.5px solid lightgray;
-    font-size: 14px;
+    padding-right: var(--spacing-m);
+    font-size: var(--small-font-size);
 }
 
 .account-links {
     display: flex;
     list-style: none;
+    gap: var(--spacing-m);
+}
+
+li a {
+    display: flex;
+}
+
+.user {
+    margin-right: 0.4rem;
 }
 
 /* Search section */
 
 .menu {
     border-bottom: 2px solid lightgray;
-}
 
 .flex {
     flex: 1;
@@ -46,13 +60,15 @@ a {
 }
 
 .search-bar {
-    width: 100%;
+    width: 150%;
     height: 35%;
     border: 1px solid black;
 }
 
 .icons-list {
     display: flex;
+    gap: var(--spacing-m);
+    padding-top: var(--spacing-m);
 }
 
 .search-icons {
@@ -67,13 +83,13 @@ a {
 /* Categories section */
 
 .categories {
-    justify-content: center;
-    align-items: center;
     border-bottom: 2px solid lightgray;
+    padding-bottom: var(--spacing-xs);
 }
 .categories-list {
     display: flex;
     list-style-type: none;
+    gap: var(--spacing-l);
 }
 
 .site-image {
@@ -84,14 +100,14 @@ a {
 /* Features section */
 
 .features {
-    justify-content: center;
-    align-items: center;
+    padding-top: var(--spacing-s);
+    padding-bottom: var(--spacing-s);
+    gap: var(--spacing-m);
 }
 
 /* Banner section */
-
 .banner {
-    justify-content: center;
+    padding: var(--spacing-l);
 }
 
 .banner-image {
