@@ -48,19 +48,34 @@
                             </a>
                             
                         </div>
+                        <div onclick=showSideBar() class=" menu-button ideas">
+                            <a href="#hamburger">
+                                <div class="search-icons container"> <img img class="searchicons" src="./assets/images/list.svg" alt="basket">
+                                </div>
+                            </a>
+                            
+                        </div>
                     </div>
                    
                 </div>
              </div>
     </header>
 
-        <nav class="categories container nav-color">
-            <ul class="categories-list">
+        <nav class="categories container nav-color ">
+            <ul class="sidebar">
+                <li onclick=hideSideBar()><a href="#close"><img class="close" src="./assets/images/x.svg" alt=""></a></li>
                 <li><a href="#decorations">Decorations</a></li>
                 <li><a href="#garden">Garden</a></li>
                 <li><a href="#kitchen">Kitchen</a></li>
                 <li><a href="#tools">Tools</a></li>
                 <li><a href="#storage">Storage</a></li>
+            </ul>
+            <ul class="categories-list">
+                <li class="hideOnMobile"><a href="#decorations">Decorations</a></li>
+                <li class="hideOnMobile"><a href="#garden">Garden</a></li>
+                <li class="hideOnMobile"><a href="#kitchen">Kitchen</a></li>
+                <li class="hideOnMobile"><a href="#tools">Tools</a></li>
+                <li class="hideOnMobile"><a href="#storage">Storage</a></li>
             </ul>
         </nav>
     </header>
@@ -148,5 +163,17 @@
         </div>
     </section>
 </main>
+
+<script>
+    function showSideBar() {
+        const sidebar = document.querySelector('.sidebar')
+        sidebar.style.display = 'flex'
+    }
+
+    function hideSideBar() {
+        const sidebar = document.querySelector('.sidebar')
+        sidebar.style.display = 'none'
+    }
+</script>
 </body>
 </html>
