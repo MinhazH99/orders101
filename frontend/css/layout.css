@@ -46,6 +46,21 @@ li a {
     /* box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1); */
 }
 
+.mobile-nav {
+    display: none;
+    justify-content: space-around;
+}
+
+@media (max-width: 800px) {
+    .menu {
+        display: none;
+    }
+
+    .mobile-nav {
+        display: flex;
+    }
+}
+
 .flex {
     flex: 1;
     display: flex;
@@ -88,11 +103,12 @@ li a {
     position: fixed;
     list-style-type: none;
     top: 0;
-    right: 0;
+    left: 0;
     height: 100vh;
     width: 250px;
-    z-index: 999;
+    z-index: 1;
     display: none;
+    backdrop-filter: blur(10px);
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
