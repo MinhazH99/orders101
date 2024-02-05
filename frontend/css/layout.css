@@ -37,7 +37,7 @@ li a {
 }
 
 .user {
-    margin-right: 0.4rem;
+    margin-right: var(--spacing-s);
 }
 
 /* Search section */
@@ -57,7 +57,7 @@ li a {
 .logo {
     justify-content: flex-start;
     align-items: center;
-    margin-right: 1.6rem;
+    margin-right: var(--spacing-m);
 }
 
 .search-container {
@@ -84,11 +84,11 @@ li a {
 }
 
 .menu-button {
-    margin-right: 1.6rem;
+    margin-right: var(--spacing-m);
 }
 
 .nav-icons {
-    margin-right: 2.4rem;
+    margin-right: var(--spacing-l);
 }
 
 @media (min-width: 63.75rem) {
