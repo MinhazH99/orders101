@@ -216,6 +216,10 @@ li a {
     .categories-list > li {
         display: none;
     }
+
+    header {
+        margin-bottom: var(--spacing-m);
+    }
 }
 
 /* Side bar takes 100% of screen on smaller screens */
