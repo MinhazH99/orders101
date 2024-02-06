@@ -139,7 +139,7 @@ li a {
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: var(--blurred-background-color);
 }
 
 .sidebar li {
@@ -189,6 +189,7 @@ li a {
     padding-top: var(--spacing-s);
     padding-bottom: var(--spacing-s);
     gap: var(--spacing-m);
+    font-size: clamp(0.625rem, 0.75vw + 0.34375rem, 1rem);
 }
 
 /* Banner section */
