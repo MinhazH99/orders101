@@ -156,7 +156,7 @@ li a {
 }
 
 @media (max-width: 1180px) {
-    .hideOnMobile {
+    .categories-list > li {
         display: none;
     }
 }
