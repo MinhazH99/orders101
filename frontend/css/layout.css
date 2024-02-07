@@ -152,6 +152,10 @@ li a {
     width: 100%;
 }
 
+.sidebar--btn__closed {
+    display: flex;
+}
+
 .close {
     height: 2rem;
     width: 2rem;

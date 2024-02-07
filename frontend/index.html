@@ -18,11 +18,11 @@
 
         <div class="menu container">
 
-            <div onclick=showSideBar() class=" menu-button ideas">
-                <a href="#hamburger">
+            <div class=" menu-button ideas">
+                <button onclick=showSideBar()>
                     <div class="search-icons container"> <img img class="searchicons" src="./assets/images/list.svg" alt="basket">
                     </div>
-                </a>
+                </button>
                 
             </div>
             <a class="nav-icons" href="#stores">
@@ -51,7 +51,7 @@
 
         <nav class="categories container nav-color ">
             <ul class="sidebar">
-                <li onclick=hideSideBar()><a href="#close"><img class="close" src="./assets/images/x.svg" alt=""></a></li>
+                <li ><button class="sidebar--btn__closed" onclick=hideSideBar()><img class="close" src="./assets/images/x.svg" alt=""></button></li>
                 <li><a href="#decorations">Decorations</a></li>
                 <li><a href="#garden">Garden</a></li>
                 <li><a href="#kitchen">Kitchen</a></li>
