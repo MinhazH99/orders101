@@ -8,50 +8,50 @@
 </head>
 <body>
     <!-- Account management and contact us section -->
-    <header class="main-theme">
+    <header>
         <div class="account container">
-            <ul class = account-links>
+            <ul class = account__sub-links>
                 <li><a href="#account"><img class="user" src="./assets/images/person-fill.svg" alt=""><span>Account</span></a></li>
                 <li><a href="#contactus"><span>Contact us</span></a></li>
             </ul>
         </div>
 
-        <div class="menu container">
+        <div class="nav container">
 
-            <div class=" menu-button ideas">
+            <div class="hamburger__btn-open">
                 <button onclick=showSideBar()>
                     <div class="search-icons container"> <img img class="searchicons" src="./assets/images/list.svg" alt="basket">
                     </div>
                 </button>
                 
             </div>
-            <a class="nav-icons" href="#stores">
-                <div class="search-icons container"><img class="searchicons" src="./assets/images/geo-alt.svg" alt="geo locator">
+            <a class="nav__icons" href="#stores">
+                <div class="nav__icons__item container"><img class="searchicons" src="./assets/images/geo-alt.svg" alt="geo locator">
                     <span>Stores</span>
                     </div>
             </a>
             <div class="logo">
                <p>DIYToolWorld</p>
             </div>
-            <a class="nav-icons" href="#ideas">
-                <div class="search-icons container"><img  class="searchicons" src="./assets/images/lightbulb.svg" alt="lightbulb" >
+            <a class="nav__icons" href="#ideas">
+                <div class="nav__icons__item container"><img  class="searchicons" src="./assets/images/lightbulb.svg" alt="lightbulb" >
                     <span>Ideas & Advice</span></div>
             </a>
             
-            <a class="nav-icons" href="#basket">
-                <div class="search-icons container"> <img img class="searchicons" src="./assets/images/basket.svg" alt="basket">
+            <a class="nav__icons" href="#basket">
+                <div class="nav__icons__item container"> <img img class="searchicons" src="./assets/images/basket.svg" alt="basket">
                     <span>Basket</span>
                 </div>  
             </a>
-            <div class="search-container">
+            <div class="nav__search-container">
                 <input class="search-bar" type="search" placeholder="Search...">
             </div> 
         </div>                            
     </header>
 
         <nav class="categories container nav-color ">
-            <ul class="sidebar">
-                <li ><button class="sidebar--btn__closed" onclick=hideSideBar()><img class="close" src="./assets/images/x.svg" alt=""></button></li>
+            <ul class="hamburger">
+                <li ><button class="hamburger__btn-close" onclick=hideSideBar()><img class="close" src="./assets/images/x.svg" alt=""></button></li>
                 <li><a href="#decorations">Decorations</a></li>
                 <li><a href="#garden">Garden</a></li>
                 <li><a href="#kitchen">Kitchen</a></li>
@@ -154,12 +154,12 @@
 
 <script>
     function showSideBar() {
-        const sidebar = document.querySelector('.sidebar')
+        const sidebar = document.querySelector('.hamburger')
         sidebar.style.display = 'flex'
     }
 
     function hideSideBar() {
-        const sidebar = document.querySelector('.sidebar')
+        const sidebar = document.querySelector('.hamburger')
         sidebar.style.display = 'none'
     }
 </script>
