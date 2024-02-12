@@ -39,4 +39,25 @@ fetch(apiUrl)
     })
     .catch((error) => {
         console.error('Error:', error);
+
+        for (let i = 0; i < 4; i++) {
+            var anchor = document.createElement('a');
+            var divWithImage = document.createElement('div');
+            var productImage = document.createElement('img');
+            productImage.src = './assets/images/trending-product.webp';
+            productImage.className = 'site-image';
+            divWithImage.appendChild(productImage);
+            var divWithProductName = document.createElement('div');
+            var productName = document.createTextNode('Placeholder');
+            divWithProductName.appendChild(productName);
+            anchor.appendChild(divWithProductName);
+            var divWithUnitPrice = document.createElement('div');
+            var unitPrice = document.createTextNode('£XX.XX');
+            divWithUnitPrice.append(unitPrice);
+            anchor.appendChild(divWithImage);
+            anchor.appendChild(divWithProductName);
+            anchor.appendChild(divWithUnitPrice);
+            const trendingProduct = document.getElementById('trending');
+            trendingProduct.appendChild(anchor);
+        }
     });
