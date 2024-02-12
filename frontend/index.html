@@ -8,50 +8,58 @@
 </head>
 <body>
     <!-- Account management and contact us section -->
-    <header class="main-theme">
+    <header>
         <div class="account container">
-            <ul class = account-links>
-                <li><a href="#account"><img class="user" src="./assets/images/person-fill.svg" alt="">Account</a></li>
-                <li><a href="#contactus">Contact us</a></li>
+            <ul class = account__sub-links>
+                <li><a href="#account"><img class="user" src="./assets/images/person-fill.svg" alt=""><span>Account</span></a></li>
+                <li><a href="#contactus"><span>Contact us</span></a></li>
             </ul>
         </div>
 
-        <div class="menu container">
-            <div class="menu__item">
+        <div class="nav container">
+
+            <div class="hamburger__btn-open">
+                <button onclick=showSideBar()>
+                    <div class="search-icons container"> <img img class="searchicons" src="./assets/images/list.svg" alt="basket">
+                    </div>
+                </button>
+                
+            </div>
+            <a class="nav__icons" href="#stores">
+                <div class="nav__icons__item container"><img class="searchicons" src="./assets/images/geo-alt.svg" alt="geo locator">
+                    <span>Stores</span>
+                    </div>
+            </a>
+            <div class="logo">
                <p>DIYToolWorld</p>
             </div>
-            <div class="menu__item">
+            <a class="nav__icons" href="#ideas">
+                <div class="nav__icons__item container"><img  class="searchicons" src="./assets/images/lightbulb.svg" alt="lightbulb" >
+                    <span>Ideas & Advice</span></div>
+            </a>
+            
+            <a class="nav__icons" href="#basket">
+                <div class="nav__icons__item container"> <img img class="searchicons" src="./assets/images/basket.svg" alt="basket">
+                    <span>Basket</span>
+                </div>  
+            </a>
+            <div class="nav__search-container">
                 <input class="search-bar" type="search" placeholder="Search...">
-            </div>
-             <div class="menu__item">
-                <div class="icons-list">
-                    <div class="ideas">
-                        <a href="#ideas">
-                            <div><img  class="searchicons" src="./assets/images/lightbulb.svg" alt="" >
-                                <p>Ideas & Advice</p></div>
-                        </a> 
-                    </div>
-                    <div class="ideas">
-                        <a href="#stores">
-                            <div><img class="searchicons" src="./assets/images/geo-alt.svg" alt="">
-                                <p>Stores</p></div>
-                        </a>
-                        </div>
-                        <div class="ideas">
-                            <a href="#basket">
-                                <div> <img img class="searchicons" src="./assets/images/basket.svg" alt="">
-                                    <p>Basket</p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-             </div>
+            </div> 
+        </div>                            
     </header>
 
-        <nav class="categories container nav-color">
-            <ul class="categories-list">
+        <nav class="categories container nav-color ">
+            <ul class="hamburger">
+                <li ><button class="hamburger__btn-close" onclick=hideSideBar()><img class="close" src="./assets/images/x.svg" alt=""></button></li>
                 <li><a href="#decorations">Decorations</a></li>
+                <li><a href="#garden">Garden</a></li>
+                <li><a href="#kitchen">Kitchen</a></li>
+                <li><a href="#tools">Tools</a></li>
+                <li><a href="#storage">Storage</a></li>
+            </ul>
+            <ul class="categories-list">
+                <li ><a href="#decorations">Decorations</a></li>
                 <li><a href="#garden">Garden</a></li>
                 <li><a href="#kitchen">Kitchen</a></li>
                 <li><a href="#tools">Tools</a></li>
@@ -62,87 +70,104 @@
 
 
     <!-- Key features  -->
-    <section id="features" class="subsection">
+    <section class="subsection">
         <div class="features container">
-            <div><img src="./assets/images/bag-check.svg" alt=""> Free click & collect</div>
+            <div><img src="./assets/images/bag-check.svg" alt="">Free click & collect</div>
             <div><img src="./assets/images/cart.svg" alt=""> 90 day return policy</div>
             <div><img src="./assets/images/truck.svg" alt=""> Free delivery on 1000s of products</div>
         </div>
     </section>
 
+    <main class="main-content">
+
     <!-- Banner image -->
-    <section id="banner">
-        <div class="banner container"><img src="./assets/images/6456-LEYLAND-Web_1400x400px_AW.webp" alt="banner image"></div>
+    <section>
+      <div class="container" ><img class="banner-image" 
+        srcset="./assets/images/banner3-360w.jpg 360w, 
+        ./assets/images/banner2-1084w.jpg 1084w, 
+        ./assets/images/banner-1400w.webp 1400w" 
+        src="./assets/images/banner3-360w.jpg"  
+        alt="banner image"></div>
     </section>
 
+    
     <!-- Popular categories -->
-    <section id="popular">
+    <section>
         <h2 class="subtitle">Popular categories</h2>
-        <div class="popcategories container">
         <div class="popular grid">
-            <div>
-               <div><img class= "category-image" src="./assets/images/categories.webp" alt="picture of a chair"></div>
+            <a href="#category-1">
+               <div><img class="site-image" src="./assets/images/categories.webp" alt="picture of a chair"></div>
                <div>Category 1</div>
-            </div>
-            <div>
-                <div><img class= "category-image" src="./assets/images/categories.webp" alt="picture of a chair"></div>
+            </a>
+            <a href="#category-2">
+                <div><img class="site-image" src="./assets/images/categories.webp" alt="picture of a chair"></div>
                 <div>Category 2</div>
-             </div>
-             <div>
-                <div><img class= "category-image" src="./assets/images/categories.webp" alt="picture of a chair"></div>
+            </a>
+             <a href="#category-3">
+                <div><img class="site-image" src="./assets/images/categories.webp" alt="picture of a chair"></div>
                 <div>Category 3</div>
-             </div>
-             <div>
-                <div><img class= "category-image" src="./assets/images/categories.webp" alt="picture of a chair"></div>
+             </a>
+             <a href="#category-4">
+                <div><img class="site-image" src="./assets/images/categories.webp" alt="picture of a chair"></div>
                 <div>Category 4</div>
-             </div>
-             <div>
-                <div><img class= "category-image" src="./assets/images/categories.webp" alt="picture of a chair"></div>
+             </a>
+             <a href="#category-5">
+                <div><img class="site-image" src="./assets/images/categories.webp" alt="picture of a chair"></div>
                 <div>Category 5</div>
-             </div>
-             <div>
-                <div><img class= "category-image" src="./assets/images/categories.webp" alt="picture of a chair"></div>
+             </a>
+             <a href="#category-6">
+                <div><img class="site-image" src="./assets/images/categories.webp" alt="picture of a chair"></div>
                 <div>Category 6</div>
-             </div>
-             <div>
-                <div><img class= "category-image" src="./assets/images/categories.webp" alt="picture of a chair"></div>
+             </a>
+             <a href="#category-7">
+                <div><img class="site-image" src="./assets/images/categories.webp" alt="picture of a chair"></div>
                 <div>Category 7</div>
-             </div>
-             <div>
-                <div><img class= "category-image" src="./assets/images/categories.webp" alt="picture of a chair"></div>
+             </a>
+             <a href="#category-8">
+                <div><img class="site-image" src="./assets/images/categories.webp" alt="picture of a chair"></div>
                 <div>Category 8</div>
-             </div>
-
+             </a>
         </div>
-    </div>
     </section>
 
     <!-- Trending now -->
-    <section id="trending">
+    <section>
         <h2 class="subtitle">Trending now</h2>
         <div class="trending grid">
-            <div>
-                <div><img src="./assets/images/trending-product.webp" alt="trending product"></div>
+            <a href="#trending">
+                <div><img class="site-image" src="./assets/images/trending-product.webp"></div>
                 <div>Product name</div>
                 <div>£XX.XX</div>
-            </div>
-            <div>
-                <div><img src="./assets/images/trending-product.webp" alt="trending product"></div>
+            </a>
+            <a href="#trending" >
+                <div><img class="site-image""  src="./assets/images/trending-product.webp"></div>
                 <div>Product name</div>
                 <div>£XX.XX</div>
-            </div>
-            <div>
-                <div><img src="./assets/images/trending-product.webp" alt="trending product"></div>
+            </a>
+            <a href="#trending">
+                <div><img class="site-image"  src="./assets/images/trending-product.webp"></div>
                 <div>Product name</div>
                 <div>£XX.XX</div>
-            </div>
-            <div>
-                <div><img src="./assets/images/trending-product.webp" alt="trending product"></div>
+            </a>
+            <a href="#trending">
+                <div><img class="site-image"  src="./assets/images/trending-product.webp"></div>
                 <div>Product name</div>
                 <div>£XX.XX</div>
-            </div>
+            </a>
         </div>
     </section>
-    
+</main>
+
+<script>
+    function showSideBar() {
+        const sidebar = document.querySelector('.hamburger')
+        sidebar.style.display = 'flex'
+    }
+
+    function hideSideBar() {
+        const sidebar = document.querySelector('.hamburger')
+        sidebar.style.display = 'none'
+    }
+</script>
 </body>
 </html>

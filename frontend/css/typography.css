@@ -29,3 +29,7 @@ h3 {
 p {
     font-size: var(--p-font-size);
 }
+
+span {
+    font-size: 12px;
+}
