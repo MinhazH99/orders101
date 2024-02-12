@@ -23,12 +23,15 @@ fetch(apiUrl)
             if ('content' in document.createElement('template')) {
                 const trendingBody = document.querySelector('#trending');
                 const template = document.querySelector('#trending-product');
-
                 const clone = template.content.cloneNode(true);
                 let tp = clone.querySelectorAll('div');
+                const img = tp[0].querySelector('img');
+                img.addEventListener('error', function (event) {
+                    event.target.src = './assets/images/trending-product.webp';
+                    event.onerror = null;
+                });
                 tp[1].textContent = element.name;
-                tp[2].textContent = element.unitPrice;
-
+                tp[2].textContent = '£' + element.unitPrice;
                 trendingBody.appendChild(clone);
             } else {
                 tp[0].textContent = 'Placeholder';
@@ -48,7 +51,6 @@ fetch(apiUrl)
                 tp[0].querySelector('img').src = './assets/images/trending-product.webp';
                 tp[1].textContent = 'Placeholder';
                 tp[2].textContent = '£XX.XX';
-
                 trendingBody.appendChild(clone);
             }
         }
