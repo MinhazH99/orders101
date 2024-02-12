@@ -24,12 +24,16 @@ fetch(apiUrl)
         data.data.forEach((element) => {
             console.log(element);
             var anchor = document.createElement('a');
-            var div = document.createElement('div');
+            var divWithProductName = document.createElement('div');
             productName = document.createTextNode(element.name);
-            div.appendChild(productName);
-            anchor.appendChild(div);
+            divWithProductName.appendChild(productName);
+            var divWithUnitPrice = document.createElement('div');
+            unitPrice = document.createTextNode(element.unitPrice);
+            divWithUnitPrice.append(unitPrice);
+            anchor.appendChild(divWithProductName);
+            anchor.appendChild(divWithUnitPrice);
 
-            const trendingProduct = document.getElementById('test');
+            const trendingProduct = document.getElementById('trending');
             trendingProduct.appendChild(anchor);
         });
     })
