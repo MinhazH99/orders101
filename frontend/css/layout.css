@@ -204,12 +204,10 @@ li a {
 }
 
 /* Banner section */
-.banner {
-    padding: var(--spacing-l);
-}
 
 .banner-image {
-    width: 100%;
+    padding: var(--spacing-l);
+    max-width: 100%;
 }
 
 /* Popular section */
