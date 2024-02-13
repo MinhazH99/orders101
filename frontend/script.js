@@ -1,11 +1,11 @@
 function showSideBar() {
-    const sidebar = document.querySelector('.hamburger');
-    sidebar.style.display = 'flex';
+    const sidebar = document.querySelector('.hamburger')
+    sidebar.style.display = 'flex'
 }
 
 function hideSideBar() {
-    const sidebar = document.querySelector('.hamburger');
-    sidebar.style.display = 'none';
+    const sidebar = document.querySelector('.hamburger')
+    sidebar.style.display = 'none'
 }
 
 const Orders = {
@@ -17,19 +17,14 @@ const Orders = {
         let i = 0
         while(i < 4) {
             if ('content' in document.createElement('template')) {
-                const trendingBody = document.querySelector('#trending')
-                const template = document.querySelector('#trending-product')
-                const clone = template.content.cloneNode(true)
-                let tp = clone.querySelectorAll('div')
-                tp[0].querySelector('img').src = './assets/images/trending-product.webp'
-                tp[1].textContent = 'Placeholder'
-                tp[2].textContent = '£XX.XX'
-                trendingBody.appendChild(clone)
+                const trendingDiv = document.querySelector('#trending')
+                const templateClone = document.querySelector('#trending-product-template').content.cloneNode(true)
+                trendingDiv.appendChild(templateClone)
             }
             i++
         }
     },
-    fetchProducts: function (url, callback) {
+    fetchData: function (url, callback) {
         fetch(url).then((response) => {
             if (!response.ok) {
                 this.handleHttpNotOk()
@@ -38,66 +33,33 @@ const Orders = {
         }).then((json) => {
             json.data.forEach((item) => callback(item))
         }).catch((err) => this.handleError(err))
+    }
 }
 
-Orders.fetchProducts('http://localhost:8080/products/', appendProduct)
+Orders.fetchData('http://localhost:8081/products/', appendProduct)
 
 function appendProduct(product) {
-    let htmlTemplate = `<template id="product">
-  <tr>
-    <td class="record"></td>
-    <td></td>
-  </tr>
-</template>`
-} 
+    // Test to see if the browser supports the HTML template element by checking
+    // for the presence of the template element's content attribute.
+    if ('content' in document.createElement('template')) {
+        const trendingDiv = document.querySelector('#trending')
+        const templateClone = document.querySelector('#trending-product-template').content.cloneNode(true)
+        
+        let prodImage = templateClone.querySelector('#trending-div-product-image')
+        prodImage.setAttribute('src', './assets/images/trending-product.webp')
+        
+        let labelDiv = templateClone.querySelector('#trending-div-product-label')
+        labelDiv.textContent = product.name
 
-// Specify the API endpoint for user data
-const apiUrl = 'http://localhost:8080/products/';
-// Make a GET request using the Fetch API
-fetch(apiUrl)
-    .then((response) => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then((data) => {
-        data.data.forEach((element) => {
-            if ('content' in document.createElement('template')) {
-                const trendingBody = document.querySelector('#trending');
-                const template = document.querySelector('#trending-product');
-                const clone = template.content.cloneNode(true);
-                let tp = clone.querySelectorAll('div');
-                const img = tp[0].querySelector('img');
-                img.addEventListener('error', function (event) {
-                    event.target.src = './assets/images/trending-product.webp';
-                    event.onerror = null;
-                });
-                tp[1].textContent = element.name;
-                tp[2].textContent = '£' + element.unitPrice;
-                trendingBody.appendChild(clone);
-            } else {
-                tp[0].textContent = 'Placeholder';
-                tp[1].textContent = '£XX.XX';
-            }
-        });
-    })
-    .catch((error) => {
-        console.error('Error:', error);
+        let priceDiv = templateClone.querySelector('#trending-div-product-price')
+        priceDiv.textContent = '£' + product.unitPrice
 
-        for (let i = 0; i < 4; i++) {
-            if ('content' in document.createElement('template')) {
-                const trendingBody = document.querySelector('#trending');
-                const template = document.querySelector('#trending-product');
-                const clone = template.content.cloneNode(true);
-                let tp = clone.querySelectorAll('div');
-                tp[0].querySelector('img').src = './assets/images/trending-product.webp';
-                tp[1].textContent = 'Placeholder';
-                tp[2].textContent = '£XX.XX';
-                trendingBody.appendChild(clone);
-            }
-        }
-    });
+        trendingDiv.appendChild(templateClone)
+    } else {
+        // perhaps just append html here if templates are not supported?
+        // ...
+    }  
+}
 
 
 
