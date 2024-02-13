@@ -8,7 +8,7 @@ function hideSideBar() {
     sidebar.style.display = 'none'
 }
 
-const Orders = {
+const Products = {
     handleHttpNotOk: function () {
         throw new Error('Network response was not ok')
     },
@@ -36,7 +36,7 @@ const Orders = {
     }
 }
 
-Orders.fetchData('http://localhost:8081/products/', appendProduct)
+Products.fetchData('http://localhost:8081/products/', appendProduct)
 
 function appendProduct(product) {
     // Test to see if the browser supports the HTML template element by checking
