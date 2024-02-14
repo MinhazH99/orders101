@@ -63,3 +63,4 @@ function appendProduct(product) {
         trendingDiv.appendChild(templateClone);
     }
 }
+export { Products, apiUrl, appendProduct };
