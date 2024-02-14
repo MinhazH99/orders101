@@ -11,7 +11,10 @@ const Products = {
                 const templateClone = document
                     .querySelector('#trending-product-template')
                     .content.cloneNode(true);
+                let prodImage = templateClone.querySelector('#trending-div-product-image');
+                prodImage.setAttribute('src', './assets/images/trending-product.webp');
                 trendingDiv.appendChild(templateClone);
+                prodImage.setAttribute('alt', 'Image of a trending product');
             }
         }
     },
@@ -48,10 +51,6 @@ function appendProduct(product) {
         let prodImage = templateClone.querySelector('#trending-div-product-image');
         prodImage.setAttribute('src', './assets/images/trending-product.webp');
         prodImage.setAttribute('alt', 'Image of a trending product');
-        prodImage.addEventListener('error', function (event) {
-            event.target.src = './assets/images/trending-product.webp';
-            event.onerror = null;
-        });
 
         let labelDiv = templateClone.querySelector('#trending-div-product-label');
         labelDiv.textContent = product.name;
