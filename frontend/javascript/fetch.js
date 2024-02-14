@@ -13,8 +13,8 @@ const Products = {
                     .content.cloneNode(true);
                 let prodImage = templateClone.querySelector('#trending-div-product-image');
                 prodImage.setAttribute('src', './assets/images/trending-product.webp');
-                trendingDiv.appendChild(templateClone);
                 prodImage.setAttribute('alt', 'Image of a trending product');
+                trendingDiv.appendChild(templateClone);
             }
         }
     },
@@ -38,8 +38,6 @@ const Products = {
 const apiUrl = 'http://localhost:8080/products/';
 
 Products.fetchData(apiUrl, appendProduct);
-
-function retrieveTrendingTemplate() {}
 
 function createProductImage(template) {
     let prodImage = template.querySelector('#trending-div-product-image');
