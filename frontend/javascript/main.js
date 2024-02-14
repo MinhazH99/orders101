@@ -1,2 +1,2 @@
-import { Products, apiUrl, appendProduct } from './fetch.js';
-import { showSideBar, hideSideBar } from './home.js';
+import { appendProducts } from './products.js';
+import { attachEventListeners } from './home.js';

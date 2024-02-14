@@ -1,16 +1,16 @@
-function showSideBar() {
-    console.log('in function');
-    const sidebar = document.querySelector('.hamburger');
-    sidebar.style.display = 'flex';
+function attachEventListeners() {
+    document.querySelector('#show-side-bar').addEventListener('click', function () {
+        const sidebar = document.querySelector('.hamburger');
+        sidebar.style.display = 'flex';
+    });
+
+    document.querySelector('#hide-side-bar').addEventListener('click', function () {
+        const sidebar = document.querySelector('.hamburger');
+        sidebar.style.display = 'none';
+    });
 }
 
-function hideSideBar() {
-    const sidebar = document.querySelector('.hamburger');
-    sidebar.style.display = 'none';
-}
-
+attachEventListeners();
 // Use this as anything defined in a module is scoped to that module, so use window to explicity expose those functions to global scope.
-window.showSideBar = showSideBar;
-window.hideSideBar = hideSideBar;
 
-export { showSideBar, hideSideBar };
+export { attachEventListeners };
