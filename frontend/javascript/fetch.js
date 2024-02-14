@@ -16,17 +16,19 @@ const Products = {
         }
     },
     fetchData: function (url, callback) {
-        fetch(url)
-            .then((response) => {
-                if (!response.ok) {
-                    this.handleHttpNotOk();
-                }
-                return response.json();
-            })
-            .then((json) => {
-                json.data.forEach((item) => callback(item));
-            })
-            .catch((err) => this.handleError(err));
+        window.onload = (event) => {
+            fetch(url)
+                .then((response) => {
+                    if (!response.ok) {
+                        this.handleHttpNotOk();
+                    }
+                    return response.json();
+                })
+                .then((json) => {
+                    json.data.forEach((item) => callback(item));
+                })
+                .catch((err) => this.handleError(err));
+        };
     },
 };
 
