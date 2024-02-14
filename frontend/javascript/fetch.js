@@ -49,7 +49,11 @@ function createProductLabel(template, product) {
     let labelDiv = template.querySelector('#trending-div-product-label');
     labelDiv.textContent = product.name;
     let priceDiv = template.querySelector('#trending-div-product-price');
-    priceDiv.textContent = product.unitPrice.toLocaleString('en-UK', {
+    priceDiv.textContent = formatPrice(product.unitPrice);
+}
+
+function formatPrice(product) {
+    return product.toLocaleString('en-UK', {
         style: 'currency',
         currency: 'GBP',
     });
