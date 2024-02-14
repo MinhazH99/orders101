@@ -4,14 +4,11 @@ function handleProductError() {
     const fourPlaceholderProducts = 4;
     for (let i = 0; i < fourPlaceholderProducts; i++) {
         if (supportsTemplate()) {
-            const trendingDiv = document.querySelector('#trending');
-            const templateClone = document
-                .querySelector('#trending-product-template')
-                .content.cloneNode(true);
+            const templateClone = createTemplate();
             let prodImage = templateClone.querySelector('#trending-div-product-image');
             prodImage.setAttribute('src', './assets/images/trending-product.webp');
             prodImage.setAttribute('alt', 'Image of a trending product');
-            trendingDiv.appendChild(templateClone);
+            addToProductsList(templateClone);
         }
     }
 }
@@ -45,27 +42,28 @@ function formatPrice(product) {
 const supportsTemplate = () => 'content' in document.createElement('template');
 
 // Work in progress
-// function createTemplate() {
-//     const trendingDiv = document.querySelector('#trending');
-//     const templateClone =  document.querySelector('#trending-product-template').content.cloneNode(true);
-// }
+function createTemplate() {
+    const trendingDiv = document.querySelector('#trending');
+    return document.querySelector('#trending-product-template').content.cloneNode(true);
+}
+
+function addToProductsList(templateClone) {
+    const trendingDiv = document.querySelector('#trending');
+    trendingDiv.appendChild(templateClone);
+}
 
 function appendProducts(products) {
     // Test to see if the browser supports the HTML template element by checking
     // for the presence of the template element's content attribute.
     if (supportsTemplate()) {
         products.forEach((product) => {
-            const trendingDiv = document.querySelector('#trending');
-
-            const templateClone = document
-                .querySelector('#trending-product-template')
-                .content.cloneNode(true);
+            const templateClone = createTemplate();
 
             createProductImage(templateClone);
 
             createProductLabel(templateClone, product);
 
-            trendingDiv.appendChild(templateClone);
+            addToProductsList(templateClone);
         });
     }
 }
