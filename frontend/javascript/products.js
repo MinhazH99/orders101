@@ -21,13 +21,13 @@ window.onload = (event) => {
 
 function createProductImage(template) {
     let prodImage = template.querySelector('#trending-div-product-image');
+    // Need to test for null image once image is added to API
     prodImage.setAttribute('src', './assets/images/trending-product.webp');
     prodImage.setAttribute('alt', 'Image of a trending product');
 }
 
 function createProductLabel(template, product) {
     let labelDiv = template.querySelector('#trending-div-product-label');
-    product.name = null;
     if (product.name == null) {
         labelDiv.textContent = 'Error loading name...';
     } else {
