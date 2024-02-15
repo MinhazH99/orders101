@@ -27,9 +27,19 @@ function createProductImage(template) {
 
 function createProductLabel(template, product) {
     let labelDiv = template.querySelector('#trending-div-product-label');
-    labelDiv.textContent = product.name;
+    product.name = null;
+    if (product.name == null) {
+        labelDiv.textContent = 'Error loading name...';
+    } else {
+        labelDiv.textContent = product.name;
+    }
+
     let priceDiv = template.querySelector('#trending-div-product-price');
-    priceDiv.textContent = formatPrice(product.unitPrice);
+    if (product.unitPrice == null) {
+        priceDiv.textContent = 'Error loading price...';
+    } else {
+        priceDiv.textContent = formatPrice(product.unitPrice);
+    }
 }
 
 function formatPrice(product) {
