@@ -3,7 +3,7 @@ import { fetchData } from './fetch.js';
 function handleProductError() {
     const fourPlaceholderProducts = 4;
     for (let i = 0; i < fourPlaceholderProducts; i++) {
-        if (supportsTemplate()) {
+        if (doesBrowserSupportTemplete) {
             const templateClone = createTemplate();
             let prodImage = templateClone.querySelector('#trending-div-product-image');
             prodImage.setAttribute('src', './assets/images/trending-product.webp');
@@ -51,6 +51,8 @@ function formatPrice(product) {
 
 const supportsTemplate = () => 'content' in document.createElement('template');
 
+let doesBrowserSupportTemplete = supportsTemplate();
+
 // Work in progress
 function createTemplate() {
     const trendingDiv = document.querySelector('#trending');
@@ -65,7 +67,7 @@ function addToProductsList(templateClone) {
 function appendProducts(products) {
     // Test to see if the browser supports the HTML template element by checking
     // for the presence of the template element's content attribute.
-    if (supportsTemplate()) {
+    if (doesBrowserSupportTemplete) {
         products.forEach((product) => {
             const templateClone = createTemplate();
 
