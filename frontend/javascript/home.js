@@ -11,6 +11,5 @@ function attachEventListeners() {
 }
 
 attachEventListeners();
-// Use this as anything defined in a module is scoped to that module, so use window to explicity expose those functions to global scope.
 
 export { attachEventListeners };
