@@ -283,12 +283,7 @@ li a {
         }
 
         .item-price {
-            color: $main-color;
             margin-right: 8px;
-        }
-
-        .item-quantity {
-            color: $light-text;
         }
     }
 }
@@ -315,7 +310,6 @@ li a {
 }
 
 .button {
-    background: $main-color;
     color: white;
     text-align: center;
     padding: 12px;
@@ -324,10 +318,6 @@ li a {
     border-radius: 3px;
     font-size: 16px;
     margin: 25px 0 15px 0;
-
-    &:hover {
-        background: lighten($main-color, 3%);
-    }
 }
 
 .clearfix:after {
