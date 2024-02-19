@@ -39,7 +39,7 @@
                     <span>Ideas & Advice</span></div>
             </a>
             
-            <a class="nav__icons" href="#basket">
+            <a class="nav__icons" href="#basket" id="cart-icon">
                 <div class="nav__icons__item container"> <img img class="searchicons" src="./assets/images/basket.svg" alt="basket">
                     <span>Basket</span>
                 </div>  
@@ -49,41 +49,33 @@
             </div> 
         </div>
         
-        <div>
-            <div class="shopping-cart">
-                <div class="shopping-cart-header">
-                    <i class="fa fa-shopping-cart cart-icon"></i>
-                    <span class="badge">3</span>
-                    <div class="shopping-cart-total">
-                        <span>Total</span>
-                        <span>£2,299.07</span>
+        <div class="cart">
+            <h2 class="card-title">Your Cart</h2>
+
+            <div class="cart-content">
+                <div class="cart-box">
+                    <img src="./assets/images/trending-product.webp" alt=" ", class="cart-img">
+                    <div class="detail-box">
+                        <div class="cart-product-title">Item Name</div>
+                        <div class="cart-price">£25.05</div>
+                        <input type="number" value=1 class="cart-quantity">
+                    </div>
+                    <div>
+                        <button>
+                            <div><img src="./assets/images/trash3-fill.svg"></div>
+                        </button>
                     </div>
                 </div>
-
-                <ul class="shopping-cart-items">
-                    <li class="clearfix">
-                        <img src="./assets/images/trending-product.webp"/>
-                        <span class="item-name"> Item Name</span>
-                        <span class="item-price"> £24.99</span>
-                        <span class="item-quantity">Quantity: 1</span>
-                    </li>
-
-                    <li class="clearfix">
-                        <img src="./assets/images/trending-product.webp"/>
-                        <span class="item-name"> Item Name</span>
-                        <span class="item-price"> £24.99</span>
-                        <span class="item-quantity">Quantity: 1</span>
-                    </li>
-
-                    <li class="clearfix">
-                        <img src="./assets/images/trending-product.webp"/>
-                        <span class="item-name"> Item Name</span>
-                        <span class="item-price"> £24.99</span>
-                        <span class="item-quantity">Quantity: 1</span>
-                    </li>
-                </ul>
-
-                <a href="#" class="button">Checkout</a>
+            </div>
+            <div class="total">
+                <div class="total-title">Total</div>
+                <div class="total-price">£0</div>
+            </div>
+            <button type="button" class="btn-buy">Checkout</button>
+            <div id="cart-close" >
+                <button>
+                    <div><img  src="./assets/images/x.svg"></div>
+                </button>
             </div>
         </div>
     </header>
