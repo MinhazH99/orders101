@@ -62,7 +62,6 @@ const supportsTemplate = () => 'content' in document.createElement('template');
 
 let doesBrowserSupportTemplete = supportsTemplate();
 
-// Work in progress
 function createTemplate() {
     return document.querySelector('#trending-product-template').content.cloneNode(true);
 }
