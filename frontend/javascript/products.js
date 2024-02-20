@@ -28,14 +28,14 @@ function createProductImage(template) {
 
 function createProductLabel(template, product) {
     let labelDiv = template.querySelector('#trending-div-product-label');
-    if (product.name == null) {
+    if (typeof product.name === 'undefined' || product.name === null) {
         labelDiv.textContent = 'Error loading name...';
     } else {
         labelDiv.textContent = product.name;
     }
 
     let priceDiv = template.querySelector('#trending-div-product-price');
-    if (product.unitPrice == null) {
+    if (typeof product.unitPrice === 'undefined' || product.unitPrice === null) {
         priceDiv.textContent = 'Error loading price...';
     } else {
         priceDiv.textContent = formatPrice(product.unitPrice);
