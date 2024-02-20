@@ -1,4 +1,4 @@
-function fetchData(url, callback) {
+function fetchData(url) {
     return fetch(url)
         .then((response) => {
             if (!response.ok) {
