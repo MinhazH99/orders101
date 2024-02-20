@@ -29,7 +29,7 @@ function createProductImage(template) {
 
 function createProductLabel(template, product) {
     let labelDiv = template.querySelector('#trending-div-product-label');
-    checkIfDivExists(labelDiv);
+    checkIfDivExists(labelDiv, 'trending-div-product-label');
     if (typeof product.name === 'undefined' || product.name === null) {
         labelDiv.textContent = 'Error loading name...';
     } else {
@@ -37,7 +37,7 @@ function createProductLabel(template, product) {
     }
 
     let priceDiv = template.querySelector('#trending-div-product-price');
-    checkIfDivExists(priceDiv);
+    checkIfDivExists(priceDiv, '#trending-div-product-price');
     if (typeof product.unitPrice === 'undefined' || product.unitPrice === null) {
         priceDiv.textContent = 'Error loading price...';
     } else {
@@ -52,9 +52,9 @@ function formatPrice(product) {
     });
 }
 
-function checkIfDivExists(div) {
+function checkIfDivExists(div, divName) {
     if (typeof div == 'undefined' || div === null) {
-        return console.error('Error: Div does not exist');
+        return console.error('Error: ' + divName + ' div does not exist');
     }
 }
 
@@ -69,6 +69,7 @@ function createTemplate() {
 
 function addToProductsList(templateClone) {
     const trendingDiv = document.querySelector('#trending');
+    checkIfDivExists(trendingDiv);
     trendingDiv.appendChild(templateClone);
 }
 
