@@ -13,7 +13,7 @@ function handleProductError() {
     }
 }
 
-const apiUrl = 'http://localhost:8080/products/';
+const apiUrl = 'http://localhost:8081/products/';
 
 window.onload = (event) => {
     fetchData(apiUrl, appendProducts).then(appendProducts).catch(handleProductError);
