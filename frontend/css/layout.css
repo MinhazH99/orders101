@@ -289,6 +289,11 @@ li a {
     font-size: var(--p-font-size);
 }
 
+.cart-box_quantity-control {
+    display: flex;
+    align-items: center;
+}
+
 .cart-box__product-quantity {
     width: 2.4rem;
     text-align: center;
