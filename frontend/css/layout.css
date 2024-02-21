@@ -189,9 +189,24 @@ li a {
     }
 }
 
+.trending-div-product-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 2fr 0.4fr 0.4fr;
+}
+
+.trending-div-product-image {
+    grid-column: span 2;
+}
+
 .site-image {
     height: 100%;
     width: 100%;
+}
+
+.trending-div-product-addcart {
+    grid-row: span 2;
+    justify-self: end;
 }
 
 /* Features section */

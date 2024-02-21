@@ -164,16 +164,18 @@
     <!-- Trending now -->
     <section>
         <h2 class="subtitle">Trending now</h2>
-        <div id="trending" class="trending grid" />
+        <div id="trending" class="trending grid">
         <template id="trending-product-template">
-            <a href="trending">
-                <div>
+            <a href="trending" class="trending-div-product-grid">
+                <div class="trending-div-product-image">
                     <img id="trending-div-product-image" class="site-image" src="">
                 </div>
                 <div id="trending-div-product-label">Placeholder</div>
+                <div class="trending-div-product-addcart"><img src="./assets/images/bag-plus.svg"></div>
                 <div id="trending-div-product-price">£XX.XX</div>
             </a>
         </template>
+    </div>
     </section>
 </main>
 </body>
