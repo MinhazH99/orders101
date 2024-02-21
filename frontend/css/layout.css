@@ -268,20 +268,20 @@ li a {
     width: 100%;
 }
 
-.detail-box {
+.cart-box__detail {
     display: grid;
     row-gap: 0.5rem;
 }
 
-.cart-product-title {
+.cart-box__product-title {
     font-size: 1rem;
 }
 
-.cart-price {
+.cart-box__product-price {
     font-weight: 500;
 }
 
-.cart-quantity {
+.cart-box__product-quantity {
     width: 2.4rem;
     text-align: center;
 }
@@ -297,12 +297,12 @@ li a {
     border-top: 1px solid lightgray;
 }
 
-.total-title {
+.total__title {
     font-size: 1rem;
     font-weight: 600;
 }
 
-.total-price {
+.total__price {
     margin-left: 0.5rem;
 }
 
