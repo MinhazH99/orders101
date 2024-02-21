@@ -21,27 +21,30 @@ window.onload = (event) => {
 
 function createProductImage(template) {
     let prodImage = template.querySelector('#trending-div-product-image');
-    checkIfDivExists(prodImage);
-    // Need to test for null image once image is added to API
-    prodImage.setAttribute('src', './assets/images/trending-product.webp');
-    prodImage.setAttribute('alt', 'Image of a trending product');
+    if (doesElementExists(prodImage)) {
+        // Need to test for null image once image is added to API
+        prodImage.setAttribute('src', './assets/images/trending-product.webp');
+        prodImage.setAttribute('alt', 'Image of a trending product');
+    }
 }
 
 function createProductLabel(template, product) {
     let labelDiv = template.querySelector('#trending-div-product-label');
-    checkIfDivExists(labelDiv, 'trending-div-product-label');
-    if (typeof product.name === 'undefined' || product.name === null) {
-        labelDiv.textContent = 'Error loading name...';
-    } else {
-        labelDiv.textContent = product.name;
+    if (doesElementExists(labelDiv, 'trending-div-product-label')) {
+        if (typeof product.name === 'undefined' || product.name === null) {
+            labelDiv.textContent = 'Error loading name...';
+        } else {
+            labelDiv.textContent = product.name;
+        }
     }
 
     let priceDiv = template.querySelector('#trending-div-product-price');
-    checkIfDivExists(priceDiv, '#trending-div-product-price');
-    if (typeof product.unitPrice === 'undefined' || product.unitPrice === null) {
-        priceDiv.textContent = 'Error loading price...';
-    } else {
-        priceDiv.textContent = formatPrice(product.unitPrice);
+    if (doesElementExists(priceDiv, '#trending-div-product-price')) {
+        if (typeof product.unitPrice === 'undefined' || product.unitPrice === null) {
+            priceDiv.textContent = 'Error loading price...';
+        } else {
+            priceDiv.textContent = formatPrice(product.unitPrice);
+        }
     }
 }
 
@@ -52,10 +55,12 @@ function formatPrice(product) {
     });
 }
 
-function checkIfDivExists(div, divName) {
+function doesElementExists(div, divName) {
     if (typeof div == 'undefined' || div === null) {
-        return console.error('Error: ' + divName + ' div does not exist');
+        console.error('Error: ' + divName + ' div does not exist');
+        return false;
     }
+    return true;
 }
 
 const supportsTemplate = () => 'content' in document.createElement('template');
@@ -68,7 +73,9 @@ function createTemplate() {
 
 function addToProductsList(templateClone) {
     const trendingDiv = document.querySelector('#trending');
-    checkIfDivExists(trendingDiv);
+    if (!doesElementExists(trendingDiv)) {
+        return;
+    }
     trendingDiv.appendChild(templateClone);
 }
 
