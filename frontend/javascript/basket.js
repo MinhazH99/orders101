@@ -45,14 +45,27 @@ function changeQuantity() {
 
         let decreaseInQuantitybtn = document.querySelector('.cart-box_quantity-decrease');
         decreaseInQuantitybtn.addEventListener('click', function () {
-            currentQuantity -= 1;
-            currentQuantityElement.innerHTML = currentQuantity;
-            updateTotal();
+            if (isQuantitylessThanOne(currentQuantity)) {
+                decreaseInQuantitybtn.ariaDisabled = true;
+            } else {
+                currentQuantity -= 1;
+                currentQuantityElement.innerHTML = currentQuantity;
+                updateTotal();
+            }
         });
     });
 }
 // save quantity in session storage
 
+function isQuantitylessThanOne(quantity) {
+    if (quantity == 1) {
+        return true;
+    }
+    return false;
+}
+
 changeQuantity();
 
-export { removeCartItem, updateTotal, changeQuantity };
+window.onload(isQuantitylessThanOne());
+
+export { removeCartItem, updateTotal, changeQuantity, isQuantitylessThanOne };
