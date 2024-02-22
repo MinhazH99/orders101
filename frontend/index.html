@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/orders101-ui.css">
+    <script type="module" src="./javascript/main.js"></script>
     <title>DIYToolWorld</title>
 </head>
 <body>
@@ -19,7 +20,7 @@
         <div class="nav container">
 
             <div class="hamburger__btn-open">
-                <button onclick=showSideBar()>
+                <button id="show-side-bar">
                     <div class="search-icons container"> <img img class="searchicons" src="./assets/images/list.svg" alt="basket">
                     </div>
                 </button>
@@ -51,7 +52,7 @@
 
         <nav class="categories container nav-color ">
             <ul class="hamburger">
-                <li ><button class="hamburger__btn-close" onclick=hideSideBar()><img class="close" src="./assets/images/x.svg" alt=""></button></li>
+                <li ><button class="hamburger__btn-close" id="hide-side-bar"><img class="close" src="./assets/images/x.svg" alt=""></button></li>
                 <li><a href="#decorations">Decorations</a></li>
                 <li><a href="#garden">Garden</a></li>
                 <li><a href="#kitchen">Kitchen</a></li>
@@ -133,41 +134,17 @@
     <!-- Trending now -->
     <section>
         <h2 class="subtitle">Trending now</h2>
-        <div class="trending grid">
-            <a href="#trending">
-                <div><img class="site-image" src="./assets/images/trending-product.webp"></div>
-                <div>Product name</div>
-                <div>£XX.XX</div>
+        <div id="trending" class="trending grid" />
+        <template id="trending-product-template">
+            <a href="trending">
+                <div>
+                    <img id="trending-div-product-image" class="site-image" src="">
+                </div>
+                <div id="trending-div-product-label">Placeholder</div>
+                <div id="trending-div-product-price">£XX.XX</div>
             </a>
-            <a href="#trending" >
-                <div><img class="site-image""  src="./assets/images/trending-product.webp"></div>
-                <div>Product name</div>
-                <div>£XX.XX</div>
-            </a>
-            <a href="#trending">
-                <div><img class="site-image"  src="./assets/images/trending-product.webp"></div>
-                <div>Product name</div>
-                <div>£XX.XX</div>
-            </a>
-            <a href="#trending">
-                <div><img class="site-image"  src="./assets/images/trending-product.webp"></div>
-                <div>Product name</div>
-                <div>£XX.XX</div>
-            </a>
-        </div>
+        </template>
     </section>
 </main>
-
-<script>
-    function showSideBar() {
-        const sidebar = document.querySelector('.hamburger')
-        sidebar.style.display = 'flex'
-    }
-
-    function hideSideBar() {
-        const sidebar = document.querySelector('.hamburger')
-        sidebar.style.display = 'none'
-    }
-</script>
 </body>
 </html>
