@@ -16,7 +16,7 @@ function handleProductError() {
 const apiUrl = 'http://localhost:8081/products/';
 
 window.onload = (event) => {
-    fetchData(apiUrl, appendProducts).then(appendProducts).catch(handleProductError);
+    fetchData(apiUrl).then(appendProducts).catch(handleProductError);
 };
 
 function createProductImage(template) {
