@@ -28,36 +28,29 @@ function updateTotal() {
     totalPrice.innerHTML = '£' + total;
 }
 
-function increaseInQuantity() {
+function changeQuantity() {
     let cartBoxes = document.querySelectorAll('.cart-box');
     cartBoxes.forEach((cartBox) => {
         let currentQuantityElement = document.querySelector('.cart-box__product-quantity');
         let currentQuantity = Number(
             document.querySelector('.cart-box__product-quantity').innerHTML
         );
+
         let increaseInQuantitybtn = document.querySelector('.cart-box_quantity-increase');
         increaseInQuantitybtn.addEventListener('click', function () {
             currentQuantity += 1;
             currentQuantityElement.innerHTML = currentQuantity;
         });
-    });
-}
 
-function decreaseInQuantity() {
-    let cartBoxes = document.querySelectorAll('.cart-box');
-    cartBoxes.forEach((cartBox) => {
-        let currentQuantityElement = document.querySelector('.cart-box__product-quantity');
-        let currentQuantity = Number(
-            document.querySelector('.cart-box__product-quantity').innerHTML
-        );
-        let increaseInQuantitybtn = document.querySelector('.cart-box_quantity-decrease');
-        increaseInQuantitybtn.addEventListener('click', function () {
+        let decreaseInQuantitybtn = document.querySelector('.cart-box_quantity-decrease');
+        decreaseInQuantitybtn.addEventListener('click', function () {
             currentQuantity -= 1;
             currentQuantityElement.innerHTML = currentQuantity;
         });
     });
 }
-
 // save quantity in session storage
 
-export { removeCartItem, updateTotal, increaseInQuantity, decreaseInQuantity };
+changeQuantity();
+
+export { removeCartItem, updateTotal, changeQuantity };
