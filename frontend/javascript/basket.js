@@ -43,6 +43,21 @@ function increaseInQuantity() {
     });
 }
 
-increaseInQuantity();
+function decreaseInQuantity() {
+    let cartBoxes = document.querySelectorAll('.cart-box');
+    cartBoxes.forEach((cartBox) => {
+        let currentQuantityElement = document.querySelector('.cart-box__product-quantity');
+        let currentQuantity = Number(
+            document.querySelector('.cart-box__product-quantity').innerHTML
+        );
+        let increaseInQuantitybtn = document.querySelector('.cart-box_quantity-decrease');
+        increaseInQuantitybtn.addEventListener('click', function () {
+            currentQuantity -= 1;
+            currentQuantityElement.innerHTML = currentQuantity;
+        });
+    });
+}
 
-export { removeCartItem, updateTotal, increaseInQuantity };
+// save quantity in session storage
+
+export { removeCartItem, updateTotal, increaseInQuantity, decreaseInQuantity };
