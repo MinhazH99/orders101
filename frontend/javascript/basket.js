@@ -17,9 +17,9 @@ function updateTotal() {
     let total = 0;
 
     cartBoxes.forEach((cartBox) => {
-        let priceElement = cartBox.querySelector('cart-box__product_price');
+        let priceElement = cartBox.querySelector('.cart-box__product_price');
         let price = parseFloat(priceElement.innerHTML.replace('£', ''));
-        let quantity = cartBox.querySelector('.cart-box__product-quantity').nodeValue;
+        let quantity = cartBox.querySelector('.cart-box__product-quantity').innerHTML;
         total += price * quantity;
     });
 
@@ -40,12 +40,14 @@ function changeQuantity() {
         increaseInQuantitybtn.addEventListener('click', function () {
             currentQuantity += 1;
             currentQuantityElement.innerHTML = currentQuantity;
+            updateTotal();
         });
 
         let decreaseInQuantitybtn = document.querySelector('.cart-box_quantity-decrease');
         decreaseInQuantitybtn.addEventListener('click', function () {
             currentQuantity -= 1;
             currentQuantityElement.innerHTML = currentQuantity;
+            updateTotal();
         });
     });
 }
