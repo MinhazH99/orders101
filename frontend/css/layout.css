@@ -334,3 +334,13 @@ li a {
     top: 1rem;
     right: 0.8rem;
 }
+
+.cart-box-btn__disabled {
+    opacity: 0.3;
+    color: #ccc;
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.cart-box-btn__enabled {
+}

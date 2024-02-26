@@ -30,6 +30,7 @@ function updateTotal() {
 
 function changeQuantity() {
     let cartBoxes = document.querySelectorAll('.cart-box');
+    let decreaseQtyImg = document.querySelector('.cart-box-btn__disabled ');
     cartBoxes.forEach((cartBox) => {
         let currentQuantityElement = document.querySelector('.cart-box__product-quantity');
         let currentQuantity = Number(
@@ -38,6 +39,7 @@ function changeQuantity() {
 
         let increaseInQuantitybtn = document.querySelector('.cart-box_quantity-increase');
         increaseInQuantitybtn.addEventListener('click', function () {
+            decreaseQtyImg.className = 'cart-box-btn__enabled';
             currentQuantity += 1;
             currentQuantityElement.innerHTML = currentQuantity;
             updateTotal();
@@ -45,27 +47,40 @@ function changeQuantity() {
 
         let decreaseInQuantitybtn = document.querySelector('.cart-box_quantity-decrease');
         decreaseInQuantitybtn.addEventListener('click', function () {
-            if (isQuantitylessThanOne(currentQuantity)) {
-                decreaseInQuantitybtn.ariaDisabled = true;
+            if (isUpdatedQuantityOne(currentQuantity - 1)) {
+                currentQuantity = decrementQuantity(currentQuantity);
+                currentQuantityElement.innerHTML = currentQuantity;
+                updateTotal();
+                decreaseQtyImg.className = 'cart-box-btn__disabled';
             } else {
-                currentQuantity -= 1;
+                decreaseQtyImg.className = 'cart-box-btn__enabled';
+                currentQuantity = decrementQuantity(currentQuantity);
                 currentQuantityElement.innerHTML = currentQuantity;
                 updateTotal();
             }
         });
     });
 }
-// save quantity in session storage
 
-function isQuantitylessThanOne(quantity) {
-    if (quantity == 1) {
+// TODO save quantity in session storage and make the decrease button faded out in index HTLM and when quantity increases turn it normal
+
+function isUpdatedQuantityOne(quantity) {
+    if (quantity <= 1) {
         return true;
     }
     return false;
 }
 
+function decrementQuantity(quantity) {
+    if (quantity <= 1) {
+        return 1;
+    } else {
+        return quantity - 1;
+    }
+}
+
 changeQuantity();
 
-window.onload(isQuantitylessThanOne());
+window.onload(isUpdatedQuantityOne());
 
-export { removeCartItem, updateTotal, changeQuantity, isQuantitylessThanOne };
+export { removeCartItem, updateTotal, changeQuantity, isUpdatedQuantityOne };
