@@ -16,10 +16,23 @@ function handleProductError() {
 const apiUrl = 'http://localhost:8081/products/';
 
 window.onload = (event) => {
-    fetchData(apiUrl).then(appendProducts).catch(handleProductError);
+    fetchData(apiUrl).then(handleResponse).catch(handleProductError);
 
     // handle response function calls appendProducts and creates a product object with keys as id and values as name,image and description
 };
+
+let productList = {};
+
+function handleResponse(products) {
+    appendProducts(products);
+    products.forEach((product) => {
+        let individualProduct = {
+            productName: product.name,
+            productUnitPrice: product.unitPrice,
+        };
+        productList[product.id] = individualProduct;
+    });
+}
 
 function createProductImage(template) {
     let prodImage = template.querySelector('#trending-div-product-image');
@@ -95,6 +108,12 @@ function appendProducts(products) {
             templateClone
                 .querySelector('.trending-div-product-addcart')
                 .setAttribute('data-test', product.id);
+
+            let productBtn = templateClone.querySelector('.trending-div-product-addcart');
+
+            productBtn.addEventListener('click', function () {
+                console.log(productList[productBtn.getAttribute('data-test')]);
+            });
 
             addToProductsList(templateClone);
         });
