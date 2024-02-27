@@ -17,6 +17,8 @@ const apiUrl = 'http://localhost:8081/products/';
 
 window.onload = (event) => {
     fetchData(apiUrl).then(appendProducts).catch(handleProductError);
+
+    // handle response function calls appendProducts and creates a product object with keys as id and values as name,image and description
 };
 
 function createProductImage(template) {
@@ -90,8 +92,13 @@ function appendProducts(products) {
 
             createProductLabel(templateClone, product);
 
+            templateClone
+                .querySelector('.trending-div-product-addcart')
+                .setAttribute('data-test', product.id);
+
             addToProductsList(templateClone);
         });
     }
 }
+
 export { appendProducts };
