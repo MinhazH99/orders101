@@ -12,7 +12,7 @@ function removeCartItem(templateClone) {
 function updateTotal(templateClone) {
     let cartBoxes = document.querySelector('.cart-content').querySelectorAll('.cart-box');
     let totalPrice = document.querySelector('.total__price');
-    let total = parseFloat(totalPrice.innerHTML.replace('£', ''));
+    let total = 0;
 
     cartBoxes.forEach((cartBox) => {
         let priceElement = cartBox.querySelector('.cart-box__product_price');
