@@ -1,20 +1,18 @@
-function removeCartItem() {
-    let cartRemove_btns = document.querySelectorAll('.cart-remove');
+function removeCartItem(templateClone) {
+    let cartRemove_btn = document.querySelector('.cart-content').querySelectorAll('.cart-remove');
 
-    cartRemove_btns.forEach((btn) => {
+    cartRemove_btn.forEach((btn) => {
         btn.addEventListener('click', function () {
             btn.parentElement.remove();
-            updateTotal();
+            updateTotal(templateClone);
         });
     });
 }
 
-removeCartItem();
-
-function updateTotal() {
-    let cartBoxes = document.querySelectorAll('.cart-box');
+function updateTotal(templateClone) {
+    let cartBoxes = document.querySelector('.cart-content').querySelectorAll('.cart-box');
     let totalPrice = document.querySelector('.total__price');
-    let total = 0;
+    let total = parseFloat(totalPrice.innerHTML.replace('£', ''));
 
     cartBoxes.forEach((cartBox) => {
         let priceElement = cartBox.querySelector('.cart-box__product_price');
@@ -28,35 +26,35 @@ function updateTotal() {
     totalPrice.innerHTML = '£' + total;
 }
 
-function changeQuantity() {
-    let cartBoxes = document.querySelectorAll('.cart-box');
-    let decreaseQtyImg = document.querySelector('.cart-box-btn__disabled ');
+function changeQuantity(templateClone) {
+    let cartBoxes = templateClone.querySelectorAll('.cart-box');
+    let decreaseQtyImg = templateClone.querySelector('.cart-box-btn__disabled ');
     cartBoxes.forEach((cartBox) => {
-        let currentQuantityElement = document.querySelector('.cart-box__product-quantity');
+        let currentQuantityElement = templateClone.querySelector('.cart-box__product-quantity');
         let currentQuantity = Number(
-            document.querySelector('.cart-box__product-quantity').innerHTML
+            templateClone.querySelector('.cart-box__product-quantity').innerHTML
         );
 
-        let increaseInQuantitybtn = document.querySelector('.cart-box_quantity-increase');
+        let increaseInQuantitybtn = templateClone.querySelector('.cart-box_quantity-increase');
         increaseInQuantitybtn.addEventListener('click', function () {
             decreaseQtyImg.className = 'cart-box-btn__enabled';
             currentQuantity += 1;
             currentQuantityElement.innerHTML = currentQuantity;
-            updateTotal();
+            updateTotal(templateClone);
         });
 
-        let decreaseInQuantitybtn = document.querySelector('.cart-box_quantity-decrease');
+        let decreaseInQuantitybtn = templateClone.querySelector('.cart-box_quantity-decrease');
         decreaseInQuantitybtn.addEventListener('click', function () {
             if (isUpdatedQuantityOne(currentQuantity - 1)) {
                 currentQuantity = decrementQuantity(currentQuantity);
                 currentQuantityElement.innerHTML = currentQuantity;
-                updateTotal();
+                updateTotal(templateClone);
                 decreaseQtyImg.className = 'cart-box-btn__disabled';
             } else {
                 decreaseQtyImg.className = 'cart-box-btn__enabled';
                 currentQuantity = decrementQuantity(currentQuantity);
                 currentQuantityElement.innerHTML = currentQuantity;
-                updateTotal();
+                updateTotal(templateClone);
             }
         });
     });
@@ -79,10 +77,6 @@ function decrementQuantity(quantity) {
     }
 }
 
-changeQuantity();
-
-// window.onload(isUpdatedQuantityOne());
-
 const supportsTemplate = () => 'content' in document.createElement('template');
 
 let doesBrowserSupportTemplete = supportsTemplate();
@@ -95,12 +89,19 @@ function addCartItem(addCartBtn, productList) {
         let productTitle = templateClone.querySelector('.cart-box__product-detail');
         productTitle.textContent = productList[addCartBtn.getAttribute('data-test')].productName;
 
-        let productPrice = templateClone.querySelector('.cart-box__product_price');
-        productPrice.textContent =
-            productList[addCartBtn.getAttribute('data-test')].productUnitPrice;
+        let productPriceElement = templateClone.querySelector('.cart-box__product_price');
+
+        // convert price in to GBP with 2 d/p
+
+        productPriceElement.textContent =
+            '£' + productList[addCartBtn.getAttribute('data-test')].productUnitPrice.toFixed(2);
 
         const cartContent = document.querySelector('.cart-content');
         cartContent.appendChild(templateClone);
+
+        updateTotal(templateClone);
+        removeCartItem(templateClone);
+        changeQuantity(templateClone);
     }
 }
 
