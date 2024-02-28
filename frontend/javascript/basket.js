@@ -81,6 +81,23 @@ function decrementQuantity(quantity) {
 
 changeQuantity();
 
-window.onload(isUpdatedQuantityOne());
+// window.onload(isUpdatedQuantityOne());
 
-export { removeCartItem, updateTotal, changeQuantity, isUpdatedQuantityOne };
+const supportsTemplate = () => 'content' in document.createElement('template');
+
+let doesBrowserSupportTemplete = supportsTemplate();
+
+function addCartItem(addCartBtn, productList) {
+    if (doesBrowserSupportTemplete) {
+        let templateClone = document.querySelector('#cart-box-template').content.cloneNode(true);
+
+        // append title
+        let productTitle = templateClone.querySelector('.cart-box__product-detail');
+        productTitle.textContent = productList[addCartBtn.getAttribute('data-test')].productName;
+
+        const cartContent = document.querySelector('.cart-content');
+        cartContent.appendChild(templateClone);
+    }
+}
+
+export { removeCartItem, updateTotal, changeQuantity, isUpdatedQuantityOne, addCartItem };

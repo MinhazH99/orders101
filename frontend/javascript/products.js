@@ -1,4 +1,5 @@
 import { fetchData } from './fetch.js';
+import { addCartItem } from './basket.js';
 
 function handleProductError() {
     const fourPlaceholderProducts = 4;
@@ -113,6 +114,7 @@ function appendProducts(products) {
 
             productBtn.addEventListener('click', function () {
                 console.log(productList[productBtn.getAttribute('data-test')]);
+                addCartItem(productBtn, productList);
             });
 
             addToProductsList(templateClone);
