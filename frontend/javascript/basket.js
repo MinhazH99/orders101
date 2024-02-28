@@ -95,6 +95,10 @@ function addCartItem(addCartBtn, productList) {
         let productTitle = templateClone.querySelector('.cart-box__product-detail');
         productTitle.textContent = productList[addCartBtn.getAttribute('data-test')].productName;
 
+        let productPrice = templateClone.querySelector('.cart-box__product_price');
+        productPrice.textContent =
+            productList[addCartBtn.getAttribute('data-test')].productUnitPrice;
+
         const cartContent = document.querySelector('.cart-content');
         cartContent.appendChild(templateClone);
     }
