@@ -113,7 +113,6 @@ function appendProducts(products) {
             let productBtn = templateClone.querySelector('.trending-div-product-addcart');
 
             productBtn.addEventListener('click', function () {
-                console.log(productList[productBtn.getAttribute('data-test')]);
                 addCartItem(productBtn, productList);
             });
 

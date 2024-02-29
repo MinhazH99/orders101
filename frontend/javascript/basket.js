@@ -1,4 +1,4 @@
-function removeCartItem(templateClone) {
+function removeCartItem() {
     let cartRemove_btn = document.querySelector('.cart-content').querySelectorAll('.cart-remove');
 
     cartRemove_btn.forEach((btn) => {
@@ -9,8 +9,9 @@ function removeCartItem(templateClone) {
     });
 }
 
-function updateTotal(templateClone) {
+function updateTotal() {
     let cartBoxes = document.querySelector('.cart-content').querySelectorAll('.cart-box');
+
     let totalPrice = document.querySelector('.total__price');
     let total = 0;
 
@@ -26,35 +27,36 @@ function updateTotal(templateClone) {
     totalPrice.innerHTML = '£' + total;
 }
 
-function changeQuantity(templateClone) {
-    let cartBoxes = templateClone.querySelectorAll('.cart-box');
-    let decreaseQtyImg = templateClone.querySelector('.cart-box-btn__disabled ');
-    cartBoxes.forEach((cartBox) => {
-        let currentQuantityElement = templateClone.querySelector('.cart-box__product-quantity');
-        let currentQuantity = Number(
-            templateClone.querySelector('.cart-box__product-quantity').innerHTML
-        );
+function changeQuantity() {
+    let cartBoxes = document
+        .querySelector('.cart-content')
+        .querySelectorAll('.cart-box_quantity-control');
 
-        let increaseInQuantitybtn = templateClone.querySelector('.cart-box_quantity-increase');
+    cartBoxes.forEach((cartBox) => {
+        let decreaseQtyImg = cartBox.querySelector('.cart-box-btn__disabled ');
+        let currentQuantityElement = cartBox.querySelector('.cart-box__product-quantity');
+        let currentQuantity = Number(currentQuantityElement.innerHTML);
+
+        let increaseInQuantitybtn = cartBox.querySelector('.cart-box_quantity-increase');
         increaseInQuantitybtn.addEventListener('click', function () {
             decreaseQtyImg.className = 'cart-box-btn__enabled';
             currentQuantity += 1;
             currentQuantityElement.innerHTML = currentQuantity;
-            updateTotal(templateClone);
+            updateTotal();
         });
 
-        let decreaseInQuantitybtn = templateClone.querySelector('.cart-box_quantity-decrease');
+        let decreaseInQuantitybtn = cartBox.querySelector('.cart-box_quantity-decrease');
         decreaseInQuantitybtn.addEventListener('click', function () {
             if (isUpdatedQuantityOne(currentQuantity - 1)) {
                 currentQuantity = decrementQuantity(currentQuantity);
                 currentQuantityElement.innerHTML = currentQuantity;
-                updateTotal(templateClone);
+                updateTotal();
                 decreaseQtyImg.className = 'cart-box-btn__disabled';
             } else {
                 decreaseQtyImg.className = 'cart-box-btn__enabled';
                 currentQuantity = decrementQuantity(currentQuantity);
                 currentQuantityElement.innerHTML = currentQuantity;
-                updateTotal(templateClone);
+                updateTotal();
             }
         });
     });
@@ -91,16 +93,14 @@ function addCartItem(addCartBtn, productList) {
 
         let productPriceElement = templateClone.querySelector('.cart-box__product_price');
 
-        // convert price in to GBP with 2 d/p
-
         productPriceElement.textContent =
             '£' + productList[addCartBtn.getAttribute('data-test')].productUnitPrice.toFixed(2);
 
         const cartContent = document.querySelector('.cart-content');
         cartContent.appendChild(templateClone);
 
-        updateTotal(templateClone);
-        removeCartItem(templateClone);
+        updateTotal();
+        removeCartItem();
         changeQuantity(templateClone);
     }
 }
