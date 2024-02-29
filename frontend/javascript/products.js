@@ -83,8 +83,8 @@ const supportsTemplate = () => 'content' in document.createElement('template');
 
 let doesBrowserSupportTemplete = supportsTemplate();
 
-function createTemplate() {
-    return document.querySelector('#trending-product-template').content.cloneNode(true);
+function createTemplate(element) {
+    return document.querySelector(element).content.cloneNode(true);
 }
 
 function addToProductsList(templateClone) {
@@ -100,7 +100,7 @@ function appendProducts(products) {
     // for the presence of the template element's content attribute.
     if (doesBrowserSupportTemplete) {
         products.forEach((product) => {
-            const templateClone = createTemplate();
+            const templateClone = createTemplate('#trending-product-template');
 
             createProductImage(templateClone);
 
@@ -121,4 +121,4 @@ function appendProducts(products) {
     }
 }
 
-export { appendProducts };
+export { appendProducts, createTemplate };

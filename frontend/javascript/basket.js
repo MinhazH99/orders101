@@ -1,10 +1,12 @@
+import { createTemplate } from './products.js';
+
 function removeCartItem() {
     let cartRemove_btn = document.querySelector('.cart-content').querySelectorAll('.cart-remove');
 
     cartRemove_btn.forEach((btn) => {
         btn.addEventListener('click', function () {
             btn.parentElement.remove();
-            updateTotal(templateClone);
+            updateTotal();
         });
     });
 }
@@ -85,16 +87,11 @@ let doesBrowserSupportTemplete = supportsTemplate();
 
 function addCartItem(addCartBtn, productList) {
     if (doesBrowserSupportTemplete) {
-        let templateClone = document.querySelector('#cart-box-template').content.cloneNode(true);
+        let templateClone = createTemplate('#cart-box-template');
 
-        // append title
-        let productTitle = templateClone.querySelector('.cart-box__product-detail');
-        productTitle.textContent = productList[addCartBtn.getAttribute('data-test')].productName;
+        appendProductTitle(templateClone, addCartBtn, productList);
 
-        let productPriceElement = templateClone.querySelector('.cart-box__product_price');
-
-        productPriceElement.textContent =
-            '£' + productList[addCartBtn.getAttribute('data-test')].productUnitPrice.toFixed(2);
+        appendProductPrice(templateClone, addCartBtn, productList);
 
         const cartContent = document.querySelector('.cart-content');
         cartContent.appendChild(templateClone);
@@ -103,6 +100,20 @@ function addCartItem(addCartBtn, productList) {
         removeCartItem();
         changeQuantity(templateClone);
     }
+}
+
+function appendProductTitle(templateClone, addCartBtn, productList) {
+    let productTitleElement = templateClone.querySelector('.cart-box__product-detail');
+    let productId = addCartBtn.getAttribute('data-test');
+    let productName = productList[productId].productName;
+    productTitleElement.textContent = productName;
+}
+
+function appendProductPrice(templateClone, addCartBtn, productList) {
+    let productPriceElement = templateClone.querySelector('.cart-box__product_price');
+    let productId = addCartBtn.getAttribute('data-test');
+    let productPrice = productList[productId].productUnitPrice.toFixed(2);
+    productPriceElement.textContent = '£' + productPrice;
 }
 
 export { removeCartItem, updateTotal, changeQuantity, isUpdatedQuantityOne, addCartItem };
