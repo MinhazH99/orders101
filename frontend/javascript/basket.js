@@ -58,17 +58,15 @@ function initiateQuantityButtons() {
 
         let decreaseInQuantitybtn = cartBox.querySelector('.cart-box_quantity-decrease');
         decreaseInQuantitybtn.addEventListener('click', function () {
-            if (isUpdatedQuantityOne(currentQuantity - 1)) {
-                currentQuantity = decrementQuantity(currentQuantity);
-                currentQuantityElement.innerHTML = currentQuantity;
-                updateTotal();
-                decreaseQtyImg.className = 'cart-box-btn__disabled';
-            } else {
-                decreaseQtyImg.className = 'cart-box-btn__enabled';
-                currentQuantity = decrementQuantity(currentQuantity);
-                currentQuantityElement.innerHTML = currentQuantity;
-                updateTotal();
-            }
+            const hasMinimumAllowedQuantity = isUpdatedQuantityOne(currentQuantity - 1);
+
+            currentQuantity = decrementQuantity(currentQuantity);
+            currentQuantityElement.innerHTML = currentQuantity;
+            updateTotal();
+
+            decreaseQtyImg.className = hasMinimumAllowedQuantity
+                ? 'cart-box-btn__disabled'
+                : 'cart-box-btn__enabled';
         });
     });
 }
