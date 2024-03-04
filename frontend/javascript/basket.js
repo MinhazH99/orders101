@@ -80,11 +80,7 @@ function isUpdatedQuantityOne(quantity) {
 }
 
 function decrementQuantity(quantity) {
-    if (quantity <= 1) {
-        return 1;
-    } else {
-        return quantity - 1;
-    }
+    return quantity <= 1 ? 1 : quantity - 1;
 }
 
 const supportsTemplate = () => 'content' in document.createElement('template');
