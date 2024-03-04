@@ -8,7 +8,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     padding: var(--spacing-m);
-    background-color: var(--white-background-color);
+    background-color: var(--main-background-color);
 }
 
 .cart-title {
