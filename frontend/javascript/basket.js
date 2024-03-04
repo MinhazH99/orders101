@@ -130,10 +130,4 @@ function appendProductPrice(templateClone, addCartBtn, productList) {
     productPriceElement.textContent = '£' + productPrice;
 }
 
-export {
-    removeCartItem,
-    updateTotal,
-    initiateQuantityButtons as changeQuantity,
-    isUpdatedQuantityOne,
-    addCartItem,
-};
+export { removeCartItem, updateTotal, initiateQuantityButtons, isUpdatedQuantityOne, addCartItem };
