@@ -38,7 +38,7 @@ function updateTotal() {
     totalPrice.innerHTML = '£' + total;
 }
 
-function changeQuantity() {
+function initiateQuantityButtons() {
     let cartBoxes = document
         .querySelector('.cart-content')
         .querySelectorAll('.cart-box_quantity-control');
@@ -111,7 +111,7 @@ function addCartItem(addCartBtn, productList) {
 
             updateTotal();
             removeCartItem(addCartBtn);
-            changeQuantity(templateClone);
+            initiateQuantityButtons(templateClone);
         }
     }
 }
@@ -130,4 +130,10 @@ function appendProductPrice(templateClone, addCartBtn, productList) {
     productPriceElement.textContent = '£' + productPrice;
 }
 
-export { removeCartItem, updateTotal, changeQuantity, isUpdatedQuantityOne, addCartItem };
+export {
+    removeCartItem,
+    updateTotal,
+    initiateQuantityButtons as changeQuantity,
+    isUpdatedQuantityOne,
+    addCartItem,
+};
