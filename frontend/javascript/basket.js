@@ -2,16 +2,14 @@ import { createTemplate } from './products.js';
 
 let cartList = [];
 
-function removeCartItem(addCartBtn) {
-    let cartRemove_btn = document.querySelector('.cart-content').querySelectorAll('.cart-remove');
+function removeCartItem(templateClone2, currentProductId) {
+    let cartRemove_btn = templateClone2[templateClone2.length - 1].querySelector('.cart-remove');
 
-    cartRemove_btn.forEach((btn) => {
-        btn.addEventListener('click', function () {
-            let currentCartItemId = addCartBtn.getAttribute('data-test');
-            removeItemFromCartList(currentCartItemId);
-            btn.parentElement.remove();
-            updateTotal();
-        });
+    cartRemove_btn.addEventListener('click', function () {
+        console.log(currentProductId);
+        sessionStorage.removeItem(currentProductId);
+        cartRemove_btn.parentElement.remove();
+        updateTotal();
     });
 }
 
@@ -90,34 +88,33 @@ function addCartItem(addCartBtn, productList) {
         let templateClone = createTemplate('#cart-box-template');
         let currentProductId = addCartBtn.getAttribute('data-test');
 
-        if (cartList.includes(currentProductId)) {
+        if (sessionStorage.getItem(currentProductId) >= 1) {
         } else {
-            cartList.push(currentProductId);
-            appendProductTitle(templateClone, addCartBtn, productList);
+            sessionStorage.setItem(currentProductId, 1);
+            appendProductTitle(templateClone, currentProductId, productList);
 
-            appendProductPrice(templateClone, addCartBtn, productList);
+            appendProductPrice(templateClone, currentProductId, productList);
 
             const cartContent = document.querySelector('.cart-content');
             cartContent.appendChild(templateClone);
 
+            let templateClone2 = cartContent.querySelectorAll('.cart-box');
             updateTotal();
-            removeCartItem(addCartBtn);
+            removeCartItem(templateClone2, currentProductId);
             initiateQuantityButtons(templateClone);
         }
     }
 }
 
-function appendProductTitle(templateClone, addCartBtn, productList) {
+function appendProductTitle(templateClone, currentProductId, productList) {
     let productTitleElement = templateClone.querySelector('.cart-box__product-detail');
-    let productId = addCartBtn.getAttribute('data-test');
-    let productName = productList[productId].productName;
+    let productName = productList[currentProductId].productName;
     productTitleElement.textContent = productName;
 }
 
-function appendProductPrice(templateClone, addCartBtn, productList) {
+function appendProductPrice(templateClone, currentProductId, productList) {
     let productPriceElement = templateClone.querySelector('.cart-box__product_price');
-    let productId = addCartBtn.getAttribute('data-test');
-    let productPrice = productList[productId].productUnitPrice.toFixed(2);
+    let productPrice = productList[currentProductId].productUnitPrice.toFixed(2);
     productPriceElement.textContent = '£' + productPrice;
 }
 
