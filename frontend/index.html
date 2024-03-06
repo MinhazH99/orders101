@@ -39,11 +39,11 @@
                     <span>Ideas & Advice</span></div>
             </a>
             
-            <a class="nav__icons" href="#basket" id="cart-icon">
+            <button class="nav__icons" id="cart-icon">
                 <div class="nav__icons__item container"> <img img class="searchicons" src="./assets/images/basket.svg" alt="basket">
                     <span>Basket</span>
                 </div>  
-            </a>
+            </button>
             <div class="nav__search-container">
                 <input class="search-bar" type="search" placeholder="Search...">
             </div> 
@@ -169,14 +169,17 @@
         <h2 class="subtitle">Trending now</h2>
         <div id="trending" class="trending grid">
         <template id="trending-product-template">
-            <a href="#trending" class="trending-div-product-grid">
-                <div class="trending-div-product-image">
-                    <img id="trending-div-product-image" class="site-image" src="">
-                </div>
-                <div id="trending-div-product-label">Placeholder</div>
-                <button class="trending-div-product-addcart"><img src="./assets/images/bag-plus.svg"></button>
-                <div id="trending-div-product-price">£XX.XX</div>
-            </a>
+            <div class="trending-div-product-grid">
+                <a href="#popular">
+                    <div class="trending-div-product-image">
+                        <img id="trending-div-product-image" class="site-image" src="">
+                    </div>
+                    <div id="trending-div-product-label">Placeholder</div>
+                    <div id="trending-div-product-price">£XX.XX</div>
+                </a>
+                <button class="trending-div-product-addcart btn-buy">Add to Basket</button>
+            </div>
+           
         </template>
     </div>
     </section>

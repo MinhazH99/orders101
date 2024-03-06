@@ -191,12 +191,8 @@ li a {
 
 .trending-div-product-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 2fr 0.4fr 0.4fr;
-}
-
-.trending-div-product-image {
-    grid-column: span 2;
+    grid-template-columns: 1fr;
+    grid-template-rows: 2fr;
 }
 
 .site-image {
@@ -205,9 +201,8 @@ li a {
 }
 
 .trending-div-product-addcart {
-    grid-row: span 2;
     align-self: center;
-    justify-self: end;
+    justify-self: center;
 }
 
 /* Features section */
