@@ -12,11 +12,6 @@ function removeCartItem(templateClone2, currentProductId) {
     });
 }
 
-function removeItemFromCartList(currentCartItemId) {
-    const start = cartList.indexOf(currentCartItemId);
-    const deleteCount = 1;
-    return cartList.splice(start, deleteCount);
-}
 function updateTotal() {
     let cartBoxes = document.querySelector('.cart-content').querySelectorAll('.cart-box');
 
