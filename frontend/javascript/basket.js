@@ -85,8 +85,7 @@ function addCartItem(addCartBtn, productList) {
         let templateClone = createTemplate('#cart-box-template');
         let currentProductId = addCartBtn.getAttribute('data-test');
 
-        if (sessionStorage.getItem(currentProductId) >= 1) {
-        } else {
+        if (sessionStorage.getItem(currentProductId) < 1) {
             sessionStorage.setItem(currentProductId, 1);
             appendProductTitle(templateClone, currentProductId, productList);
 
