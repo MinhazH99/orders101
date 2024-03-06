@@ -42,29 +42,15 @@ function initiateQuantityButtons(templateClone2, currentProductId) {
 
     let decreaseQtyImg = cartBox.querySelector('.cart-box-btn__disabled ');
     let currentQuantityElement = cartBox.querySelector('.cart-box__product-quantity');
-    let currentQuantity = Number(sessionStorage.getItem(currentProductId));
 
     let increaseInQuantitybtn = cartBox.querySelector('.cart-box_quantity-increase');
     increaseInQuantitybtn.addEventListener('click', function () {
-        decreaseQtyImg.className = 'cart-box-btn__enabled';
-        currentQuantity += 1;
-        sessionStorage.setItem(currentProductId, currentQuantity);
-        currentQuantityElement.innerHTML = currentQuantity;
-        updateTotal();
+        increaseQuantity(decreaseQtyImg, currentProductId, currentQuantityElement);
     });
 
     let decreaseInQuantitybtn = cartBox.querySelector('.cart-box_quantity-decrease');
     decreaseInQuantitybtn.addEventListener('click', function () {
-        const hasMinimumAllowedQuantity = isUpdatedQuantityOne(currentQuantity - 1);
-
-        currentQuantity = decrementQuantity(currentQuantity);
-        sessionStorage.setItem(currentProductId, currentQuantity);
-        currentQuantityElement.innerHTML = currentQuantity;
-        updateTotal();
-
-        decreaseQtyImg.className = hasMinimumAllowedQuantity
-            ? 'cart-box-btn__disabled'
-            : 'cart-box-btn__enabled';
+        decreaseQuantity(currentQuantityElement, currentProductId, decreaseQtyImg);
     });
 }
 
@@ -74,6 +60,29 @@ function isUpdatedQuantityOne(quantity) {
 
 function decrementQuantity(quantity) {
     return quantity <= 1 ? 1 : quantity - 1;
+}
+
+function increaseQuantity(decreaseQtyImg, currentProductId, currentQuantityElement) {
+    decreaseQtyImg.className = 'cart-box-btn__enabled';
+    let currentQuantity = Number(sessionStorage.getItem(currentProductId));
+    currentQuantity += 1;
+    sessionStorage.setItem(currentProductId, currentQuantity);
+    currentQuantityElement.innerHTML = currentQuantity;
+    updateTotal();
+}
+
+function decreaseQuantity(currentQuantityElement, currentProductId, decreaseQtyImg) {
+    let currentQuantity = Number(sessionStorage.getItem(currentProductId));
+    const hasMinimumAllowedQuantity = isUpdatedQuantityOne(currentQuantity - 1);
+
+    currentQuantity = decrementQuantity(currentQuantity);
+    sessionStorage.setItem(currentProductId, currentQuantity);
+    currentQuantityElement.innerHTML = currentQuantity;
+    updateTotal();
+
+    decreaseQtyImg.className = hasMinimumAllowedQuantity
+        ? 'cart-box-btn__disabled'
+        : 'cart-box-btn__enabled';
 }
 
 const supportsTemplate = () => 'content' in document.createElement('template');
