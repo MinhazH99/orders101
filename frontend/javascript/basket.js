@@ -6,7 +6,6 @@ function removeCartItem(templateClone2, currentProductId) {
     let cartRemove_btn = templateClone2[templateClone2.length - 1].querySelector('.cart-remove');
 
     cartRemove_btn.addEventListener('click', function () {
-        console.log(currentProductId);
         sessionStorage.removeItem(currentProductId);
         cartRemove_btn.parentElement.remove();
         updateTotal();
@@ -36,36 +35,36 @@ function updateTotal() {
     totalPrice.innerHTML = '£' + total;
 }
 
-function initiateQuantityButtons() {
-    let cartBoxes = document
-        .querySelector('.cart-content')
-        .querySelectorAll('.cart-box_quantity-control');
+function initiateQuantityButtons(templateClone2, currentProductId) {
+    let cartBox = templateClone2[templateClone2.length - 1].querySelector(
+        '.cart-box_quantity-control'
+    );
 
-    cartBoxes.forEach((cartBox) => {
-        let decreaseQtyImg = cartBox.querySelector('.cart-box-btn__disabled ');
-        let currentQuantityElement = cartBox.querySelector('.cart-box__product-quantity');
-        let currentQuantity = Number(currentQuantityElement.innerHTML);
+    let decreaseQtyImg = cartBox.querySelector('.cart-box-btn__disabled ');
+    let currentQuantityElement = cartBox.querySelector('.cart-box__product-quantity');
+    let currentQuantity = Number(sessionStorage.getItem(currentProductId));
 
-        let increaseInQuantitybtn = cartBox.querySelector('.cart-box_quantity-increase');
-        increaseInQuantitybtn.addEventListener('click', function () {
-            decreaseQtyImg.className = 'cart-box-btn__enabled';
-            currentQuantity += 1;
-            currentQuantityElement.innerHTML = currentQuantity;
-            updateTotal();
-        });
+    let increaseInQuantitybtn = cartBox.querySelector('.cart-box_quantity-increase');
+    increaseInQuantitybtn.addEventListener('click', function () {
+        decreaseQtyImg.className = 'cart-box-btn__enabled';
+        currentQuantity += 1;
+        sessionStorage.setItem(currentProductId, currentQuantity);
+        currentQuantityElement.innerHTML = currentQuantity;
+        updateTotal();
+    });
 
-        let decreaseInQuantitybtn = cartBox.querySelector('.cart-box_quantity-decrease');
-        decreaseInQuantitybtn.addEventListener('click', function () {
-            const hasMinimumAllowedQuantity = isUpdatedQuantityOne(currentQuantity - 1);
+    let decreaseInQuantitybtn = cartBox.querySelector('.cart-box_quantity-decrease');
+    decreaseInQuantitybtn.addEventListener('click', function () {
+        const hasMinimumAllowedQuantity = isUpdatedQuantityOne(currentQuantity - 1);
 
-            currentQuantity = decrementQuantity(currentQuantity);
-            currentQuantityElement.innerHTML = currentQuantity;
-            updateTotal();
+        currentQuantity = decrementQuantity(currentQuantity);
+        sessionStorage.setItem(currentProductId, currentQuantity);
+        currentQuantityElement.innerHTML = currentQuantity;
+        updateTotal();
 
-            decreaseQtyImg.className = hasMinimumAllowedQuantity
-                ? 'cart-box-btn__disabled'
-                : 'cart-box-btn__enabled';
-        });
+        decreaseQtyImg.className = hasMinimumAllowedQuantity
+            ? 'cart-box-btn__disabled'
+            : 'cart-box-btn__enabled';
     });
 }
 
@@ -101,7 +100,7 @@ function addCartItem(addCartBtn, productList) {
             let templateClone2 = cartContent.querySelectorAll('.cart-box');
             updateTotal();
             removeCartItem(templateClone2, currentProductId);
-            initiateQuantityButtons(templateClone);
+            initiateQuantityButtons(templateClone2, currentProductId);
         }
     }
 }
