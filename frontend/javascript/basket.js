@@ -68,8 +68,6 @@ function initiateQuantityButtons(templateClone2, currentProductId) {
     });
 }
 
-// TODO save quantity in session storage and make the decrease button faded out in index HTLM and when quantity increases turn it normal
-
 function isUpdatedQuantityOne(quantity) {
     return quantity <= 1;
 }
