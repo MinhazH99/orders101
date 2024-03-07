@@ -87,7 +87,7 @@ let doesBrowserSupportTemplete = supportsTemplate();
 function addCartItem(addCartBtn, productList) {
     if (doesBrowserSupportTemplete) {
         let templateClone = createTemplate('#cart-box-template');
-        let currentProductId = addCartBtn.getAttribute('data-test');
+        let currentProductId = addCartBtn.getAttribute('data-product-id');
 
         if (sessionStorage.getItem(currentProductId) < 1) {
             sessionStorage.setItem(currentProductId, 1);

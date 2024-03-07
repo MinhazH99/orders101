@@ -108,7 +108,7 @@ function appendProducts(products) {
 
             templateClone
                 .querySelector('.trending-div-product-addcart')
-                .setAttribute('data-test', product.id);
+                .setAttribute('data-product-id', product.id);
 
             let productBtn = templateClone.querySelector('.trending-div-product-addcart');
 
