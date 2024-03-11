@@ -18,68 +18,54 @@
         <div class="checkout grid">
             <div>
               <div class="checkout__child">
-                <div class="checkout__form">
+                <form class="checkout__form">
                     <span>1. Customer Details</span>
-                    <div>
-                      <span> First Name</span>
-                    </div>
-                    <input />
-                    <div>
-                      <span> Second Name</span>
-                    </div>
-                    <input />
-                    <div>
-                      <span>Email Address</span>
-                    </div>
-                    <input />
-                </div>
+                    <label><span>First Name</span></label>
+                    <input type="text">
+
+                    <label><span>Second Name</span></label>
+                    <input type="text">
+
+                    <label><span>Email Address</span></label>
+                    <input type="text">
+                </form>
               </div>
-              <div class="checkout__child""><span>2. Delivery Address</span>
-                <div class="checkout__form">
-                    <div>
-                        <span> Country/Region</span>
-                      </div>
-                      <input />
+              <div class="checkout__child"">
+                <form class="checkout__form">
+                    <span>2. Delivery Address</span>
+                    <label><span>Country Region</span></label>
+                    <input type="text">
         
-                      <div>
-                        <span>Street Name</span>
-                      </div>
-                      <input />
+                    <label><span>Street Name</span></label>
+                    <input type="text">
         
-                      <div>
-                        <span>Post Code</span>
-                      </div>
-                      <input />
-                </div>
+                    <label><span>Post Code</span></label>
+                    <input type="text">
+                </form>
                   
               </div>
-              <div class="checkout__child""><span>3. Payment Method</span>
-                <div class="checkout__form">
-                    <div>
-                        <span>Card Number</span>
-                      </div>
-                      <input />
+              <div class="checkout__child"">
+                <form class="checkout__form">
+                    <span>3. Payment Method</span>
+                    <label><span>Card Number</span></label>
+                    <input type="text">
         
-                      <div>
-                        <span>Cardholder Name</span>
-                      </div>
-                      <input />
+                    <label><span>Cardholder Name</span></label>
+                    <input type="text">
         
-                      <div>
-                        <span>Expiry Date</span>
-                      </div>
-                      <input />
+                    <label><span>Expiry Date</span></label>
+                    <input type="text">
         
-                      <div>
-                        <span>Security Code</span>
-                      </div>
-                      <input />
-                </div>
+                    <label><span>Security Code</span></label>
+                    <input type="text">
+                </form>
               
               
               </div>
-              <div class="checkout__terms-conditions">Terms and Conditions</div>
-              <div class="checkout__submit">Submit Order</div>
+              <div class="checkout__terms-conditions">
+                <input type="checkbox"/>
+                <span> I have read and accept the Terms and Conditions</span></div>
+              <button class="checkout__submit btn-buy">Submit Order</button>
             </div>
             <div class="checkout__order-details">Order Details</div>
           </div>
