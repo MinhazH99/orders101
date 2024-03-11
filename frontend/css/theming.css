@@ -11,3 +11,7 @@ section {
 .subsection {
     background-color: var(--subsection-bg-color);
 }
+
+.checkout-body {
+    --main-background-color: #f2f2f2;
+}
