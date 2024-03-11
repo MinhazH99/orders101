@@ -59,19 +59,23 @@ function decrementQuantity(quantity) {
 
 function increaseQuantity(decreaseQtyImg, currentProductId, currentQuantityElement) {
     decreaseQtyImg.className = 'cart-box-btn__enabled';
-    let currentQuantity = Number(sessionStorage.getItem(currentProductId));
+    let cartItemAsString = JSON.parse(sessionStorage.getItem(currentProductId));
+    let currentQuantity = Number(cartItemAsString.quantity);
     currentQuantity += 1;
-    sessionStorage.setItem(currentProductId, currentQuantity);
+    cartItemAsString.quantity = currentQuantity;
+    sessionStorage.setItem(currentProductId, JSON.stringify(cartItemAsString));
     currentQuantityElement.innerHTML = currentQuantity;
     updateTotal();
 }
 
 function decreaseQuantity(currentQuantityElement, currentProductId, decreaseQtyImg) {
-    let currentQuantity = Number(sessionStorage.getItem(currentProductId));
+    let cartItemAsString = JSON.parse(sessionStorage.getItem(currentProductId));
+    let currentQuantity = Number(cartItemAsString.quantity);
     const hasMinimumAllowedQuantity = isUpdatedQuantityOne(currentQuantity - 1);
 
     currentQuantity = decrementQuantity(currentQuantity);
-    sessionStorage.setItem(currentProductId, currentQuantity);
+    cartItemAsString.quantity = currentQuantity;
+    sessionStorage.setItem(currentProductId, JSON.stringify(cartItemAsString));
     currentQuantityElement.innerHTML = currentQuantity;
     updateTotal();
 
@@ -88,9 +92,14 @@ function addCartItem(addCartBtn, productList) {
     if (doesBrowserSupportTemplete) {
         let templateClone = createTemplate('#cart-box-template');
         let currentProductId = addCartBtn.getAttribute('data-product-id');
+        let cartItem = {
+            name: productList[currentProductId].productName,
+            price: productList[currentProductId].productUnitPrice,
+            quantity: 1,
+        };
 
         if (sessionStorage.getItem(currentProductId) < 1) {
-            sessionStorage.setItem(currentProductId, 1);
+            sessionStorage.setItem(currentProductId, JSON.stringify(cartItem));
             appendProductTitle(templateClone, currentProductId, productList);
 
             appendProductPrice(templateClone, currentProductId, productList);
