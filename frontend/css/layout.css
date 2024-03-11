@@ -265,3 +265,13 @@ li a {
 .text-field {
     width: 100%;
 }
+
+.checkout__child__header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.checkout__order-number {
+    display: flex;
+    justify-content: flex-start;
+}
