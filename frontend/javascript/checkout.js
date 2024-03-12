@@ -30,6 +30,8 @@ function addItemtoOrder() {
             orderContent.appendChild(templateClone);
         });
     }
+    let orderTotalQuantityElement = document.querySelector('.checkout_total-quantity');
+    orderTotalQuantityElement.textContent = Object.keys(sessionStorage).length + ' items';
 }
 
 addItemtoOrder();
