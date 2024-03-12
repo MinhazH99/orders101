@@ -2,6 +2,7 @@
     --blurred-background-color: rgba(255, 255, 255, 0.2);
     --main-background-color: white;
     --hover-color: green;
+    --border-color: rgb(204, 204, 204);
 }
 
 section {
@@ -10,8 +11,4 @@ section {
 
 .subsection {
     background-color: var(--subsection-bg-color);
-}
-
-.checkout-body {
-    --main-background-color: #f2f2f2;
 }

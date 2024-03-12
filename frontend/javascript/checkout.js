@@ -14,16 +14,17 @@ function addItemtoOrder() {
             storage[key] = JSON.parse(sessionStorage.getItem(key));
             let productName = storage[key].name;
             let productPrice = storage[key].price;
+            productPrice = productPrice.toFixed(2);
             let productQuantity = storage[key].quantity;
 
             let orderTitleElement = templateClone.querySelector('.order-box__name');
             orderTitleElement.textContent = productName;
 
             let orderPriceElement = templateClone.querySelector('.order-box__price');
-            orderPriceElement.textContent = productPrice;
+            orderPriceElement.textContent = '£' + productPrice;
 
             let orderQuantityElement = templateClone.querySelector('.order-box__quantity');
-            orderQuantityElement.textContent = productQuantity;
+            orderQuantityElement.textContent = 'Quantity: ' + productQuantity;
 
             const orderContent = document.querySelector('.order-details');
             orderContent.appendChild(templateClone);

@@ -275,3 +275,31 @@ li a {
     display: flex;
     justify-content: flex-start;
 }
+
+.order-details {
+    margin-top: var(--spacing-m);
+}
+
+.order-box {
+    display: flex;
+}
+
+.order-img {
+    width: 20%;
+}
+
+.order-box {
+    margin-bottom: var(--spacing-m);
+}
+
+.order-box__detail {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-left: var(--spacing-s);
+}
+
+.checkout__total-price {
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
