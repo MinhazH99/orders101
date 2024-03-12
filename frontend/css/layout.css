@@ -299,7 +299,12 @@ li a {
     margin-left: var(--spacing-s);
 }
 
-.checkout__total-price {
+.checkout__total-detail {
+    display: flex;
     border-top: 1px solid var(--border-color);
     border-bottom: 1px solid var(--border-color);
+}
+
+.checkout__total-price {
+    margin-left: auto;
 }
