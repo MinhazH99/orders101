@@ -88,11 +88,11 @@ function increaseQuantity(
     let cartItemAsString = JSON.parse(sessionStorage.getItem(currentProductId));
     let currentQuantity = Number(cartItemAsString.quantity);
     currentQuantity += 1;
-    cartItemAsString.quantity = currentQuantity;
-    let updatedTotalCost = Number(cartItemAsString.unitPrice) * currentQuantity;
-    updatedTotalCost = updatedTotalCost.toFixed(2);
-    cartItemAsString.totalCost = updatedTotalCost;
-    sessionStorage.setItem(currentProductId, JSON.stringify(cartItemAsString));
+    let updatedTotalCost = calculateandSetProductTotalCost(
+        cartItemAsString,
+        currentQuantity,
+        currentProductId
+    );
     currentUnitCostElement.textContent = '£' + updatedTotalCost;
     currentQuantityElement.textContent = currentQuantity;
     updateTotal();
@@ -110,10 +110,11 @@ function decreaseQuantity(
 
     currentQuantity = decrementQuantity(currentQuantity);
     cartItemAsString.quantity = currentQuantity;
-    let updatedTotalCost = Number(cartItemAsString.unitPrice) * currentQuantity;
-    updatedTotalCost = updatedTotalCost.toFixed(2);
-    cartItemAsString.totalCost = updatedTotalCost;
-    sessionStorage.setItem(currentProductId, JSON.stringify(cartItemAsString));
+    let updatedTotalCost = calculateandSetProductTotalCost(
+        cartItemAsString,
+        currentQuantity,
+        currentProductId
+    );
     currentUnitCostElement.textContent = '£' + updatedTotalCost;
     currentQuantityElement.textContent = currentQuantity;
     updateTotal();
@@ -121,6 +122,15 @@ function decreaseQuantity(
     decreaseQtyImg.className = hasMinimumAllowedQuantity
         ? 'cart-box-btn__disabled'
         : 'cart-box-btn__enabled';
+}
+
+function calculateandSetProductTotalCost(cartItemAsString, currentQuantity, currentProductId) {
+    cartItemAsString.quantity = currentQuantity;
+    let updatedTotalCost = Number(cartItemAsString.unitPrice) * currentQuantity;
+    updatedTotalCost = updatedTotalCost.toFixed(2);
+    cartItemAsString.totalCost = updatedTotalCost;
+    sessionStorage.setItem(currentProductId, JSON.stringify(cartItemAsString));
+    return updatedTotalCost;
 }
 
 const supportsTemplate = () => 'content' in document.createElement('template');
