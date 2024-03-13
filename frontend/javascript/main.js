@@ -6,4 +6,3 @@ import {
     initiateQuantityButtons,
     isUpdatedQuantityOne,
 } from './basket.js';
-import { addItemtoOrder } from './checkout.js';

@@ -13,8 +13,7 @@ function addItemtoOrder() {
             let templateClone = createTemplate('#order-details-template');
             storage[key] = JSON.parse(sessionStorage.getItem(key));
             let productName = storage[key].name;
-            let productPrice = storage[key].price;
-            productPrice = productPrice.toFixed(2);
+            let productPrice = storage[key].totalCost;
             let productQuantity = storage[key].quantity;
 
             let orderTitleElement = templateClone.querySelector('.order-box__name');
