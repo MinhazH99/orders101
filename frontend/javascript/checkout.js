@@ -20,27 +20,38 @@ function addItemtoOrder() {
             let productQuantity = storage[key].quantity;
             total += Number(productTotalCost);
 
-            let orderTitleElement = templateClone.querySelector('.order-box__name');
-            orderTitleElement.textContent = productName;
-
-            let orderPriceElement = templateClone.querySelector('.order-box__price');
-            orderPriceElement.textContent = '£' + productTotalCost;
-
-            let orderQuantityElement = templateClone.querySelector('.order-box__quantity');
-            orderQuantityElement.textContent = 'Quantity: ' + productQuantity;
+            updateOrderDetails(templateClone, productName, productQuantity, productTotalCost);
 
             const orderContent = document.querySelector('.order-details');
             orderContent.appendChild(templateClone);
         });
     }
+}
+
+function updateOrderDetails(templateClone, productName, productQuantity, productTotalCost) {
+    let orderTitleElement = templateClone.querySelector('.order-box__name');
+    orderTitleElement.textContent = productName;
+
+    let orderPriceElement = templateClone.querySelector('.order-box__price');
+    orderPriceElement.textContent = '£' + productTotalCost;
+
+    let orderQuantityElement = templateClone.querySelector('.order-box__quantity');
+    orderQuantityElement.textContent = 'Quantity: ' + productQuantity;
+}
+
+function updateTotalQuantityInOrder() {
     let orderTotalQuantityElement = document.querySelector('.checkout_total-quantity');
     orderTotalQuantityElement.textContent = Object.keys(sessionStorage).length + ' items';
+}
 
+function updateTotalPriceOfOrder() {
     let totalCartPriceElement = document.querySelector('.checkout__total-price');
     total = total.toFixed(2);
     totalCartPriceElement.textContent = '£' + total;
 }
 
 addItemtoOrder();
+updateTotalQuantityInOrder();
+updateTotalPriceOfOrder();
 
-export { addItemtoOrder };
+export { addItemtoOrder, updateTotalQuantityInOrder, updateTotalPriceOfOrder };

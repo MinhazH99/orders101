@@ -78,7 +78,7 @@ function increaseQuantity(
     let cartItemAsString = JSON.parse(sessionStorage.getItem(currentProductId));
     let currentQuantity = Number(cartItemAsString.quantity);
     currentQuantity += 1;
-    let updatedTotalCost = calculateandSetProductTotalCost(
+    let updatedTotalCost = calculateAndSetProductTotalCost(
         cartItemAsString,
         currentQuantity,
         currentProductId
@@ -100,7 +100,7 @@ function decreaseQuantity(
 
     currentQuantity = decrementQuantity(currentQuantity);
     cartItemAsString.quantity = currentQuantity;
-    let updatedTotalCost = calculateandSetProductTotalCost(
+    let updatedTotalCost = calculateAndSetProductTotalCost(
         cartItemAsString,
         currentQuantity,
         currentProductId
@@ -114,10 +114,10 @@ function decreaseQuantity(
         : 'cart-box-btn__enabled';
 }
 
-function calculateandSetProductTotalCost(cartItemAsString, currentQuantity, currentProductId) {
-    cartItemAsString.quantity = currentQuantity;
+function calculateAndSetProductTotalCost(cartItemAsString, currentQuantity, currentProductId) {
     let updatedTotalCost = Number(cartItemAsString.unitPrice) * currentQuantity;
     updatedTotalCost = updatedTotalCost.toFixed(2);
+    cartItemAsString.quantity = currentQuantity;
     cartItemAsString.totalCost = updatedTotalCost;
     sessionStorage.setItem(currentProductId, JSON.stringify(cartItemAsString));
     return updatedTotalCost;
