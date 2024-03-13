@@ -13,17 +13,7 @@ function removeCartItem(templateClone2, currentProductId) {
 }
 
 function updateTotal() {
-    // let cartBoxes = document.querySelector('.cart-content').querySelectorAll('.cart-box');
-
     let totalPrice = document.querySelector('.total__price');
-    // let total = 0;
-
-    // cartBoxes.forEach((cartBox) => {
-    //     let priceElement = cartBox.querySelector('.cart-box__product_price');
-    //     let price = parseFloat(priceElement.innerHTML.replace('£', ''));
-    //     let quantity = cartBox.querySelector('.cart-box__product-quantity').innerHTML;
-    //     total += price * quantity;
-    // });
     let storage = {};
     let total = 0;
     Object.keys(sessionStorage).forEach((key) => {
