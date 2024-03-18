@@ -81,21 +81,7 @@ submitBtn.addEventListener('click', function () {
             .then((data) => console.log(data));
     });
 
-    let order = {
-        basket: {
-            lineItems: [],
-        },
-        totalPrice: null,
-        customer: {
-            invoiceAddress: null,
-            name: null,
-            email: null,
-        },
-        paymentStatus: null,
-        orderStatus: null,
-        deliveryAddress: null,
-        createdDate: null,
-    };
+    let order = {};
 
     let firstName = document.querySelector('.form__first-name').value;
     let secondName = document.querySelector('.form__second-name').value;
@@ -170,43 +156,5 @@ function formatDate(date) {
 addItemtoOrder();
 updateTotalQuantityInOrder();
 updateTotalPriceOfOrder();
-
-//Steps in order to send order POST request
-
-// First create an Order object which has the following keys: basket, total price, customer, payment status, order status, delivery address and created date.
-
-// let order = {
-//     basket: null,
-//     totalPrice: null,
-//     customer: null,
-//     name: null,
-//     email: null,
-//     paymentStatus: null,
-//     orderStatus: null,
-//     deliveryAddress: null,
-//     createdDate: null,
-// };
-
-//  Retreive address details using form and assign them to delivery and invoice address
-
-// Then create a customer object where the value of "invoice address key" is the address object
-
-// Then need to create array of objects where each object contains the name, description, unit price and quanity of the line item
-
-// Set the array as a value for the line item key
-
-// Set the line item as a value for the basket key
-
-// Set the value of total price using the total variable set above
-
-// Set paymenet status to AUTHROISED
-
-// Set order status to COMPLETED
-
-// Set name and email using the form
-
-// Set created date to current date
-
-// Convert the Order object into JSON and pass it in the POST request
 
 export { addItemtoOrder, updateTotalQuantityInOrder, updateTotalPriceOfOrder };
