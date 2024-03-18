@@ -50,6 +50,38 @@ function updateTotalPriceOfOrder() {
     totalCartPriceElement.textContent = '£' + total;
 }
 
+const submitBtn = document.querySelector('.checkout__submit');
+
+function buildStockAvailabilityUrl(productId, qty) {
+    return (
+        'http://localhost:8081/products/stock-availability/' +
+        productId +
+        '?inc=false' +
+        '&qty=' +
+        qty
+    );
+}
+
+submitBtn.addEventListener('click', function () {
+    let storage = {};
+    Object.keys(sessionStorage).forEach((key) => {
+        storage[key] = JSON.parse(sessionStorage.getItem(key));
+        let productId = key;
+        let qty = storage[key].quantity;
+
+        let apiUrl = buildStockAvailabilityUrl(productId, qty);
+
+        fetch(apiUrl, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => console.log(data));
+    });
+});
+
 addItemtoOrder();
 updateTotalQuantityInOrder();
 updateTotalPriceOfOrder();
