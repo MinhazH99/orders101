@@ -63,21 +63,7 @@ function buildStockAvailabilityUrl(productId, qty) {
     );
 }
 
-let order = {
-    basket: {
-        lineItems: [],
-    },
-    totalPrice: null,
-    customer: {
-        invoiceAddress: null,
-        name: null,
-        email: null,
-    },
-    paymentStatus: null,
-    orderStatus: null,
-    deliveryAddress: null,
-    createdDate: null,
-};
+let order = {};
 
 submitBtn.addEventListener('click', function () {
     handlePatchRequest();
@@ -105,6 +91,13 @@ function handlePostRequest() {
     let postCode = document.querySelector('.form__post-code').value;
     let country = document.querySelector('.form__country').value;
 
+    updateOrder(firstName, secondName, emailAddress, streetName, postCode, country);
+
+    let postURL = 'http://localhost:8080/orders/';
+    postOrder(postURL, order);
+}
+
+function updateOrder(firstName, secondName, emailAddress, streetName, postCode, country) {
     updateOrderWithCustomerDetails(
         order,
         firstName,
@@ -124,9 +117,6 @@ function handlePostRequest() {
     order.orderStatus = 'COMPLETED';
 
     updateOrderWithCurrentDate(order);
-
-    let postURL = 'http://localhost:8080/orders/';
-    postOrder(postURL, order);
 }
 
 function formatDate(date) {
@@ -152,13 +142,14 @@ function updateOrderWithCustomerDetails(
     postCode,
     country
 ) {
-    let customerDetails = order.customer;
-    customerDetails.name = firstName + ' ' + secondName;
-    order.customer.email = emailAddress;
-    order.customer.invoiceAddress = {
-        addressLine1: streetName,
-        postCode: postCode,
-        country: country,
+    order.customer = {
+        name: firstName + ' ' + secondName,
+        email: emailAddress,
+        invoiceAddress: {
+            addressLine1: streetName,
+            postCode: postCode,
+            country: country,
+        },
     };
 }
 
@@ -171,12 +162,12 @@ function updateOrderWithDeliveryAddress(order, streetName, postCode, country) {
 }
 
 function updateOrderWithCartItems(order, storage) {
+    order.basket = { lineItems: [] };
     Object.keys(sessionStorage).forEach((key) => {
         storage[key] = JSON.parse(sessionStorage.getItem(key));
         let name = storage[key].name;
         let unitPrice = storage[key].unitPrice;
         let quantity = storage[key].quantity;
-
         order.basket.lineItems.push({
             name: name,
             description: 'test',
