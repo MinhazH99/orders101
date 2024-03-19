@@ -1,3 +1,5 @@
+import { patchOrder, postOrder } from './fetch.js';
+
 const supportsTemplate = () => 'content' in document.createElement('template');
 
 let doesBrowserSupportTemplete = supportsTemplate();
@@ -7,11 +9,10 @@ function createTemplate(element) {
 }
 
 let total = 0;
+let storage = {};
 
 function addItemtoOrder() {
     if (doesBrowserSupportTemplete) {
-        let storage = {};
-
         Object.keys(sessionStorage).forEach((key) => {
             let templateClone = createTemplate('#order-details-template');
             storage[key] = JSON.parse(sessionStorage.getItem(key));
@@ -62,8 +63,28 @@ function buildStockAvailabilityUrl(productId, qty) {
     );
 }
 
+let order = {
+    basket: {
+        lineItems: [],
+    },
+    totalPrice: null,
+    customer: {
+        invoiceAddress: null,
+        name: null,
+        email: null,
+    },
+    paymentStatus: null,
+    orderStatus: null,
+    deliveryAddress: null,
+    createdDate: null,
+};
+
 submitBtn.addEventListener('click', function () {
-    let storage = {};
+    handlePatchRequest();
+    handlePostRequest();
+});
+
+function handlePatchRequest() {
     Object.keys(sessionStorage).forEach((key) => {
         storage[key] = JSON.parse(sessionStorage.getItem(key));
         let productId = key;
@@ -71,18 +92,11 @@ submitBtn.addEventListener('click', function () {
 
         let apiUrl = buildStockAvailabilityUrl(productId, qty);
 
-        fetch(apiUrl, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then((response) => response.json())
-            .then((data) => console.log(data));
+        patchOrder(apiUrl);
     });
+}
 
-    let order = {};
-
+function handlePostRequest() {
     let firstName = document.querySelector('.form__first-name').value;
     let secondName = document.querySelector('.form__second-name').value;
     let emailAddress = document.querySelector('.form__email-address').value;
@@ -91,53 +105,29 @@ submitBtn.addEventListener('click', function () {
     let postCode = document.querySelector('.form__post-code').value;
     let country = document.querySelector('.form__country').value;
 
-    order.customer.name = firstName + ' ' + secondName;
-    order.customer.email = emailAddress;
-    order.customer.invoiceAddress = {
-        addressLine1: streetName,
-        postCode: postCode,
-        country: country,
-    };
+    updateOrderWithCustomerDetails(
+        order,
+        firstName,
+        secondName,
+        emailAddress,
+        streetName,
+        postCode,
+        country
+    );
 
-    order.deliveryAddress = {
-        addressLine1: streetName,
-        postCode: postCode,
-        country: country,
-    };
+    updateOrderWithDeliveryAddress(order, streetName, postCode, country);
 
-    Object.keys(sessionStorage).forEach((key) => {
-        storage[key] = JSON.parse(sessionStorage.getItem(key));
-        let name = storage[key].name;
-        let unitPrice = storage[key].unitPrice;
-        let quantity = storage[key].quantity;
-
-        order.basket.lineItems.push({
-            name: name,
-            description: 'test',
-            unitPrice: unitPrice,
-            quantity: quantity,
-        });
-    });
+    updateOrderWithCartItems(order, storage);
 
     order.totalPrice = total;
     order.paymentStatus = 'AUTHORISED';
     order.orderStatus = 'COMPLETED';
 
-    const today = new Date();
-
-    order.createdDate = formatDate(today);
+    updateOrderWithCurrentDate(order);
 
     let postURL = 'http://localhost:8080/orders/';
-    fetch(postURL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(order),
-    })
-        .then((response) => response.json())
-        .then((data) => console.log(data));
-});
+    postOrder(postURL, order);
+}
 
 function formatDate(date) {
     let mm = date.getMonth() + 1;
@@ -151,6 +141,55 @@ function formatDate(date) {
     let yyyy = date.getFullYear();
 
     return yyyy + '-' + mm + '-' + dd;
+}
+
+function updateOrderWithCustomerDetails(
+    order,
+    firstName,
+    secondName,
+    emailAddress,
+    streetName,
+    postCode,
+    country
+) {
+    let customerDetails = order.customer;
+    customerDetails.name = firstName + ' ' + secondName;
+    order.customer.email = emailAddress;
+    order.customer.invoiceAddress = {
+        addressLine1: streetName,
+        postCode: postCode,
+        country: country,
+    };
+}
+
+function updateOrderWithDeliveryAddress(order, streetName, postCode, country) {
+    order.deliveryAddress = {
+        addressLine1: streetName,
+        postCode: postCode,
+        country: country,
+    };
+}
+
+function updateOrderWithCartItems(order, storage) {
+    Object.keys(sessionStorage).forEach((key) => {
+        storage[key] = JSON.parse(sessionStorage.getItem(key));
+        let name = storage[key].name;
+        let unitPrice = storage[key].unitPrice;
+        let quantity = storage[key].quantity;
+
+        order.basket.lineItems.push({
+            name: name,
+            description: 'test',
+            unitPrice: unitPrice,
+            quantity: quantity,
+        });
+    });
+}
+
+function updateOrderWithCurrentDate(order) {
+    const today = new Date();
+
+    order.createdDate = formatDate(today);
 }
 
 addItemtoOrder();

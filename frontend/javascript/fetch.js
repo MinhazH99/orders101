@@ -10,4 +10,27 @@ function fetchData(url) {
         .catch((err) => console.error('Error:', err));
 }
 
-export { fetchData };
+function postOrder(url, order) {
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(order),
+    })
+        .then((response) => response.json())
+        .then((data) => console.log(data));
+}
+
+function patchOrder(url) {
+    fetch(url, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then((response) => response.json())
+        .then((data) => console.log(data));
+}
+
+export { fetchData, postOrder, patchOrder };
