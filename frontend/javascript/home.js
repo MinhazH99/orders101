@@ -8,9 +8,18 @@ function attachEventListeners() {
         const sidebar = document.querySelector('.hamburger');
         sidebar.style.display = 'none';
     });
+
+    document.querySelector('#cart-icon').addEventListener('click', function () {
+        const cart = document.querySelector('.cart');
+        cart.style.display = 'block';
+    });
+
+    document.querySelector('#cart-close').addEventListener('click', function () {
+        const cart = document.querySelector('.cart');
+        cart.style.display = 'none';
+    });
 }
 
 attachEventListeners();
-// Use this as anything defined in a module is scoped to that module, so use window to explicity expose those functions to global scope.
 
 export { attachEventListeners };

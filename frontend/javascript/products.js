@@ -1,4 +1,5 @@
 import { fetchData } from './fetch.js';
+import { addCartItem } from './basket.js';
 
 function handleProductError() {
     const fourPlaceholderProducts = 4;
@@ -13,11 +14,26 @@ function handleProductError() {
     }
 }
 
-const apiUrl = 'http://localhost:8080/products/';
+const apiUrl = 'http://localhost:8081/products/';
 
 window.onload = (event) => {
-    fetchData(apiUrl, appendProducts).then(appendProducts).catch(handleProductError);
+    fetchData(apiUrl).then(handleResponse).catch(handleProductError);
+
+    // handle response function calls appendProducts and creates a product object with keys as id and values as name,image and description
 };
+
+let productList = {};
+
+function handleResponse(products) {
+    appendProducts(products);
+    products.forEach((product) => {
+        let individualProduct = {
+            productName: product.name,
+            productUnitPrice: product.unitPrice,
+        };
+        productList[product.id] = individualProduct;
+    });
+}
 
 function createProductImage(template) {
     let prodImage = template.querySelector('#trending-div-product-image');
@@ -67,8 +83,8 @@ const supportsTemplate = () => 'content' in document.createElement('template');
 
 let doesBrowserSupportTemplete = supportsTemplate();
 
-function createTemplate() {
-    return document.querySelector('#trending-product-template').content.cloneNode(true);
+function createTemplate(element) {
+    return document.querySelector(element).content.cloneNode(true);
 }
 
 function addToProductsList(templateClone) {
@@ -84,14 +100,25 @@ function appendProducts(products) {
     // for the presence of the template element's content attribute.
     if (doesBrowserSupportTemplete) {
         products.forEach((product) => {
-            const templateClone = createTemplate();
+            const templateClone = createTemplate('#trending-product-template');
 
             createProductImage(templateClone);
 
             createProductLabel(templateClone, product);
 
+            templateClone
+                .querySelector('.trending-div-product-addcart')
+                .setAttribute('data-product-id', product.id);
+
+            let productBtn = templateClone.querySelector('.trending-div-product-addcart');
+
+            productBtn.addEventListener('click', function () {
+                addCartItem(productBtn, productList);
+            });
+
             addToProductsList(templateClone);
         });
     }
 }
-export { appendProducts };
+
+export { appendProducts, createTemplate };

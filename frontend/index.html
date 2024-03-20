@@ -39,15 +39,48 @@
                     <span>Ideas & Advice</span></div>
             </a>
             
-            <a class="nav__icons" href="#basket">
+            <button class="nav__icons" id="cart-icon">
                 <div class="nav__icons__item container"> <img img class="searchicons" src="./assets/images/basket.svg" alt="basket">
                     <span>Basket</span>
                 </div>  
-            </a>
+            </button>
             <div class="nav__search-container">
                 <input class="search-bar" type="search" placeholder="Search...">
             </div> 
-        </div>                            
+        </div>
+        
+        <div class="cart">
+            <h2 class="card-title">Your Cart</h2>
+
+            <div class="cart-content">
+                <template id="cart-box-template">
+                    <div class="cart-box">
+                        <img src="./assets/images/trending-product.webp" alt=" ", class="cart-img">
+                        <div class="cart-box__detail">
+                            <div class="cart-box__product-detail">Item Name</div>
+                            <div class="cart-box__product_price">£25.05</div>
+                            <div class="cart-box_quantity-control">
+                                <button class="cart-box_quantity-decrease"><img class="cart-box-btn__disabled" src="./assets/images/dash-square.svg" alt=""></button>
+                                <div class="cart-box__product-quantity">1</div>
+                                <button class="cart-box_quantity-increase"><img src="./assets/images/plus-square.svg" alt=""></button>
+                            </div>
+                            
+                        </div>
+                                <button class='cart-remove'><img src="./assets/images/trash3-fill.svg"></button>
+                    </div>
+                </template>     
+            </div>
+            <div class="total">
+                <div class="total__title"><h3>Total</h3></div>
+                <div class="total__price">£0</div>
+            </div>
+            <button type="button" class="btn-buy">Checkout</button>
+            <div id="cart-close" >
+                <button>
+                    <div><img  src="./assets/images/x.svg"></div>
+                </button>
+            </div>
+        </div>
     </header>
 
         <nav class="categories container nav-color ">
@@ -134,16 +167,21 @@
     <!-- Trending now -->
     <section>
         <h2 class="subtitle">Trending now</h2>
-        <div id="trending" class="trending grid" />
+        <div id="trending" class="trending grid">
         <template id="trending-product-template">
-            <a href="trending">
-                <div>
-                    <img id="trending-div-product-image" class="site-image" src="">
-                </div>
-                <div id="trending-div-product-label">Placeholder</div>
-                <div id="trending-div-product-price">£XX.XX</div>
-            </a>
+            <div class="trending-div-product-grid">
+                <a href="#popular">
+                    <div class="trending-div-product-image">
+                        <img id="trending-div-product-image" class="site-image" src="">
+                    </div>
+                    <div id="trending-div-product-label">Placeholder</div>
+                    <div id="trending-div-product-price">£XX.XX</div>
+                </a>
+                <button class="trending-div-product-addcart btn-buy">Add to Basket</button>
+            </div>
+           
         </template>
+    </div>
     </section>
 </main>
 </body>
