@@ -13,6 +13,7 @@ function removeCartItem(templateClone2, currentProductId) {
 }
 
 function updateTotal() {
+    // Pass in item key as arguement and which prevents iterating over the whole session storage
     let totalPrice = document.querySelector('.total__price');
     let storage = {};
     let total = 0;
@@ -41,12 +42,35 @@ function initiateQuantityButtons(templateClone2, currentProductId) {
 
     let increaseInQuantitybtn = cartBox.querySelector('.cart-box_quantity-increase');
     increaseInQuantitybtn.addEventListener('click', function () {
-        increaseQuantity(
-            decreaseQtyImg,
-            currentProductId,
-            currentQuantityElement,
-            currentUnitCostElement
-        );
+        let item = JSON.parse(sessionStorage.getItem(currentProductId));
+        let currentQuantity = item.quantity + 1;
+        let apiUrl =
+            'http://localhost:8081/products/stock-availability/' +
+            currentProductId +
+            '?inc=false' +
+            '&qty=' +
+            currentQuantity;
+
+        fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (getStockAvaiabilityResp(data)) {
+                    increaseQuantity(
+                        decreaseQtyImg,
+                        currentProductId,
+                        currentQuantityElement,
+                        currentUnitCostElement
+                    );
+                } else {
+                    increaseInQuantitybtn.className = 'cart-box-btn__disabled';
+                    increaseInQuantitybtn.setAttribute('title', 'No stock available');
+                }
+            });
     });
 
     let decreaseInQuantitybtn = cartBox.querySelector('.cart-box_quantity-decrease');
@@ -58,6 +82,12 @@ function initiateQuantityButtons(templateClone2, currentProductId) {
             currentUnitCostElement
         );
     });
+}
+
+function getStockAvaiabilityResp(data) {
+    if (data.data.available == true) {
+        return true;
+    }
 }
 
 function isUpdatedQuantityOne(quantity) {
