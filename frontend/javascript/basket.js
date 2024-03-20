@@ -1,7 +1,5 @@
 import { createTemplate } from './products.js';
 
-let cartList = [];
-
 function removeCartItem(templateClone2, currentProductId) {
     let cartRemove_btn = templateClone2[templateClone2.length - 1].querySelector('.cart-remove');
 
