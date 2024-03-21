@@ -4,26 +4,27 @@ function removeCartItem(templateClone2, currentProductId) {
     let cartRemove_btn = templateClone2[templateClone2.length - 1].querySelector('.cart-remove');
 
     cartRemove_btn.addEventListener('click', function () {
+        updateTotal('decrement', currentProductId);
         sessionStorage.removeItem(currentProductId);
         cartRemove_btn.parentElement.remove();
-        updateTotal();
     });
 }
 
-function updateTotal() {
-    // Pass in item key as arguement and which prevents iterating over the whole session storage
+let total = 0;
+
+function updateTotal(varitation, currentProductId) {
     let totalPrice = document.querySelector('.total__price');
-    let storage = {};
-    let total = 0;
-    Object.keys(sessionStorage).forEach((key) => {
-        storage[key] = JSON.parse(sessionStorage.getItem(key));
-        let currentProductTotalCost = Number(storage[key].totalCost);
-        total += currentProductTotalCost;
-    });
+    let currentProductJSON = JSON.parse(sessionStorage.getItem(currentProductId));
+    let currentProductUnitCost = Number(currentProductJSON.unitPrice);
+    if (varitation == 'increment') {
+        total += currentProductUnitCost;
+    } else {
+        total -= currentProductUnitCost;
+    }
 
-    total = total.toFixed(2);
+    let formattedTotal = total.toFixed(2);
 
-    totalPrice.innerHTML = '£' + total;
+    totalPrice.innerHTML = '£' + formattedTotal;
 }
 
 function initiateQuantityButtons(templateClone2, currentProductId) {
@@ -113,7 +114,7 @@ function increaseQuantity(
     );
     currentUnitCostElement.textContent = '£' + updatedTotalCost;
     currentQuantityElement.textContent = currentQuantity;
-    updateTotal();
+    updateTotal('increment', currentProductId);
 }
 
 function decreaseQuantity(
@@ -135,7 +136,7 @@ function decreaseQuantity(
     );
     currentUnitCostElement.textContent = '£' + updatedTotalCost;
     currentQuantityElement.textContent = currentQuantity;
-    updateTotal();
+    updateTotal('decrement', currentProductId);
 
     decreaseQtyImg.className = hasMinimumAllowedQuantity
         ? 'cart-box-btn__disabled'
@@ -176,7 +177,7 @@ function addCartItem(addCartBtn, productList) {
             cartContent.appendChild(templateClone);
 
             let templateClone2 = cartContent.querySelectorAll('.cart-box');
-            updateTotal();
+            updateTotal('increment', currentProductId);
             removeCartItem(templateClone2, currentProductId);
             initiateQuantityButtons(templateClone2, currentProductId);
         }
