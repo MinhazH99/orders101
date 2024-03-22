@@ -1,5 +1,7 @@
-import { buildStockAvailabilityUrl } from './checkout.js';
+import { buildStockAvailabilityUrl } from './api-utils.js';
 import { createTemplate } from './products.js';
+
+let total = 0;
 
 function removeCartItem(templateClone2, currentProductId) {
     let cartRemove_btn = templateClone2[templateClone2.length - 1].querySelector('.cart-remove');
@@ -11,8 +13,6 @@ function removeCartItem(templateClone2, currentProductId) {
     });
 }
 
-let total = 0;
-
 function updateTotal(varitation, currentProductId) {
     let totalPrice = document.querySelector('.total__price');
     let currentProductJSON = JSON.parse(sessionStorage.getItem(currentProductId));
@@ -22,9 +22,7 @@ function updateTotal(varitation, currentProductId) {
     } else {
         total -= currentProductUnitCost;
     }
-
     let formattedTotal = total.toFixed(2);
-
     totalPrice.innerHTML = '£' + formattedTotal;
 }
 
@@ -32,28 +30,15 @@ function initiateQuantityButtons(templateClone2, currentProductId) {
     let cartBox = templateClone2[templateClone2.length - 1].querySelector(
         '.cart-box_quantity-control'
     );
-
     let currentUnitCostElement = templateClone2[templateClone2.length - 1].querySelector(
         '.cart-box__product_price'
     );
-
     let decreaseQtyImg = cartBox.querySelector('.cart-box-btn__disabled ');
     let currentQuantityElement = cartBox.querySelector('.cart-box__product-quantity');
-
     let increaseInQuantitybtn = cartBox.querySelector('.cart-box_quantity-increase');
     increaseInQuantitybtn.addEventListener('click', function () {
-        let item = JSON.parse(sessionStorage.getItem(currentProductId));
-        let currentQuantity = item.quantity + 1;
-        // let apiUrl =
-        //     'http://localhost:8081/products/stock-availability/' +
-        //     currentProductId +
-        //     '?inc=false' +
-        //     '&qty=' +
-        //     currentQuantity;
-
-        let test = buildStockAvailabilityUrl(1, 1);
-
-        fetch(apiUrl, {
+        fetch(buildStockAvailabilityUrl(currentProductId, 
+            JSON.parse(sessionStorage.getItem(currentProductId)).quantity + 1), {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

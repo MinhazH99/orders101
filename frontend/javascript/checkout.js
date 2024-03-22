@@ -1,15 +1,20 @@
 import { patchOrder, postOrder } from './fetch.js';
 
 const supportsTemplate = () => 'content' in document.createElement('template');
-
+const submitBtn = document.querySelector('.checkout__submit');
 let doesBrowserSupportTemplete = supportsTemplate();
+let total = 0;
+let storage = {};
+let order = {};
+
+submitBtn.addEventListener('click', function () {
+    handlePatchRequest();
+    handlePostRequest();
+});
 
 function createTemplate(element) {
     return document.querySelector(element).content.cloneNode(true);
 }
-
-let total = 0;
-let storage = {};
 
 function addItemtoOrder() {
     if (doesBrowserSupportTemplete) {
@@ -50,25 +55,6 @@ function updateTotalPriceOfOrder() {
     total = total.toFixed(2);
     totalCartPriceElement.textContent = '£' + total;
 }
-
-const submitBtn = document.querySelector('.checkout__submit');
-
-function buildStockAvailabilityUrl(productId, qty) {
-    return (
-        'http://localhost:8081/products/stock-availability/' +
-        productId +
-        '?inc=false' +
-        '&qty=' +
-        qty
-    );
-}
-
-let order = {};
-
-submitBtn.addEventListener('click', function () {
-    handlePatchRequest();
-    handlePostRequest();
-});
 
 function handlePatchRequest() {
     Object.keys(sessionStorage).forEach((key) => {
@@ -190,6 +176,5 @@ updateTotalPriceOfOrder();
 export {
     addItemtoOrder,
     updateTotalQuantityInOrder,
-    updateTotalPriceOfOrder,
-    buildStockAvailabilityUrl,
+    updateTotalPriceOfOrder
 };
