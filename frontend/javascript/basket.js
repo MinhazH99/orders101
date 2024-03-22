@@ -1,3 +1,4 @@
+import { buildStockAvailabilityUrl } from './checkout.js';
 import { createTemplate } from './products.js';
 
 function removeCartItem(templateClone2, currentProductId) {
@@ -43,12 +44,14 @@ function initiateQuantityButtons(templateClone2, currentProductId) {
     increaseInQuantitybtn.addEventListener('click', function () {
         let item = JSON.parse(sessionStorage.getItem(currentProductId));
         let currentQuantity = item.quantity + 1;
-        let apiUrl =
-            'http://localhost:8081/products/stock-availability/' +
-            currentProductId +
-            '?inc=false' +
-            '&qty=' +
-            currentQuantity;
+        // let apiUrl =
+        //     'http://localhost:8081/products/stock-availability/' +
+        //     currentProductId +
+        //     '?inc=false' +
+        //     '&qty=' +
+        //     currentQuantity;
+
+        let test = buildStockAvailabilityUrl(1, 1);
 
         fetch(apiUrl, {
             method: 'GET',

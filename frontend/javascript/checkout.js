@@ -187,4 +187,9 @@ addItemtoOrder();
 updateTotalQuantityInOrder();
 updateTotalPriceOfOrder();
 
-export { addItemtoOrder, updateTotalQuantityInOrder, updateTotalPriceOfOrder };
+export {
+    addItemtoOrder,
+    updateTotalQuantityInOrder,
+    updateTotalPriceOfOrder,
+    buildStockAvailabilityUrl,
+};
