@@ -173,5 +173,3 @@ function updateOrderWithCurrentDate(order) {
 addItemtoOrder();
 updateTotalQuantityInOrder();
 updateTotalPriceOfOrder();
-
-export { addItemtoOrder, updateTotalQuantityInOrder, updateTotalPriceOfOrder };
