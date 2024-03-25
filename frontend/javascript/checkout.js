@@ -1,9 +1,10 @@
 import { patchOrder, postOrder } from './fetch.js';
 import { buildStockAvailabilityUrl } from './api-utils.js';
 
-const supportsTemplate = () => 'content' in document.createElement('template');
+const supportsTemplate = (function () {
+    return 'content' in document.createElement('template');
+})(); // IIFE
 const submitBtn = document.querySelector('.checkout__submit');
-let doesBrowserSupportTemplete = supportsTemplate();
 let total = 0;
 let storage = {};
 let order = {};
@@ -18,7 +19,7 @@ function createTemplate(element) {
 }
 
 function addItemtoOrder() {
-    if (doesBrowserSupportTemplete) {
+    if (supportsTemplate) {
         Object.keys(sessionStorage).forEach((key) => {
             let templateClone = createTemplate('#order-details-template');
             storage[key] = JSON.parse(sessionStorage.getItem(key));
