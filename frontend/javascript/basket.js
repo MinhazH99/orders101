@@ -2,6 +2,9 @@ import { buildStockAvailabilityUrl } from './api-utils.js';
 import { createTemplate } from './products.js';
 
 let total = 0;
+const supportsTemplate = (function () {
+    return 'content' in document.createElement('template');
+})(); // IIFE
 
 function removeCartItem(templateClone2, currentProductId) {
     let cartRemove_btn = templateClone2[templateClone2.length - 1].querySelector('.cart-remove');
@@ -155,12 +158,8 @@ function calculateAndSetProductTotalCost(cartItemAsString, currentQuantity, curr
     return updatedTotalCost;
 }
 
-const supportsTemplate = () => 'content' in document.createElement('template');
-
-let doesBrowserSupportTemplete = supportsTemplate();
-
 function addCartItem(addCartBtn, productList) {
-    if (doesBrowserSupportTemplete) {
+    if (supportsTemplate) {
         let templateClone = createTemplate('#cart-box-template');
         let currentProductId = addCartBtn.getAttribute('data-product-id');
         let cartItem = {
