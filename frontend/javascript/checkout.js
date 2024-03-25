@@ -1,4 +1,5 @@
-import { patchOrder, postOrder, buildStockAvailabilityUrl } from './fetch.js';
+import { patchOrder, postOrder } from './fetch.js';
+import { buildStockAvailabilityUrl } from './api-utils.js';
 
 const supportsTemplate = () => 'content' in document.createElement('template');
 const submitBtn = document.querySelector('.checkout__submit');

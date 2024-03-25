@@ -2,11 +2,11 @@ import { fetchData } from './fetch.js';
 import { addCartItem } from './basket.js';
 
 const apiUrl = 'http://localhost:8081/products/';
-const supportsTemplate = function () {
+const supportsTemplate = (function () {
     return 'content' in document.createElement('template');
-}() // IIFE
+})(); // IIFE
 
-fetchData(apiUrl).then(handleResponse).catch(handleProductError)
+fetchData(apiUrl).then(handleResponse).catch(handleProductError);
 
 let productList = {};
 
@@ -111,4 +111,4 @@ function appendProducts(products) {
     }
 }
 
-export { createTemplate }
+export { createTemplate };
