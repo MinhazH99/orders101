@@ -7,20 +7,23 @@ function removeCartItem(templateClone2, currentProductId) {
     let cartRemove_btn = templateClone2[templateClone2.length - 1].querySelector('.cart-remove');
 
     cartRemove_btn.addEventListener('click', function () {
-        updateTotal('decrement', currentProductId);
+        updateTotal('delete', currentProductId);
         sessionStorage.removeItem(currentProductId);
         cartRemove_btn.parentElement.remove();
     });
 }
 
-function updateTotal(varitation, currentProductId) {
+function updateTotal(variation, currentProductId) {
     let totalPrice = document.querySelector('.total__price');
     let currentProductJSON = JSON.parse(sessionStorage.getItem(currentProductId));
     let currentProductUnitCost = Number(currentProductJSON.unitPrice);
-    if (varitation == 'increment') {
+    let currentProductTotalCost = Number(currentProductJSON.totalCost);
+    if (variation == 'increment') {
         total += currentProductUnitCost;
-    } else {
+    } else if (variation == 'decrement') {
         total -= currentProductUnitCost;
+    } else if (variation == 'delete') {
+        total -= currentProductTotalCost;
     }
     let formattedTotal = total.toFixed(2);
     totalPrice.innerHTML = '£' + formattedTotal;
@@ -37,13 +40,18 @@ function initiateQuantityButtons(templateClone2, currentProductId) {
     let currentQuantityElement = cartBox.querySelector('.cart-box__product-quantity');
     let increaseInQuantitybtn = cartBox.querySelector('.cart-box_quantity-increase');
     increaseInQuantitybtn.addEventListener('click', function () {
-        fetch(buildStockAvailabilityUrl(currentProductId, 
-            JSON.parse(sessionStorage.getItem(currentProductId)).quantity + 1), {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
+        fetch(
+            buildStockAvailabilityUrl(
+                currentProductId,
+                JSON.parse(sessionStorage.getItem(currentProductId)).quantity + 1
+            ),
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
             .then((response) => response.json())
             .then((data) => {
                 if (getStockAvaiabilityResp(data)) {
@@ -115,6 +123,14 @@ function decreaseQuantity(
     let currentQuantity = Number(cartItemAsString.quantity);
     const hasMinimumAllowedQuantity = isUpdatedQuantityOne(currentQuantity - 1);
 
+    if (isUpdatedQuantityOne(currentQuantity)) {
+        console.log(currentQuantity);
+        updateTotal('neither', currentProductId);
+    } else {
+        console.log(currentQuantity);
+        updateTotal('decrement', currentProductId);
+    }
+
     currentQuantity = decrementQuantity(currentQuantity);
     cartItemAsString.quantity = currentQuantity;
     let updatedTotalCost = calculateAndSetProductTotalCost(
@@ -124,7 +140,6 @@ function decreaseQuantity(
     );
     currentUnitCostElement.textContent = '£' + updatedTotalCost;
     currentQuantityElement.textContent = currentQuantity;
-    updateTotal('decrement', currentProductId);
 
     decreaseQtyImg.className = hasMinimumAllowedQuantity
         ? 'cart-box-btn__disabled'
