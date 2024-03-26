@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/orders101-ui.css" />
+    <script type="module" src="./javascript/checkout.js"></script>
+    <title>DIYToolWorld</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="container">
+        <h1>DIYToolWorld</h1>
+      </div>
+    </header>
+
+    <div class="container">
+        <div class="checkout grid">
+            <div>
+              <div class="checkout__child">
+                <form class="checkout__form">
+                    <span>1. Customer Details</span>
+                    <label><span>First Name</span></label>
+                    <input class="form__first-name" type="text">
+
+                    <label><span>Second Name</span></label>
+                    <input class="form__second-name" type="text">
+
+                    <label><span>Email Address</span></label>
+                    <input class="form__email-address" type="text">
+                </form>
+              </div>
+              <div class="checkout__child"">
+                <form class="checkout__form">
+                    <span>2. Delivery Address</span>
+                    <label><span>Country Region</span></label>
+                    <input class="form__country" type="text">
+        
+                    <label><span>Street Name</span></label>
+                    <input class="form__street-name" type="text">
+        
+                    <label><span>Post Code</span></label>
+                    <input class="form__post-code" type="text">
+                </form>
+                  
+              </div>
+              <div class="checkout__child"">
+                <form class="checkout__form">
+                    <span>3. Payment Method</span>
+                    <label><span>Card Number</span></label>
+                    <input class="text-field" type="text">
+        
+                    <label><span>Cardholder Name</span></label>
+                    <input class="text-field" type="text">
+        
+                    <label><span>Expiry Date</span></label>
+                    <input class="text-field" type="text">
+        
+                    <label><span>Security Code</span></label>
+                    <input class="text-field" type="text">
+                </form>
+              
+              
+              </div>
+              <div class="checkout__terms-conditions">
+                <label>
+                  <input type="checkbox"/>
+                  <span> I have read and accept the Terms and Conditions</span></div>
+                </label>
+              <button class="checkout__submit btn-buy">Submit Order</button>
+            </div>
+            <div class="checkout__child">Order Details
+              <div class="checkout__child__header">
+                <span>Order Summary</span>
+                <span class="checkout_total-quantity"> x items</span>
+              </div>
+              <div class="checkout__order-number">
+                <span>Order Number:</span>
+              </div>
+              <div class="order-details">
+                <template id="order-details-template">
+                  <div class="order-box" >
+                    <img src="./assets/images/trending-product.webp" alt=" ", class="order-img">
+                    <div class="order-box__detail">
+                      <div class="order-box__name">Item Name</div>
+                      <div class="order-box__quantity">Quantity: x</div>
+                      <div class="order-box__price">Price: x</div>
+                    </div>
+                  </div>
+                </template>
+              </div>
+              <div class="checkout__total-detail">
+                <span class="checkout__total-text">Total</span>
+                <span class="checkout__total-price">£XX.XX</span>
+              </div>
+            </div>
+          </div>
+    </div>
+
+  </body>
+</html>
