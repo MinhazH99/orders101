@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.account {
+  justify-content: flex-end;
+  border-bottom: 0.5px solid lightgray;
+  padding-right: var(--spacing-m);
+  font-size: var(--small-font-size);
+  padding-bottom: var(--spacing-xs);
+}
+
+.account__sub-links {
+  display: flex;
+  list-style: none;
+  gap: var(--spacing-m);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+li a {
+  display: flex;
+}
