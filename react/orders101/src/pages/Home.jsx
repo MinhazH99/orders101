@@ -1,4 +1,6 @@
+import Banner from "../components/Banner";
 import Categories from "../components/Categories";
+import Features from "../components/Features";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 
@@ -8,6 +10,8 @@ function Home() {
       <Header />
       <Navbar />
       <Categories />
+      <Features />
+      <Banner />
     </div>
   );
 }
