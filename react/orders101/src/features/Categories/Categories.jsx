@@ -1,3 +1,5 @@
+import ListOfCategories from "./ListOfCategories";
+
 function Categories() {
   return (
     <nav class="categories container nav-color ">
@@ -7,43 +9,21 @@ function Categories() {
             <img class="close" src="../src/assets/x.svg" alt=""></img>
           </button>
         </li>
-        <li>
-          <a href="#decorations">Decorations</a>
-        </li>
-        <li>
-          <a href="#garden">Garden</a>
-        </li>
-        <li>
-          <a href="#kitchen">Kitchen</a>
-        </li>
-        <li>
-          <a href="#tools">Tools</a>
-        </li>
-        <li>
-          <a href="#storage">Storage</a>
-        </li>
+        <ListOfCategories href={"#decoration"} text={"Decorations"} />
+        <ListOfCategories href={"#garden"} text={"Garden"} />
+        <ListOfCategories href={"#kitchen"} text={"Kitchen"} />
+        <ListOfCategories href={"#tools"} text={"Tools"} />
+        <ListOfCategories href={"#storage"} text={"Storage"} />
       </ul>
       <ul class="categories-list">
-        <li>
-          <a href="#decorations">Decorations</a>
-        </li>
-        <li>
-          <a href="#garden">Garden</a>
-        </li>
-        <li>
-          <a href="#kitchen">Kitchen</a>
-        </li>
-        <li>
-          <a href="#tools">Tools</a>
-        </li>
-        <li>
-          <a href="#storage">Storage</a>
-        </li>
+        <ListOfCategories href={"#decoration"} text={"Decorations"} />
+        <ListOfCategories href={"#garden"} text={"Garden"} />
+        <ListOfCategories href={"#kitchen"} text={"Kitchen"} />
+        <ListOfCategories href={"#tools"} text={"Tools"} />
+        <ListOfCategories href={"#storage"} text={"Storage"} />
       </ul>
     </nav>
   );
 }
-
-// Make list a component - pass href as object into component
 
 export default Categories;
