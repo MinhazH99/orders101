@@ -1,9 +1,9 @@
-import Banner from "../features/Banner";
-import Categories from "../features/Categories/Categories";
-import Features from "../features/Features";
-import Header from "../features/Header";
-import Navbar from "../features/Navbar";
-import Popular from "../features/Popular";
+import Banner from "../features/banner/Banner";
+import Categories from "../features/categories/Categories";
+import Features from "../features/usp/Features";
+import Header from "../features/header/Header";
+import Navbar from "../features/navbar/Navbar";
+import Popular from "../features/popular/Popular";
 
 function Home() {
   return (
