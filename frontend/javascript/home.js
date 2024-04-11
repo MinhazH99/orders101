@@ -20,6 +20,8 @@ function attachEventListeners() {
     });
 }
 
-attachEventListeners();
+// you execute this straight away in the next line but then also export it...
+// TODO - call this function in main.js so it's obvious what's happening
+// ... attachEventListeners();
 
 export { attachEventListeners };
