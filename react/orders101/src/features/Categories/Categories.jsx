@@ -1,6 +1,11 @@
 import ListOfCategories from "./ListOfCategories";
 
 const categories = ["Decorations", "Garden", "Kitchen", "Tools", "Storage"];
+
+const listCategories = categories.map((category) => (
+  <ListOfCategories href={"#" + category} text={category} />
+));
+
 function Categories() {
   return (
     <nav class="categories container nav-color ">
@@ -10,23 +15,9 @@ function Categories() {
             <img class="close" src="../src/assets/x.svg" alt=""></img>
           </button>
         </li>
-        <ListOfCategories href={"#decoration"} text={"Decorations"} />
-        <ListOfCategories href={"#garden"} text={"Garden"} />
-        <ListOfCategories href={"#kitchen"} text={"Kitchen"} />
-        <ListOfCategories href={"#tools"} text={"Tools"} />
-        <ListOfCategories href={"#storage"} text={"Storage"} />
+        {listCategories}
       </ul>
-      <ul class="categories-list">
-        {categories.map((category) => {
-          return (
-            <ListOfCategories
-              key={category}
-              href={"#" + { category }}
-              text={category}
-            />
-          );
-        })}
-      </ul>
+      <ul class="categories-list">{listCategories}</ul>
     </nav>
   );
 }
