@@ -3,7 +3,7 @@ import ListOfCategories from "./ListOfCategories";
 const categories = ["Decorations", "Garden", "Kitchen", "Tools", "Storage"];
 
 const listCategories = categories.map((category) => (
-  <ListOfCategories href={"#" + category} text={category} />
+  <ListOfCategories key={category} href={"#" + category} text={category} />
 ));
 
 function Categories() {
