@@ -13,7 +13,7 @@ public class CORSResponseFilter implements ContainerResponseFilter {
 
         MultivaluedMap<String, Object> headers = responseContext.getHeaders();
 
-        headers.add("Access-Control-Allow-Origin", "http://127.0.0.1:3000");
+        headers.add("Access-Control-Allow-Origin", "*");
         headers.add("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT,PATCH");
         headers.add("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, X-Codingpedia");
     }
