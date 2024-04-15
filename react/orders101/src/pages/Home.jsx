@@ -4,6 +4,7 @@ import Features from "../features/usp/Features";
 import Header from "../features/header/Header";
 import Navbar from "../features/navbar/Navbar";
 import Popular from "../features/popular/Popular";
+import Trending from "../features/trending/Trending";
 
 function Home() {
   return (
@@ -14,6 +15,7 @@ function Home() {
       <Features />
       <Banner />
       <Popular />
+      <Trending />
     </div>
   );
 }
