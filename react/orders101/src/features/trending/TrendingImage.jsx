@@ -1,6 +1,8 @@
 function TrendingImage({ src = "../src/assets/trending-product.webp" }) {
   return (
-    <img id="trending-div-product-image" class="site-image" src={src}></img>
+    <div class="trending-div-product-image">
+      <img id="trending-div-product-image" class="site-image" src={src}></img>
+    </div>
   );
 }
 
