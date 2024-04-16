@@ -1,4 +1,5 @@
 import ListOfCategories from "./ListOfCategories";
+import HamburgerClose from "../HamburgerClose";
 
 const categories = ["Decorations", "Garden", "Kitchen", "Tools", "Storage"];
 
@@ -11,9 +12,7 @@ function Categories() {
     <nav class="categories container nav-color ">
       <ul class="hamburger">
         <li>
-          <button class="hamburger__btn-close" id="hide-side-bar">
-            <img class="close" src="../src/assets/x.svg" alt=""></img>
-          </button>
+          <HamburgerClose />
         </li>
         {listCategories}
       </ul>

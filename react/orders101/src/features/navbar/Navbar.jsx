@@ -1,16 +1,10 @@
+import Hamburger from "../Hamburger";
+
 function Navbar() {
   return (
     <div class="nav container">
       <div class="hamburger__btn-open">
-        <button id="show-side-bar">
-          <div class="search-icons container">
-            <img
-              class="searchicons"
-              src="../src/assets/list.svg"
-              alt="basket"
-            ></img>
-          </div>
-        </button>
+        <Hamburger />
       </div>
       <a class="nav__icons" href="#stores">
         <div class="nav__icons__item container">
