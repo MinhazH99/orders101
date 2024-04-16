@@ -1,3 +1,4 @@
+import BasketOpen from "../BasketOpen";
 import Hamburger from "../Hamburger";
 
 function Navbar() {
@@ -30,17 +31,7 @@ function Navbar() {
         </div>
       </a>
 
-      <button class="nav__icons" id="cart-icon">
-        <div class="nav__icons__item container">
-          {" "}
-          <img
-            class="searchicons"
-            src="../src/assets/basket.svg"
-            alt="basket"
-          ></img>
-          <span>Basket</span>
-        </div>
-      </button>
+      <BasketOpen />
       <div class="nav__search-container">
         <input class="search-bar" type="search" placeholder="Search..." />
       </div>

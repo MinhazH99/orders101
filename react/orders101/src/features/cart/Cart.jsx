@@ -1,3 +1,5 @@
+import BasketClose from "../BasketClose";
+
 function Cart() {
   return (
     <div class="cart">
@@ -46,11 +48,7 @@ function Cart() {
         Checkout
       </button>
       <div id="cart-close">
-        <button>
-          <div>
-            <img src="../src/assets/x.svg"></img>
-          </div>
-        </button>
+        <BasketClose />
       </div>
     </div>
   );
