@@ -1,3 +1,4 @@
+import AddBasket from "./AddBasket";
 import TrendingImage from "./TrendingImage";
 import TrendingProductDetails from "./TrendingProductDetails";
 import { useEffect, useState } from "react";
@@ -28,9 +29,11 @@ function TrendingProduct() {
           price={"£" + product.unitPrice.toFixed(2)}
         />
       </a>
-      <button class="trending-div-product-addcart btn-buy">
-        Add to Basket
-      </button>
+      <AddBasket
+        id={product.id}
+        name={product.name}
+        unitPrice={product.unitPrice}
+      />
     </div>
   ));
 }

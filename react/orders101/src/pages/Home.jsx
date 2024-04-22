@@ -17,7 +17,6 @@ function Home() {
       <Banner />
       <Popular />
       <Trending />
-      <Cart />
     </div>
   );
 }
