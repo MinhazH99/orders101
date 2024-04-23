@@ -21,7 +21,7 @@ function TrendingProduct() {
   }, []);
 
   return products.map((product) => (
-    <div class="trending-div-product-grid">
+    <div class="trending-div-product-grid" key={product.id}>
       <a href="#popular">
         <TrendingImage />
         <TrendingProductDetails
@@ -34,6 +34,7 @@ function TrendingProduct() {
         name={product.name}
         unitPrice={product.unitPrice}
         quantity={1}
+        totalCost={product.unitPrice}
       />
     </div>
   ));

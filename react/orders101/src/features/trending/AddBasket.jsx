@@ -8,6 +8,7 @@ function AddBasket({ id, name, unitPrice, quantity }) {
     name: name,
     unitPrice: unitPrice,
     quantity: quantity,
+    totalCost: unitPrice,
   };
 
   return (

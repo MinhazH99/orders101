@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { ShoppingCartContext } from "../../App";
 
 function CartBox({ name = "Item Name", price = "£XX.XX", quantity = 1, id }) {
-  const { increaseQuantity, decreaseQuantity } =
+  const { increaseQuantity, decreaseQuantity, removeItem } =
     useContext(ShoppingCartContext);
 
   return (
@@ -35,7 +35,7 @@ function CartBox({ name = "Item Name", price = "£XX.XX", quantity = 1, id }) {
           </button>
         </div>
       </div>
-      <button class="cart-remove">
+      <button onClick={() => removeItem(id)} class="cart-remove">
         <img src="../src/assets/trash3-fill.svg"></img>
       </button>
     </div>

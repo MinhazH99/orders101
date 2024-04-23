@@ -5,7 +5,7 @@ import Checkout from "./Checkout";
 import { ShoppingCartContext } from "../../App";
 
 function Cart() {
-  const { cartItems } = useContext(ShoppingCartContext);
+  const { cartItems, cartTotal } = useContext(ShoppingCartContext);
 
   return (
     <div class="cart">
@@ -16,7 +16,7 @@ function Cart() {
             key={cartItem.id}
             id={cartItem.id}
             name={cartItem.name}
-            price={"£" + cartItem.unitPrice.toFixed(2)}
+            price={"£" + cartItem.totalCost.toFixed(2)}
             quantity={cartItem.quantity}
           />
         ))}
@@ -25,7 +25,7 @@ function Cart() {
         <div class="total__title">
           <h3>Total</h3>
         </div>
-        <div class="total__price">£0</div>
+        <div class="total__price">{"£" + cartTotal.toFixed(2)}</div>
       </div>
       <Checkout />
       <div id="cart-close">
