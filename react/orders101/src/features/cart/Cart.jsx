@@ -13,8 +13,10 @@ function Cart() {
       <div class="cart-content">
         {cartItems.map((cartItem) => (
           <CartBox
+            key={cartItem.id}
+            id={cartItem.id}
             name={cartItem.name}
-            unitPrice={cartItem.unitPrice}
+            price={"£" + cartItem.unitPrice.toFixed(2)}
             quantity={cartItem.quantity}
           />
         ))}

@@ -1,4 +1,10 @@
-function CartBox({ name = "Item Name", price = "£XX.XX", quantity = 1 }) {
+import { useContext } from "react";
+import { ShoppingCartContext } from "../../App";
+
+function CartBox({ name = "Item Name", price = "£XX.XX", quantity = 1, id }) {
+  const { increaseQuantity, decreaseQuantity } =
+    useContext(ShoppingCartContext);
+
   return (
     <div class="cart-box">
       <img
@@ -10,7 +16,10 @@ function CartBox({ name = "Item Name", price = "£XX.XX", quantity = 1 }) {
         <div class="cart-box__product-detail">{name}</div>
         <div class="cart-box__product_price">{price}</div>
         <div class="cart-box_quantity-control">
-          <button class="cart-box_quantity-decrease">
+          <button
+            onClick={() => decreaseQuantity(id)}
+            class="cart-box_quantity-decrease"
+          >
             <img
               class="cart-box-btn__disabled"
               src="../src/assets/dash-square.svg"
@@ -18,7 +27,10 @@ function CartBox({ name = "Item Name", price = "£XX.XX", quantity = 1 }) {
             ></img>
           </button>
           <div class="cart-box__product-quantity">{quantity}</div>
-          <button class="cart-box_quantity-increase">
+          <button
+            onClick={() => increaseQuantity(id)}
+            class="cart-box_quantity-increase"
+          >
             <img src="../src/assets/plus-square.svg" alt=""></img>
           </button>
         </div>

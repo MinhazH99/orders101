@@ -33,6 +33,7 @@ function TrendingProduct() {
         id={product.id}
         name={product.name}
         unitPrice={product.unitPrice}
+        quantity={1}
       />
     </div>
   ));

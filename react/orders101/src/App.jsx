@@ -6,6 +6,9 @@ import Cart from "./features/cart/Cart";
 export const ShoppingCartContext = createContext({
   cartItems: [],
   addToCart: () => {},
+  increaseQuantity: () => {},
+  decreaseQuantity: () => {},
+  removeItem: () => {},
 });
 
 function App() {
@@ -18,8 +21,34 @@ function App() {
     sessionStorage.setItem(product.id, JSON.stringify(product));
   };
 
+  const increaseQuantity = (id) => {
+    setCartItems((currItems) => {
+      return currItems.map((item) => {
+        if (item.id === id) {
+          return { ...item, quantity: item.quantity + 1 };
+        } else {
+          return { ...item, quantity: item.quantity };
+        }
+      });
+    });
+  };
+
+  const decreaseQuantity = (id) => {
+    setCartItems((currItems) => {
+      return currItems.map((item) => {
+        if (item.id === id && item.quantity > 1) {
+          return { ...item, quantity: item.quantity - 1 };
+        } else {
+          return { ...item, quantity: item.quantity };
+        }
+      });
+    });
+  };
+
   return (
-    <ShoppingCartContext.Provider value={{ cartItems, addToCart }}>
+    <ShoppingCartContext.Provider
+      value={{ cartItems, addToCart, increaseQuantity, decreaseQuantity }}
+    >
       <Home />
       <Cart />
     </ShoppingCartContext.Provider>

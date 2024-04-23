@@ -1,12 +1,13 @@
 import { useContext, useState } from "react";
 import { ShoppingCartContext } from "../../App";
 
-function AddBasket({ id, name, unitPrice }) {
+function AddBasket({ id, name, unitPrice, quantity }) {
   const { addToCart } = useContext(ShoppingCartContext);
   const product = {
     id: id,
     name: name,
     unitPrice: unitPrice,
+    quantity: quantity,
   };
 
   return (
