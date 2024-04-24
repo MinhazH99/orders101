@@ -17,12 +17,16 @@ function App() {
   let [cartTotal, setCartTotal] = useState(0);
 
   const addToCart = (product) => {
-    cartItems = [...cartItems, product];
-    setCartItems(cartItems);
-    const newCartTotal = cartTotal + product.unitPrice;
-    setCartTotal(newCartTotal);
-    console.log(cartItems);
-    sessionStorage.setItem(product.id, JSON.stringify(product));
+    if (cartItems.some((item) => item.id === product.id)) {
+      increaseQuantity(product.id);
+    } else {
+      cartItems = [...cartItems, product];
+      setCartItems(cartItems);
+      const newCartTotal = cartTotal + product.unitPrice;
+      setCartTotal(newCartTotal);
+      console.log(cartItems);
+      sessionStorage.setItem(product.id, JSON.stringify(product));
+    }
   };
 
   const increaseQuantity = (id) => {
