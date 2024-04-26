@@ -1,11 +1,7 @@
 function BasketClose() {
   function handleClick() {
-    document
-      .querySelector("#cart-close")
-      .addEventListener("click", function () {
-        const cart = document.querySelector(".cart");
-        cart.style.display = "none";
-      });
+    const cart = document.querySelector(".cart");
+    cart.style.display = "none";
   }
   return (
     <button onClick={handleClick}>

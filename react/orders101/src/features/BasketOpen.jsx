@@ -1,9 +1,7 @@
 function BasketOpen() {
   function handleClick() {
-    document.querySelector("#cart-icon").addEventListener("click", function () {
-      const cart = document.querySelector(".cart");
-      cart.style.display = "block";
-    });
+    const cart = document.querySelector(".cart");
+    cart.style.display = "block";
   }
 
   return (
