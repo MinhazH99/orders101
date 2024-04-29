@@ -1,10 +1,6 @@
-function BasketClose() {
-  function handleClick() {
-    const cart = document.querySelector(".cart");
-    cart.style.display = "none";
-  }
+function BasketClose({ closeCart }) {
   return (
-    <button onClick={handleClick}>
+    <button onClick={() => closeCart()}>
       <div>
         <img src="./src/assets/x.svg"></img>
       </div>

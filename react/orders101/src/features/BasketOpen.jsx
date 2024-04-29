@@ -1,11 +1,6 @@
-function BasketOpen() {
-  function handleClick() {
-    const cart = document.querySelector(".cart");
-    cart.style.display = "block";
-  }
-
+function BasketOpen({ openCart }) {
   return (
-    <button onClick={handleClick} class="nav__icons" id="cart-icon">
+    <button onClick={() => openCart()} class="nav__icons" id="cart-icon">
       <div class="nav__icons__item container">
         <img
           class="searchicons"

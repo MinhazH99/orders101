@@ -1,7 +1,20 @@
+import { useContext, useState } from "react";
 import BasketOpen from "../BasketOpen";
 import Hamburger from "../Hamburger";
+import { ShoppingCartContext } from "../../App";
+import Cart from "../cart/Cart";
 
 function Navbar() {
+  let [isCartOpen, setIsCartOpen] = useState(false);
+
+  const closeCart = () => {
+    setIsCartOpen(false);
+  };
+  const openCart = () => {
+    setIsCartOpen(true);
+    console.log(isCartOpen);
+  };
+
   return (
     <div class="nav container">
       <div class="hamburger__btn-open">
@@ -31,10 +44,11 @@ function Navbar() {
         </div>
       </a>
 
-      <BasketOpen />
+      <BasketOpen openCart={openCart} />
       <div class="nav__search-container">
         <input class="search-bar" type="search" placeholder="Search..." />
       </div>
+      <Cart isOpen={isCartOpen} closeCart={closeCart} />
     </div>
   );
 }

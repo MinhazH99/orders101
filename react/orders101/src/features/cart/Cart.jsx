@@ -4,11 +4,11 @@ import CartBox from "./CartBox";
 import Checkout from "./Checkout";
 import { ShoppingCartContext } from "../../App";
 
-function Cart() {
+function Cart({ isOpen, closeCart }) {
   const { cartItems, cartTotal } = useContext(ShoppingCartContext);
 
   return (
-    <div class="cart">
+    <div class="cart" style={{ display: isOpen ? "block" : "none" }}>
       <h2 class="card-title">Your Cart</h2>
       <div class="cart-content">
         {cartItems.map((cartItem) => (
@@ -29,7 +29,7 @@ function Cart() {
       </div>
       <Checkout />
       <div id="cart-close">
-        <BasketClose />
+        <BasketClose closeCart={closeCart} />
       </div>
     </div>
   );
