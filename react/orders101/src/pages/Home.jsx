@@ -5,7 +5,6 @@ import Header from "../features/header/Header";
 import Navbar from "../features/navbar/Navbar";
 import Popular from "../features/popular/Popular";
 import Trending from "../features/trending/Trending";
-import Cart from "../features/cart/Cart";
 
 function Home() {
   return (
