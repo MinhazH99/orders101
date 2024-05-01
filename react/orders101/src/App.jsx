@@ -1,7 +1,6 @@
 import { useState, createContext, useEffect } from "react";
 import "/src/css/orders101-ui.css";
 import Home from "./pages/Home";
-import Cart from "./features/cart/Cart";
 
 export const ShoppingCartContext = createContext({
   cartItems: [],
@@ -99,7 +98,6 @@ function App() {
       console.log(unitCost);
       console.log(totalCost);
       const newCartTotal = cartTotal - totalCost;
-
       setCartTotal(newCartTotal);
     }
   };
@@ -116,7 +114,6 @@ function App() {
       }}
     >
       <Home />
-      <Cart />
     </ShoppingCartContext.Provider>
   );
 }
