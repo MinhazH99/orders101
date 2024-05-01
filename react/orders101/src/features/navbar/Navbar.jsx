@@ -12,7 +12,6 @@ function Navbar() {
   };
   const openCart = () => {
     setIsCartOpen(true);
-    console.log(isCartOpen);
   };
 
   return (
