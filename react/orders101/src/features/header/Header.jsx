@@ -1,7 +1,7 @@
 function Header() {
   return (
-    <div class="account container">
-      <ul class="account__sub-links">
+    <div className="account container">
+      <ul className="account__sub-links">
         <li>
           <a href="#account">
             <img src="../src/assets/person-fill.svg"></img>

@@ -4,7 +4,7 @@ function CheckoutHeader() {
   return (
     <header>
       <Header />
-      <div class="container">
+      <div className="container">
         <h1>DIYToolWorld</h1>
       </div>
     </header>

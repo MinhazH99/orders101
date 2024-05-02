@@ -14,7 +14,7 @@ function AddBasket({ id, name, unitPrice, quantity }) {
   return (
     <button
       onClick={() => addToCart(product)}
-      class="trending-div-product-addcart btn-buy"
+      className="trending-div-product-addcart btn-buy"
       data-product-id={id}
     >
       Add to Baskets

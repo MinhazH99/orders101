@@ -19,22 +19,22 @@ function OrderSummary() {
   ));
 
   return (
-    <div class="checkout__child">
+    <div className="checkout__child">
       Order Details
-      <div class="checkout__child__header">
+      <div className="checkout__child__header">
         <span>Order Summary</span>
-        <span class="checkout_total-quantity">
+        <span className="checkout_total-quantity">
           {" "}
           {sessionStorage.length} items
         </span>
       </div>
-      <div class="checkout__order-number">
+      <div className="checkout__order-number">
         <span>Order Number:</span>
       </div>
-      <div class="order-details">{listOfOrders}</div>
-      <div class="checkout__total-detail">
-        <span class="checkout__total-text">Total</span>
-        <span class="checkout__total-price">{"£" + total.toFixed(2)}</span>
+      <div className="order-details">{listOfOrders}</div>
+      <div className="checkout__total-detail">
+        <span className="checkout__total-text">Total</span>
+        <span className="checkout__total-price">{"£" + total.toFixed(2)}</span>
       </div>
     </div>
   );

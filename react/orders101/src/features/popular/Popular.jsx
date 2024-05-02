@@ -1,12 +1,12 @@
 function Popular() {
   return (
     <section>
-      <h2 class="subtitle">Popular categories</h2>
-      <div class="popular grid">
+      <h2 className="subtitle">Popular categories</h2>
+      <div className="popular grid">
         <a href="#category-1">
           <div>
             <img
-              class="site-image"
+              className="site-image"
               src="../src/assets/categories.webp"
               alt="picture of a chair"
             ></img>
@@ -16,7 +16,7 @@ function Popular() {
         <a href="#category-2">
           <div>
             <img
-              class="site-image"
+              className="site-image"
               src="../src/assets/categories.webp"
               alt="picture of a chair"
             ></img>
@@ -26,7 +26,7 @@ function Popular() {
         <a href="#category-3">
           <div>
             <img
-              class="site-image"
+              className="site-image"
               src="../src/assets/categories.webp"
               alt="picture of a chair"
             ></img>
@@ -36,7 +36,7 @@ function Popular() {
         <a href="#category-4">
           <div>
             <img
-              class="site-image"
+              className="site-image"
               src="../src/assets/categories.webp"
               alt="picture of a chair"
             ></img>
@@ -46,7 +46,7 @@ function Popular() {
         <a href="#category-5">
           <div>
             <img
-              class="site-image"
+              className="site-image"
               src="../src/assets/categories.webp"
               alt="picture of a chair"
             ></img>
@@ -56,7 +56,7 @@ function Popular() {
         <a href="#category-6">
           <div>
             <img
-              class="site-image"
+              className="site-image"
               src="../src/assets/categories.webp"
               alt="picture of a chair"
             ></img>
@@ -66,7 +66,7 @@ function Popular() {
         <a href="#category-7">
           <div>
             <img
-              class="site-image"
+              className="site-image"
               src="../src/assets/categories.webp"
               alt="picture of a chair"
             ></img>
@@ -76,7 +76,7 @@ function Popular() {
         <a href="#category-8">
           <div>
             <img
-              class="site-image"
+              className="site-image"
               src="../src/assets//categories.webp"
               alt="picture of a chair"
             ></img>

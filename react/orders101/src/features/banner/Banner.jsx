@@ -1,8 +1,8 @@
 function Banner() {
   return (
-    <div class="container">
+    <div className="container">
       <img
-        class="banner-image"
+        className="banner-image"
         srcSet="../src/assets/banner3-360w.jpg 360w, 
         ../src/assets/banner2-1084w.jpg 1084w, 
         ../src/assets/banner-1400w.webp 1400w"

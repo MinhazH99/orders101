@@ -1,7 +1,7 @@
 function Features() {
   return (
-    <section class="subsection">
-      <div class="features container">
+    <section className="subsection">
+      <div className="features container">
         <div>
           <img src="../src/assets/bag-check.svg" alt=""></img>Free click &
           collect

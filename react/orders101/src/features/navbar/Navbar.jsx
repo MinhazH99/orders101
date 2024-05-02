@@ -16,27 +16,27 @@ function Navbar() {
 
   return (
     <React.Fragment>
-      <div class="nav container">
-        <div class="hamburger__btn-open">
+      <div className="nav container">
+        <div className="hamburger__btn-open">
           <Hamburger />
         </div>
-        <a class="nav__icons" href="#stores">
-          <div class="nav__icons__item container">
+        <a className="nav__icons" href="#stores">
+          <div className="nav__icons__item container">
             <img
-              class="searchicons"
+              className="searchicons"
               src="../src/assets/geo-alt.svg"
               alt="geo locator"
             ></img>
             <span>Stores</span>
           </div>
         </a>
-        <div class="logo">
+        <div className="logo">
           <p>DIYToolWorld</p>
         </div>
-        <a class="nav__icons" href="#ideas">
-          <div class="nav__icons__item container">
+        <a className="nav__icons" href="#ideas">
+          <div className="nav__icons__item container">
             <img
-              class="searchicons"
+              className="searchicons"
               src="../src/assets/lightbulb.svg"
               alt="lightbulb"
             ></img>
@@ -45,8 +45,8 @@ function Navbar() {
         </a>
 
         <BasketOpen openCart={openCart} />
-        <div class="nav__search-container">
-          <input class="search-bar" type="search" placeholder="Search..." />
+        <div className="nav__search-container">
+          <input className="search-bar" type="search" placeholder="Search..." />
         </div>
       </div>
       <Cart isOpen={isCartOpen} closeCart={closeCart} />

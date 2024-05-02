@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Checkout() {
   return (
-    <button type="button" class="btn-buy">
+    <button type="button" className="btn-buy">
       <Link to="/checkout">Checkout</Link>
     </button>
   );

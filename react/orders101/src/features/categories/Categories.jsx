@@ -9,14 +9,14 @@ const listCategories = categories.map((category) => (
 
 function Categories() {
   return (
-    <nav class="categories container nav-color ">
-      <ul class="hamburger">
+    <nav className="categories container nav-color ">
+      <ul className="hamburger">
         <li>
           <HamburgerClose />
         </li>
         {listCategories}
       </ul>
-      <ul class="categories-list">{listCategories}</ul>
+      <ul className="categories-list">{listCategories}</ul>
     </nav>
   );
 }

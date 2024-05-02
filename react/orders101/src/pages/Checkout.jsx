@@ -6,8 +6,8 @@ function Checkout() {
   return (
     <div>
       <CheckoutHeader />
-      <div class="container">
-        <div class="checkout grid">
+      <div className="container">
+        <div className="checkout grid">
           <CheckoutForm />
           <OrderSummary />
         </div>

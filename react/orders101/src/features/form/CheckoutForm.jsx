@@ -23,19 +23,23 @@ function CheckoutForm() {
 
   return (
     <div>
-      <div class="checkout__child">
-        <form class="checkout__form">
+      <div className="checkout__child">
+        <form className="checkout__form">
           <span>1. Customer Details</span>
           <label>
             <span>First Name</span>
           </label>
-          <input class="form__first-name" type="text" ref={customerFirstName} />
+          <input
+            className="form__first-name"
+            type="text"
+            ref={customerFirstName}
+          />
 
           <label>
             <span>Second Name</span>
           </label>
           <input
-            class="form__second-name"
+            className="form__second-name"
             type="text"
             ref={customerSecondName}
           />
@@ -44,61 +48,69 @@ function CheckoutForm() {
             <span>Email Address</span>
           </label>
           <input
-            class="form__email-address"
+            className="form__email-address"
             type="text"
             ref={customerEmailAddress}
           />
         </form>
       </div>
-      <div class="checkout__child">
-        <form class="checkout__form">
+      <div className="checkout__child">
+        <form className="checkout__form">
           <span>2. Delivery Address</span>
           <label>
             <span>Country Region</span>
           </label>
-          <input class="form__country" type="text" ref={deliveryCountry} />
+          <input className="form__country" type="text" ref={deliveryCountry} />
 
           <label>
             <span>Street Name</span>
           </label>
-          <input class="form__street-name" type="text" ref={deliveryStreet} />
+          <input
+            className="form__street-name"
+            type="text"
+            ref={deliveryStreet}
+          />
 
           <label>
             <span>Post Code</span>
           </label>
-          <input class="form__post-code" type="text" ref={deliveryPostCode} />
+          <input
+            className="form__post-code"
+            type="text"
+            ref={deliveryPostCode}
+          />
         </form>
       </div>
-      <div class="checkout__child">
-        <form class="checkout__form">
+      <div className="checkout__child">
+        <form className="checkout__form">
           <span>3. Payment Method</span>
           <label>
             <span>Card Number</span>
           </label>
-          <input class="text-field" type="text" />
+          <input className="text-field" type="text" />
 
           <label>
             <span>Cardholder Name</span>
           </label>
-          <input class="text-field" type="text" />
+          <input className="text-field" type="text" />
 
           <label>
             <span>Expiry Date</span>
           </label>
-          <input class="text-field" type="text" />
+          <input className="text-field" type="text" />
 
           <label>
             <span>Security Code</span>
           </label>
-          <input class="text-field" type="text" />
+          <input className="text-field" type="text" />
         </form>
       </div>
-      <div class="checkout__terms-conditions">
+      <div className="checkout__terms-conditions">
         <label>
           <input type="checkbox" />
           <span> I have read and accept the Terms and Conditions</span>
         </label>
-        <button onClick={handleClick} class="checkout__submit btn-buy">
+        <button onClick={handleClick} className="checkout__submit btn-buy">
           Submit Order
         </button>
       </div>

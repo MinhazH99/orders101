@@ -8,9 +8,9 @@ function Cart({ isOpen, closeCart }) {
   const { cartItems, cartTotal } = useContext(ShoppingCartContext);
 
   return (
-    <div class="cart" style={{ display: isOpen ? "block" : "none" }}>
-      <h2 class="card-title">Your Cart</h2>
-      <div class="cart-content">
+    <div className="cart" style={{ display: isOpen ? "block" : "none" }}>
+      <h2 className="card-title">Your Cart</h2>
+      <div className="cart-content">
         {cartItems.map((cartItem) => (
           <CartBox
             key={cartItem.id}
@@ -21,11 +21,11 @@ function Cart({ isOpen, closeCart }) {
           />
         ))}
       </div>
-      <div class="total">
-        <div class="total__title">
+      <div className="total">
+        <div className="total__title">
           <h3>Total</h3>
         </div>
-        <div class="total__price">{"£" + cartTotal.toFixed(2)}</div>
+        <div className="total__price">{"£" + cartTotal.toFixed(2)}</div>
       </div>
       <Checkout />
       <div id="cart-close">

@@ -11,10 +11,10 @@ function HamburgerClose() {
   return (
     <button
       onClick={handleClick}
-      class="hamburger__btn-close"
+      className="hamburger__btn-close"
       id="hide-side-bar"
     >
-      <img class="close" src="../src/assets/x.svg" alt=""></img>
+      <img className="close" src="../src/assets/x.svg" alt=""></img>
     </button>
   );
 }
