@@ -1,11 +1,9 @@
+import { Link } from "react-router-dom";
+
 function Checkout() {
   return (
-    <button
-      onclick="window.location.href = 'checkout.html';"
-      type="button"
-      class="btn-buy"
-    >
-      Checkout
+    <button type="button" class="btn-buy">
+      <Link to="/checkout">Checkout</Link>
     </button>
   );
 }
