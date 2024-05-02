@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { ShoppingCartContext } from "../../App";
 
 function AddBasket({ id, name, unitPrice, quantity }) {
