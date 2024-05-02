@@ -1,7 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import BasketOpen from "../BasketOpen";
 import Hamburger from "../Hamburger";
-import { ShoppingCartContext } from "../../App";
 import Cart from "../cart/Cart";
 
 function Navbar() {
