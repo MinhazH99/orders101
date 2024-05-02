@@ -22,11 +22,7 @@ function Navbar() {
         </div>
         <a className="nav__icons" href="#stores">
           <div className="nav__icons__item container">
-            <img
-              className="searchicons"
-              src="../src/assets/geo-alt.svg"
-              alt="geo locator"
-            ></img>
+            <img src="../src/assets/geo-alt.svg" alt="geo locator"></img>
             <span>Stores</span>
           </div>
         </a>
@@ -35,11 +31,7 @@ function Navbar() {
         </div>
         <a className="nav__icons" href="#ideas">
           <div className="nav__icons__item container">
-            <img
-              className="searchicons"
-              src="../src/assets/lightbulb.svg"
-              alt="lightbulb"
-            ></img>
+            <img src="../src/assets/lightbulb.svg" alt="lightbulb"></img>
             <span>Ideas & Advice</span>
           </div>
         </a>
