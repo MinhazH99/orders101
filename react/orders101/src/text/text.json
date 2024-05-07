@@ -1,0 +1,12 @@
+{
+  "firstListItem": {
+    "href": "#account",
+    "imgSrc": "../src/assets/person-fill.svg",
+    "span": "Account"
+  },
+  "secondListItem": {
+    "href": "#contactus",
+    "imgSrc": "",
+    "span": "Contact Us"
+  }
+}

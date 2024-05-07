@@ -1,19 +1,28 @@
+import headerData from "../../text/text.json";
+import HeaderLinks from "./HeaderLinks";
+
 function Header() {
+  let data = [];
+  let counter = 0;
+  Object.keys(headerData).forEach(function (key) {
+    data.push(headerData[key]);
+  });
+  const headerLinks = data.map(
+    (data) => (
+      (counter += 1),
+      (
+        <HeaderLinks
+          key={counter}
+          href={data.href}
+          imgSrc={data.imgSrc}
+          span={data.span}
+        />
+      )
+    )
+  );
   return (
     <div className="account container">
-      <ul className="account__sub-links">
-        <li>
-          <a href="#account">
-            <img src="../src/assets/person-fill.svg"></img>
-            <span>Account</span>
-          </a>
-        </li>
-        <li>
-          <a href="#contactus">
-            <span>Contact Us</span>
-          </a>
-        </li>
-      </ul>
+      <ul className="account__sub-links">{headerLinks}</ul>
     </div>
   );
 }
