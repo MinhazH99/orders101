@@ -1,5 +1,6 @@
 import ListOfCategories from "./ListOfCategories";
 import HamburgerClose from "../HamburgerClose";
+import React from "react";
 
 const categories = ["Decorations", "Garden", "Kitchen", "Tools", "Storage"];
 
