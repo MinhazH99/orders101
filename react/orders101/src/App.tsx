@@ -2,20 +2,29 @@ import { useState, createContext } from "react";
 import "/src/css/orders101-ui.css";
 import Home from "./pages/Home";
 
-export const ShoppingCartContext = createContext({
-  cartItems: [],
-  addToCart: () => {},
-  increaseQuantity: () => {},
-  decreaseQuantity: () => {},
-  removeItem: () => {},
-  cartTotal: 0,
-});
+type Product = {
+  id: string;
+  name: string;
+  unitPrice: number;
+  quantity: number;
+};
+
+type ShoppingCartContext = {
+  cartItems: Array<Object>;
+  addToCart: (product: Product) => void;
+  increaseQuantity: (id: string) => void;
+  decreaseQuantity: (id: string) => void;
+  removeItem: (id: string) => void;
+  cartTotal: number;
+};
+
+export const ShoppingCartContext = createContext({} as ShoppingCartContext);
 
 function App() {
-  let [cartItems, setCartItems] = useState([]);
+  let [cartItems, setCartItems] = useState<Product[]>([]);
   let [cartTotal, setCartTotal] = useState(0);
 
-  const addToCart = (product) => {
+  const addToCart = (product: Product) => {
     if (cartItems.some((item) => item.id === product.id)) {
       increaseQuantity(product.id);
     } else {
@@ -28,7 +37,7 @@ function App() {
     }
   };
 
-  const increaseQuantity = (id) => {
+  const increaseQuantity = (id: string) => {
     setCartItems((currItems) => {
       return currItems.map((item) => {
         if (item.id === id) {
@@ -51,7 +60,7 @@ function App() {
     console.log(cartItems);
   };
 
-  const decreaseQuantity = (id) => {
+  const decreaseQuantity = (id: string) => {
     setCartItems((currItems) => {
       return currItems.map((item) => {
         if (item.id === id && item.quantity > 1) {
@@ -73,7 +82,7 @@ function App() {
     });
   };
 
-  const removeItem = (id) => {
+  const removeItem = (id: string) => {
     setCartItems((currItems) => {
       currItems.forEach((item) => {
         if (item.id == id) {
@@ -87,7 +96,12 @@ function App() {
     });
   };
 
-  const updateTotalCost = (cartTotal, unitCost, totalCost, variation) => {
+  const updateTotalCost = (
+    cartTotal: number,
+    unitCost: number,
+    totalCost: number,
+    variation: string
+  ) => {
     if (variation == "increment") {
       const newCartTotal = cartTotal + unitCost;
       setCartTotal(newCartTotal);

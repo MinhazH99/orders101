@@ -1,7 +1,14 @@
 import { useContext } from "react";
 import { ShoppingCartContext } from "../../App";
 
-function AddBasket({ id, name, unitPrice, quantity }) {
+type Props = {
+  id: string;
+  name: string;
+  unitPrice: number;
+  quantity: number;
+};
+
+function AddBasket({ id, name, unitPrice, quantity }: Props) {
   const { addToCart } = useContext(ShoppingCartContext);
   const product = {
     id: id,
