@@ -7,10 +7,11 @@ type Product = {
   name: string;
   unitPrice: number;
   quantity: number;
+  totalCost: number;
 };
 
 type ShoppingCartContext = {
-  cartItems: Array<Object>;
+  cartItems: Array<Product>;
   addToCart: (product: Product) => void;
   increaseQuantity: (id: string) => void;
   decreaseQuantity: (id: string) => void;
