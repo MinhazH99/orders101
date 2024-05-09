@@ -3,6 +3,7 @@
     "jsx": "react-jsx",
     "outDir": "./built",
     "allowJs": true,
+    "resolveJsonModule": true,
     /* Visit https://aka.ms/tsconfig to read more about this file */
 
     /* Projects */
