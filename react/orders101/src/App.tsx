@@ -2,22 +2,22 @@ import { useState, createContext } from "react";
 import "/src/css/orders101-ui.css";
 import Home from "./pages/Home";
 
-type Product = {
+interface Product {
   id: string;
   name: string;
   unitPrice: number;
   quantity: number;
   totalCost: number;
-};
+}
 
-type ShoppingCartContext = {
-  cartItems: Array<Product>;
+interface ShoppingCartContext {
+  cartItems: Product[];
   addToCart: (product: Product) => void;
   increaseQuantity: (id: string) => void;
   decreaseQuantity: (id: string) => void;
   removeItem: (id: string) => void;
   cartTotal: number;
-};
+}
 
 export const ShoppingCartContext = createContext({} as ShoppingCartContext);
 
