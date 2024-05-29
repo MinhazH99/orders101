@@ -12,6 +12,7 @@ function App() {
 
   const addToCart = (product: Product) => {
     if (cartItems.some((item) => item.id === product.id)) {
+      console.log(cartItems);
       increaseQuantity(product.id);
     } else {
       cartItems = [...cartItems, product];
@@ -32,6 +33,8 @@ function App() {
           const totalCost = item.unitPrice * quantity;
 
           updateTotalCost(cartTotal, unitCost, totalCost, "increment");
+
+          sessionStorage.setItem(id, JSON.stringify(item));
 
           return {
             ...item,
@@ -55,6 +58,7 @@ function App() {
           const totalCost = item.unitPrice * quantity;
 
           updateTotalCost(cartTotal, unitCost, totalCost, "decrement");
+          sessionStorage.setItem(id, JSON.stringify(item));
 
           return {
             ...item,
@@ -76,6 +80,7 @@ function App() {
           const quantity = item.quantity;
           const totalCost = item.unitPrice * quantity;
           updateTotalCost(cartTotal, unitCost, totalCost, "delete");
+          sessionStorage.removeItem(id);
         }
       });
       return currItems.filter((item) => item.id !== id);
