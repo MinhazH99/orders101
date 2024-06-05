@@ -1,4 +1,8 @@
-function BasketOpen({ openCart }) {
+type Props = {
+  openCart: () => void;
+};
+
+function BasketOpen({ openCart }: Props) {
   return (
     <button onClick={() => openCart()} className="nav__icons" id="cart-icon">
       <div className="nav__icons__item container">

@@ -1,22 +1,18 @@
 import { useState, createContext } from "react";
 import "/src/css/orders101-ui.css";
 import Home from "./pages/Home";
+import { Product } from "./Types";
+import { ShoppingCartContextType } from "./Types";
 
-export const ShoppingCartContext = createContext({
-  cartItems: [],
-  addToCart: () => {},
-  increaseQuantity: () => {},
-  decreaseQuantity: () => {},
-  removeItem: () => {},
-  cartTotal: 0,
-});
+export const ShoppingCartContext = createContext({} as ShoppingCartContextType);
 
 function App() {
-  let [cartItems, setCartItems] = useState([]);
+  let [cartItems, setCartItems] = useState<Product[]>([]);
   let [cartTotal, setCartTotal] = useState(0);
 
-  const addToCart = (product) => {
+  const addToCart = (product: Product) => {
     if (cartItems.some((item) => item.id === product.id)) {
+      console.log(cartItems);
       increaseQuantity(product.id);
     } else {
       cartItems = [...cartItems, product];
@@ -28,7 +24,7 @@ function App() {
     }
   };
 
-  const increaseQuantity = (id) => {
+  const increaseQuantity = (id: string) => {
     setCartItems((currItems) => {
       return currItems.map((item) => {
         if (item.id === id) {
@@ -37,6 +33,8 @@ function App() {
           const totalCost = item.unitPrice * quantity;
 
           updateTotalCost(cartTotal, unitCost, totalCost, "increment");
+
+          sessionStorage.setItem(id, JSON.stringify(item));
 
           return {
             ...item,
@@ -51,7 +49,7 @@ function App() {
     console.log(cartItems);
   };
 
-  const decreaseQuantity = (id) => {
+  const decreaseQuantity = (id: string) => {
     setCartItems((currItems) => {
       return currItems.map((item) => {
         if (item.id === id && item.quantity > 1) {
@@ -60,6 +58,7 @@ function App() {
           const totalCost = item.unitPrice * quantity;
 
           updateTotalCost(cartTotal, unitCost, totalCost, "decrement");
+          sessionStorage.setItem(id, JSON.stringify(item));
 
           return {
             ...item,
@@ -73,7 +72,7 @@ function App() {
     });
   };
 
-  const removeItem = (id) => {
+  const removeItem = (id: string) => {
     setCartItems((currItems) => {
       currItems.forEach((item) => {
         if (item.id == id) {
@@ -81,13 +80,19 @@ function App() {
           const quantity = item.quantity;
           const totalCost = item.unitPrice * quantity;
           updateTotalCost(cartTotal, unitCost, totalCost, "delete");
+          sessionStorage.removeItem(id);
         }
       });
       return currItems.filter((item) => item.id !== id);
     });
   };
 
-  const updateTotalCost = (cartTotal, unitCost, totalCost, variation) => {
+  const updateTotalCost = (
+    cartTotal: number,
+    unitCost: number,
+    totalCost: number,
+    variation: string
+  ) => {
     if (variation == "increment") {
       const newCartTotal = cartTotal + unitCost;
       setCartTotal(newCartTotal);

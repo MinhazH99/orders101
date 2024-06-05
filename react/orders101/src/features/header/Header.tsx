@@ -2,12 +2,9 @@ import headerData from "../../text/text.json";
 import HeaderLinks from "./HeaderLinks";
 
 function Header() {
-  let data = [];
   let counter = 0;
-  Object.keys(headerData).forEach(function (key) {
-    data.push(headerData[key]);
-  });
-  const headerLinks = data.map(
+
+  const headerLinks = headerData.map(
     (data) => (
       (counter += 1),
       (

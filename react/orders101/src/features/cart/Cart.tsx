@@ -4,7 +4,12 @@ import CartBox from "./CartBox";
 import Checkout from "./Checkout";
 import { ShoppingCartContext } from "../../App";
 
-function Cart({ isOpen, closeCart }) {
+type Props = {
+  isOpen: boolean;
+  closeCart: () => void;
+};
+
+function Cart({ isOpen, closeCart }: Props) {
   const { cartItems, cartTotal } = useContext(ShoppingCartContext);
 
   return (
