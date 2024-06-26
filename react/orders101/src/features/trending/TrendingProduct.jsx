@@ -7,7 +7,7 @@ function TrendingProduct() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8081/products/")
+    fetch("http://18.130.114.239:8081/products")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
