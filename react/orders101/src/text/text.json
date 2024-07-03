@@ -1,7 +1,7 @@
 [
   {
     "href": "#account",
-    "imgSrc": "../src/assets/person-fill.svg",
+    "imgSrc": "/person-fill.svg",
     "span": "Account"
   },
   {

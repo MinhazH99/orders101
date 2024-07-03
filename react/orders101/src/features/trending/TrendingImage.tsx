@@ -1,4 +1,4 @@
-function TrendingImage({ src = "../src/assets/trending-product.webp" }) {
+function TrendingImage({ src = "/trending-product.webp" }) {
   return (
     <div className="trending-div-product-image">
       <img

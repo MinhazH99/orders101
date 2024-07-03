@@ -3,10 +3,10 @@ function Banner() {
     <div className="container">
       <img
         className="banner-image"
-        srcSet="../src/assets/banner3-360w.jpg 360w, 
-        ../src/assets/banner2-1084w.jpg 1084w, 
-        ../src/assets/banner-1400w.webp 1400w"
-        src="../src/assets//banner3-360w.jpg"
+        srcSet="/banner3-360w.jpg 360w, 
+        /banner2-1084w.jpg 1084w, 
+        /banner-1400w.webp 1400w"
+        src="/banner3-360w.jpg"
         alt="banner image"
       ></img>
     </div>
