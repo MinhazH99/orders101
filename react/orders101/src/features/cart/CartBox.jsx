@@ -7,11 +7,7 @@ function CartBox({ name = "Item Name", price = "£XX.XX", quantity = 1, id }) {
 
   return (
     <div className="cart-box">
-      <img
-        src="/assets/trending-product.webp"
-        alt=" "
-        className="cart-img"
-      ></img>
+      <img src="/trending-product.webp" alt=" " className="cart-img"></img>
       <div className="cart-box__detail">
         <div className="cart-box__product-detail">{name}</div>
         <div className="cart-box__product_price">{price}</div>
@@ -22,7 +18,7 @@ function CartBox({ name = "Item Name", price = "£XX.XX", quantity = 1, id }) {
           >
             <img
               className="cart-box-btn__disabled"
-              src="/assets/dash-square.svg"
+              src="/dash-square.svg"
               alt=""
             ></img>
           </button>
@@ -31,12 +27,12 @@ function CartBox({ name = "Item Name", price = "£XX.XX", quantity = 1, id }) {
             onClick={() => increaseQuantity(id)}
             className="cart-box_quantity-increase"
           >
-            <img src="/assets/plus-square.svg" alt=""></img>
+            <img src="/plus-square.svg" alt=""></img>
           </button>
         </div>
       </div>
       <button onClick={() => removeItem(id)} className="cart-remove">
-        <img src="/assets/trash3-fill.svg"></img>
+        <img src="/trash3-fill.svg"></img>
       </button>
     </div>
   );
