@@ -1,4 +1,10 @@
-function HeaderLinks({ href, imgSrc, span }) {
+type Props = {
+  href: string;
+  imgSrc: string;
+  span: string;
+};
+
+function HeaderLinks({ href, imgSrc, span }: Props) {
   return (
     <li>
       <a href={href}>
