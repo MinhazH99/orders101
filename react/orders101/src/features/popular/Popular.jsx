@@ -7,7 +7,7 @@ function Popular() {
           <div>
             <img
               className="site-image"
-              src="../src/assets/categories.webp"
+              src="/assets/categories.webp"
               alt="picture of a chair"
             ></img>
           </div>
@@ -17,7 +17,7 @@ function Popular() {
           <div>
             <img
               className="site-image"
-              src="../src/assets/categories.webp"
+              src="/assets/categories.webp"
               alt="picture of a chair"
             ></img>
           </div>
@@ -27,7 +27,7 @@ function Popular() {
           <div>
             <img
               className="site-image"
-              src="../src/assets/categories.webp"
+              src="/assets/categories.webp"
               alt="picture of a chair"
             ></img>
           </div>
@@ -37,7 +37,7 @@ function Popular() {
           <div>
             <img
               className="site-image"
-              src="../src/assets/categories.webp"
+              src="/assets/categories.webp"
               alt="picture of a chair"
             ></img>
           </div>
@@ -47,7 +47,7 @@ function Popular() {
           <div>
             <img
               className="site-image"
-              src="../src/assets/categories.webp"
+              src="/assets/categories.webp"
               alt="picture of a chair"
             ></img>
           </div>
@@ -57,7 +57,7 @@ function Popular() {
           <div>
             <img
               className="site-image"
-              src="../src/assets/categories.webp"
+              src="/assets/categories.webp"
               alt="picture of a chair"
             ></img>
           </div>
@@ -67,7 +67,7 @@ function Popular() {
           <div>
             <img
               className="site-image"
-              src="../src/assets/categories.webp"
+              src="/assets/categories.webp"
               alt="picture of a chair"
             ></img>
           </div>
@@ -77,7 +77,7 @@ function Popular() {
           <div>
             <img
               className="site-image"
-              src="../src/assets//categories.webp"
+              src="/assets/categories.webp"
               alt="picture of a chair"
             ></img>
           </div>

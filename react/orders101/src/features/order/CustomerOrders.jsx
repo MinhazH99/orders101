@@ -2,7 +2,7 @@ function CustomerOrders({ itemName = "test", quantity = "x", price = "x" }) {
   return (
     <div className="order-box">
       <img
-        src="../src/assets/trending-product.webp"
+        src="/assets/trending-product.webp"
         alt=" "
         className="order-img"
       ></img>

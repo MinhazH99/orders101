@@ -10,11 +10,7 @@ function Hamburger() {
   return (
     <button onClick={handleClick} id="show-side-bar">
       <div className="search-icons container">
-        <img
-          className="searchicons"
-          src="../src/assets/list.svg"
-          alt="basket"
-        ></img>
+        <img className="searchicons" src="/list.svg" alt="basket"></img>
       </div>
     </button>
   );

@@ -14,7 +14,7 @@ function HamburgerClose() {
       className="hamburger__btn-close"
       id="hide-side-bar"
     >
-      <img className="close" src="../src/assets/x.svg" alt=""></img>
+      <img className="close" src="/assets/x.svg" alt=""></img>
     </button>
   );
 }

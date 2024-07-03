@@ -21,7 +21,7 @@ function Navbar() {
         </div>
         <a className="nav__icons" href="#stores">
           <div className="nav__icons__item container">
-            <img src="../src/assets/geo-alt.svg" alt="geo locator"></img>
+            <img src="/geo-alt.svg" alt="geo locator"></img>
             <span>Stores</span>
           </div>
         </a>
