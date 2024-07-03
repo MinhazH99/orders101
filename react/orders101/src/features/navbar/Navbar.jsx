@@ -30,7 +30,7 @@ function Navbar() {
         </div>
         <a className="nav__icons" href="#ideas">
           <div className="nav__icons__item container">
-            <img src="../public/lightbulb.svg" alt="lightbulb"></img>
+            <img src="../src/assets/lightbulb.svg" alt="lightbulb"></img>
             <span>Ideas & Advice</span>
           </div>
         </a>
