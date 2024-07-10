@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateStock = exports.submitOrder = void 0;
+exports.submitOrder = submitOrder;
+exports.updateStock = updateStock;
 let order = {};
 let storage = {};
 let total = 0;
@@ -16,7 +17,6 @@ function submitOrder({ firstName, secondName, emailAddress, streetName, postCode
     let postURL = "http://localhost:8080/orders/";
     postOrder(postURL, order);
 }
-exports.submitOrder = submitOrder;
 function postOrder(url, order) {
     fetch(url, {
         method: "POST",
@@ -104,7 +104,6 @@ function updateStock() {
         patchOrder(apiUrl);
     });
 }
-exports.updateStock = updateStock;
 function buildStockAvailabilityUrl(productId, qty) {
     return ("http://localhost:8081/products/stock-availability/" +
         productId +
