@@ -8,19 +8,13 @@ const jsx_runtime_1 = require("react/jsx-runtime");
 const react_1 = require("react");
 require("/src/css/orders101-ui.css");
 const Home_1 = __importDefault(require("./pages/Home"));
-exports.ShoppingCartContext = (0, react_1.createContext)({
-    cartItems: [],
-    addToCart: () => { },
-    increaseQuantity: () => { },
-    decreaseQuantity: () => { },
-    removeItem: () => { },
-    cartTotal: 0,
-});
+exports.ShoppingCartContext = (0, react_1.createContext)({});
 function App() {
     let [cartItems, setCartItems] = (0, react_1.useState)([]);
     let [cartTotal, setCartTotal] = (0, react_1.useState)(0);
     const addToCart = (product) => {
         if (cartItems.some((item) => item.id === product.id)) {
+            console.log(cartItems);
             increaseQuantity(product.id);
         }
         else {
@@ -40,6 +34,7 @@ function App() {
                     const quantity = item.quantity + 1;
                     const totalCost = item.unitPrice * quantity;
                     updateTotalCost(cartTotal, unitCost, totalCost, "increment");
+                    sessionStorage.setItem(id, JSON.stringify(item));
                     return Object.assign(Object.assign({}, item), { quantity: quantity, totalCost: totalCost });
                 }
                 else {
@@ -57,6 +52,7 @@ function App() {
                     const quantity = item.quantity - 1;
                     const totalCost = item.unitPrice * quantity;
                     updateTotalCost(cartTotal, unitCost, totalCost, "decrement");
+                    sessionStorage.setItem(id, JSON.stringify(item));
                     return Object.assign(Object.assign({}, item), { quantity: quantity, totalCost: totalCost });
                 }
                 else {
@@ -73,6 +69,7 @@ function App() {
                     const quantity = item.quantity;
                     const totalCost = item.unitPrice * quantity;
                     updateTotalCost(cartTotal, unitCost, totalCost, "delete");
+                    sessionStorage.removeItem(id);
                 }
             });
             return currItems.filter((item) => item.id !== id);

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const jsx_runtime_1 = require("react/jsx-runtime");
 const react_1 = require("react");
 const App_1 = require("../../App");
-function AddBasket({ id, name, unitPrice, quantity }) {
+function AddBasket({ id, name, unitPrice, quantity, totalCost }) {
     const { addToCart } = (0, react_1.useContext)(App_1.ShoppingCartContext);
     const product = {
         id: id,

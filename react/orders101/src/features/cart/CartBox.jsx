@@ -1,19 +1,7 @@
 import { useContext } from "react";
 import { ShoppingCartContext } from "../../App";
 
-type Props = {
-  name: string;
-  price: string;
-  quantity: number;
-  id: string;
-};
-
-function CartBox({
-  name = "Item Name",
-  price = "£XX.XX",
-  quantity = 1,
-  id,
-}: Props) {
+function CartBox({ name = "Item Name", price = "£XX.XX", quantity = 1, id }) {
   const { increaseQuantity, decreaseQuantity, removeItem } =
     useContext(ShoppingCartContext);
 
@@ -25,7 +13,7 @@ function CartBox({
         <div className="cart-box__product_price">{price}</div>
         <div className="cart-box_quantity-control">
           <button
-            onClick={() => decreaseQuantity(String(id))}
+            onClick={() => decreaseQuantity(id)}
             className="cart-box_quantity-decrease"
           >
             <img
@@ -36,14 +24,14 @@ function CartBox({
           </button>
           <div className="cart-box__product-quantity">{quantity}</div>
           <button
-            onClick={() => increaseQuantity(String(id))}
+            onClick={() => increaseQuantity(id)}
             className="cart-box_quantity-increase"
           >
             <img src="/plus-square.svg" alt=""></img>
           </button>
         </div>
       </div>
-      <button onClick={() => removeItem(String(id))} className="cart-remove">
+      <button onClick={() => removeItem(id)} className="cart-remove">
         <img src="/trash3-fill.svg"></img>
       </button>
     </div>

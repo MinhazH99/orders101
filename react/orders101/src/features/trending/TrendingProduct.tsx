@@ -1,13 +1,14 @@
+import { Product } from "../../Types";
 import AddBasket from "./AddBasket";
 import TrendingImage from "./TrendingImage";
 import TrendingProductDetails from "./TrendingProductDetails";
 import { useEffect, useState } from "react";
 
 function TrendingProduct() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    fetch("http://3.9.175.2:8081/products")
+    fetch("https://18.169.70.179:9443/products")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");

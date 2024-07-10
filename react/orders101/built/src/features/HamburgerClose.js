@@ -12,6 +12,6 @@ function HamburgerClose() {
             }
         });
     }
-    return ((0, jsx_runtime_1.jsx)("button", { onClick: handleClick, className: "hamburger__btn-close", id: "hide-side-bar", children: (0, jsx_runtime_1.jsx)("img", { className: "close", src: "../src/assets/x.svg", alt: "" }) }));
+    return ((0, jsx_runtime_1.jsx)("button", { onClick: handleClick, className: "hamburger__btn-close", id: "hide-side-bar", children: (0, jsx_runtime_1.jsx)("img", { className: "close", src: "/x.svg", alt: "" }) }));
 }
 exports.default = HamburgerClose;

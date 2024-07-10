@@ -1,4 +1,14 @@
-function CustomerOrders({ itemName = "test", quantity = "x", price = "x" }) {
+type Props = {
+  itemName: string;
+  quantity: number;
+  price: string;
+};
+
+function CustomerOrders({
+  itemName = "test",
+  quantity = 0,
+  price = "x",
+}: Props) {
   return (
     <div className="order-box">
       <img src="/trending-product.webp" alt=" " className="order-img"></img>

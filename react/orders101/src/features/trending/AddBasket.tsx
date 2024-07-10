@@ -7,9 +7,10 @@ type Props = {
   name: string;
   unitPrice: number;
   quantity: number;
+  totalCost: number;
 };
 
-function AddBasket({ id, name, unitPrice, quantity }: Props) {
+function AddBasket({ id, name, unitPrice, quantity, totalCost }: Props) {
   const { addToCart } = useContext(ShoppingCartContext);
   const product: Product = {
     id: id,

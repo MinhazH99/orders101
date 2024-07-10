@@ -1,10 +1,11 @@
+import { Product } from "../../Types";
 import CustomerOrders from "./CustomerOrders";
 
 function OrderSummary() {
-  let storage = [];
+  let storage: Product[] = [];
   let total = 0;
   Object.keys(sessionStorage).forEach((key) => {
-    const order = JSON.parse(sessionStorage.getItem(key));
+    const order = JSON.parse(sessionStorage.getItem(key) || "");
     storage.push(order);
     total += order.totalCost;
   });
